@@ -3,17 +3,20 @@
 <style>
     /* ================= LIGHT THEME (UNCHANGED) ================= */
     .page-title {
-        height: 130px;
+        height: 105px; /* REDUCED HEIGHT */
         background: linear-gradient(135deg, #3c425c 0%, #764ba2 100%);
         color: white;
-        padding: 2rem;
+
+        padding: 1rem 1.5rem; /* REDUCED PADDING */
         border-radius: 15px;
+
         box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
 
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+
+        gap: 0.8rem; /* REDUCED GAP */
 
         transition: all 0.3s ease;
     }
@@ -55,26 +58,44 @@
 
     .page-title h3 {
         margin: 0;
-        font-size: 2rem;
+        font-size: 1.7rem; /* SLIGHTLY SMALLER */
         font-weight: 700;
         color: white;
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     }
 
-    .page-title p {
-        margin: 0.5rem 0 0 0;
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.95);
+    /* ================= DIGITAL CLOCK ================= */
+
+    .digital-clock {
+        margin-top: 5px; /* REDUCED */
+        font-size: 1rem; /* SMALLER */
+        font-weight: 700;
+
+        letter-spacing: 1px;
+
+        color: #fff;
+
+        text-shadow: 0 0 8px rgba(255,255,255,0.6);
+
+        font-family: 'Courier New', monospace;
     }
 
+    /* ================= LOGOS ================= */
+
     .org-logo {
-        width: 120px;
-        height: 120px;
+        width: 90px; /* REDUCED */
+        height: 90px; /* REDUCED */
+
         object-fit: contain;
+
         border-radius: 20%;
-        padding: 10px;
+
+        padding: 8px; /* REDUCED */
+
         background: rgba(255, 255, 255, 0.15);
+
         backdrop-filter: blur(6px);
+
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -83,31 +104,89 @@
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     }
 
+    /* ================= LARGE MONITOR ================= */
+
+    @media (min-width: 1600px) {
+
+        .page-title {
+            padding-left: 3rem;
+            padding-right: 3rem;
+        }
+
+        .title-section {
+            max-width: 60%;
+        }
+    }
+
+    /* ================= MOBILE ================= */
+
     @media (max-width: 768px) {
+
         .page-title {
             flex-direction: column;
             height: auto;
             text-align: center;
+
+            padding: 1rem;
         }
 
         .org-logo {
-            width: 90px;
-            height: 90px;
+            width: 75px;
+            height: 75px;
         }
 
         .title-section {
             order: 2;
         }
+
+        .page-title h3 {
+            font-size: 1.35rem;
+        }
+
+        .digital-clock {
+            font-size: 0.9rem;
+        }
     }
 </style>
 
 <div class="page-title">
-    <img src="/static/image_for_login_page/rt.jpg" class="org-logo" alt="Left Logo">
+
+    <img src="/static/image_for_login_page/rt.jpg"
+         class="org-logo"
+         alt="Left Logo">
 
     <div class="title-section">
+
         <h3 class="fw-bold">{{ header }}</h3>
-        <p id="para">{{ subscript }}</p>
+
+        <!-- REAL TIME DIGITAL CLOCK -->
+        <div class="digital-clock" id="digitalClock">
+            00:00:00
+        </div>
+
     </div>
 
-    <img src="/static/image_for_login_page/chinar.jpg" class="org-logo" alt="Right Logo">
+    <img src="/static/image_for_login_page/chinar.jpg"
+         class="org-logo"
+         alt="Right Logo">
+
 </div>
+
+<script>
+    function updateClock() {
+
+        const now = new Date();
+
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+        let seconds = now.getSeconds().toString().padStart(2, '0');
+
+        const timeString = `${hours}:${minutes}:${seconds}`;
+
+        document.getElementById("digitalClock").innerText = timeString;
+    }
+
+    updateClock();
+
+    setInterval(updateClock, 1000);
+</script>

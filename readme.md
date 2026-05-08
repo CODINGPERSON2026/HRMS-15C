@@ -407,3 +407,12 @@ from hrms.personnel p where not exists (SELECT 1 FROM hrms.weight_info w where w
 
 
 
+SELECT name,detachment_status FROM hrms.personnel where detachment_status = 1;
+
+SELECT name,detachment_status FROM hrms.personnel where detachment_status = 1 and company = '1company';
+
+SELECT name,td_status,company FROM hrms.personnel where td_status =1 and company = '1 company';
+
+SELECT name FROM hrms.personnel where batch = 'batch 4' and company = '1 company';
+
+SELECT count(*) FROM hrms.personnel where batch = 'batch 1' and company = 'hq company';

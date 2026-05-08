@@ -1,195 +1,685 @@
 <style>
-  /* Increase width */
-  .custom-size {
-    max-width: 90% !important;
-    /* Adjust width percentage */
-    width: 90% !important;
+
+  /* ================= MODAL SIZE ================= */
+
+  #detModalUniqueScope .custom-size {
+    max-width: 97% !important;
+    width: 97% !important;
   }
 
-  /* Increase height */
-  .custom-size .modal-content {
-    height: 85vh !important;
-    /* 85% of screen height */
-    overflow-y: auto;
-    /* Enable scroll inside */
+  
+
+  /* ================= MODAL BODY ================= */
+
+  #detModalUniqueScope .modal-body {
+    overflow: auto;
   }
 
-  .table th,
-  .table td {
+  /* ================= TABLE WRAPPER ================= */
+
+  #detModalUniqueScope .detTableWrapperUniqueScope {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  /* ================= TABLE ================= */
+
+  #detModalUniqueScope #detTableUniqueScope {
+    table-layout: fixed;
+    width: 100%;
+    min-width: 1100px;
+  }
+
+  #detModalUniqueScope #detTableUniqueScope th,
+  #detModalUniqueScope #detTableUniqueScope td {
+    overflow: hidden;
     vertical-align: middle;
+    font-size: 0.84rem;
+    padding: 0.55rem 0.6rem;
   }
+
+  #detModalUniqueScope #detTableUniqueScope th {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  /* ================= CELL SCROLL ================= */
+
+  #detModalUniqueScope .detCellScrollUnique {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+
+  #detModalUniqueScope .detCellScrollUnique::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  #detModalUniqueScope .detCellScrollUnique::-webkit-scrollbar-thumb {
+    background: #c7c7c7;
+    border-radius: 20px;
+  }
+
+  /* ================= BADGES ================= */
+
+  #detModalUniqueScope .detRankBadgeUnique {
+    display: inline-block;
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffe69c;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  #detModalUniqueScope .detCompanyBadgeUnique {
+    display: inline-block;
+    background: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ================= NAME CELL ================= */
+
+  #detModalUniqueScope .detNameCellUnique {
+    font-weight: 600;
+    color: #212529;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-width: 0;
+  }
+
+  /* ================= ARMY NUMBER ================= */
+
+  #detModalUniqueScope .detArmyNumberUnique {
+    font-weight: 700;
+    color: #0d6efd;
+  }
+
+  /* ================= COUNT BADGE ================= */
+  #detModalUniqueScope .modal-dialog {
+    margin-top: 1px;
+  }
+  #detModalUniqueScope .detCountBadgeUnique {
+    font-size: 0.78rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+
+  /* ================= DANGER DAYS ================= */
+
+  #detModalUniqueScope .detDangerDaysUnique {
+    color: #dc3545;
+    font-weight: 700;
+  }
+
 </style>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-7.1.0-web/css/all.min.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='fontawesome-free-7.1.0-web/css/all.min.css') }}" />
 
-<div class="modal fade" id="detModal" tabindex="-1">
-  <div class="modal-dialog modal-lg custom-size">
+<!-- ================= MODAL ================= -->
+
+<div class="modal fade" id="detModalUniqueScope" tabindex="-1">
+
+  <div class="modal-dialog modal-xl custom-size">
+
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Personnel in DET</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+
+      <!-- ================= HEADER ================= -->
+
+      <!-- ================= HEADER ================= -->
+
+<div class="modal-header">
+
+  <div class="d-flex align-items-center gap-3 flex-wrap w-100">
+
+    <!-- ================= TITLE ================= -->
+
+    
+      
+
+      
+        
+    <div class="d-flex align-items-center gap-2">
+
+      <h5 class="modal-title mb-0">
+
+        Detachment Details
+
+      </h5>
+
+    </div>
+      
+
+    
+
+    <!-- ================= COMPANY FILTER ================= -->
+
+    <select
+      id="detCompanyFilterUniqueScope"
+      class="form-select form-select-sm"
+      style="width: 200px;">
+
+      <option value="">All Companies</option>
+
+    </select>
+
+    <!-- ================= DETACHMENT FILTER ================= -->
+
+    <select
+      id="detachmentFilterUniqueScope"
+      class="form-select form-select-sm"
+      style="width: 220px;">
+
+      <option value="">All Detachments</option>
+
+    </select>
+
+    <!-- ================= TOTAL COUNT ================= -->
+
+    <div
+      class="d-flex align-items-center gap-2 px-3 py-1 rounded-3"
+      style="
+        background: #eef4ff;
+        border: 1px solid #d6e4ff;
+      ">
+
+      <span
+        class="fw-semibold small"
+        style="color:#315ca8;">
+
+        Total Count
+
+      </span>
+
+      <span
+        id="detTotalCountUniqueScope"
+        class="badge rounded-pill bg-primary detCountBadgeUnique">
+
+        0
+
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- ================= CLOSE BUTTON ================= -->
+
+  <button
+    class="btn-close"
+    data-bs-dismiss="modal">
+  </button>
+
+</div>
+
+      <!-- ================= BODY ================= -->
 
       <div class="modal-body">
 
-        <!-- Detachment Filter -->
-        <div class="mb-3">
-          <label for="detachmentFilter" class="form-label">Filter by Detachment:</label>
-          <select id="detachmentFilter" class="form-select">
-            <option value="">All Detachments</option>
-            <!-- Options will be populated dynamically via fetch() -->
-          </select>
+        <!-- ================= SPINNER ================= -->
+
+        <div
+          id="detSpinnerUniqueScope"
+          class="text-center py-5">
+
+          <div class="spinner-border text-primary"></div>
+
+          <div class="mt-2 text-muted">
+
+            Fetching data...
+
+          </div>
+
         </div>
 
-        <!-- Spinner (visible while fetching) -->
-        <div id="detSpinner" class="text-center my-4">
-          <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
-          <p class="mt-2">Fetching data...</p>
-        </div>
+        <!-- ================= TABLE ================= -->
 
-        <!-- Table (hidden until fetch is complete) -->
-        <table class="table table-striped d-none" id="detTable" style="max-height:200px">
-          <thead>
-            <tr>
-              <th>Army Number</th>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>Det Name</th>
-              <th>Days on Det</th>
-              <th>Company</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="detTableBody"></tbody>
-        </table>
+        <div class="detTableWrapperUniqueScope">
+
+          <table
+            id="detTableUniqueScope"
+            class="table table-bordered table-hover align-middle d-none">
+
+            <thead class="table-light">
+
+              <tr>
+
+                <th>Army Number</th>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Det Name</th>
+                <th>Days on Det</th>
+                <th>Company</th>
+                <th>Action</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody id="detTableBodyUniqueScope"></tbody>
+
+          </table>
+
+        </div>
 
       </div>
+
     </div>
+
   </div>
+
 </div>
 
+<!-- ================= SCRIPT ================= -->
+{% include 'modals/success-modal/modal.html' %}
+
 <script>
-  document.getElementById("viewDetailsBtn").addEventListener("click", async function () {
-    const detModal = new bootstrap.Modal(document.getElementById('detModal'));
-    detModal.show();
 
-    // Populate detachment dropdown first
-    await load_detachments();
+document.addEventListener("DOMContentLoaded", function () {
 
-    // Load personnel table
-    load_det_personnel();
-  });
+  const detModalElementUniqueScope =
+    document.getElementById("detModalUniqueScope");
 
-  // Detachment dropdown listener
-  document.getElementById("detachmentFilter").addEventListener("change", function () {
-    load_det_personnel(this.value);
-  });
+  const detTableBodyUniqueScope =
+    detModalElementUniqueScope.querySelector(
+      "#detTableBodyUniqueScope"
+    );
 
-  // Fetch detachments dynamically
-  async function load_detachments() {
-    const select = document.getElementById("detachmentFilter");
-    try {
-      const res = await fetch("/stats/get_all_dets");
-      const data = await res.json();
+  const detSpinnerUniqueScope =
+    detModalElementUniqueScope.querySelector(
+      "#detSpinnerUniqueScope"
+    );
 
-      if (data.status !== "success") throw new Error("Failed to fetch detachments");
+  const detTableUniqueScope =
+    detModalElementUniqueScope.querySelector(
+      "#detTableUniqueScope"
+    );
 
-      // Clear existing options except "All Detachments"
-      select.innerHTML = `<option value="">All Detachments</option>`;
+  const detFilterUniqueScope =
+    detModalElementUniqueScope.querySelector(
+      "#detachmentFilterUniqueScope"
+    );
 
-      data.data.forEach(det => {
-        const opt = document.createElement("option");
-        opt.value = det.det_id;
-        opt.textContent = det.det_name;
-        select.appendChild(opt);
-      });
+  const detCompanyFilterUniqueScope =
+    detModalElementUniqueScope.querySelector(
+      "#detCompanyFilterUniqueScope"
+    );
 
-    } catch (err) {
-      console.error(err);
-      alert("Failed to load detachments");
+  const detCountBadgeUniqueScope =
+    detModalElementUniqueScope.querySelector(
+      "#detTotalCountUniqueScope"
+    );
+
+  let detFetchedDataUniqueScope = [];
+
+  /* ================= OPEN MODAL ================= */
+
+  document
+    .getElementById("viewDetailsBtn")
+    .addEventListener("click", async function () {
+
+      const detModalBootstrapUniqueScope =
+        new bootstrap.Modal(detModalElementUniqueScope);
+
+      detModalBootstrapUniqueScope.show();
+
+      await loadDetachmentsUniqueScope();
+
+      loadDetPersonnelUniqueScope();
+
+    });
+
+  /* ================= FILTER EVENTS ================= */
+
+  detFilterUniqueScope.addEventListener(
+    "change",
+    function () {
+
+      renderDetTableUniqueScope();
+
     }
-  }
+  );
 
-  async function load_det_personnel(det_id = "", min_days = 0) {
-    const spinner = document.getElementById("detSpinner");
-    const table = document.getElementById("detTable");
-    const tbody = document.getElementById("detTableBody");
+  detCompanyFilterUniqueScope.addEventListener(
+    "change",
+    function () {
 
-    spinner.classList.remove("d-none");
-    table.classList.add("d-none");
-    tbody.innerHTML = "";
+      renderDetTableUniqueScope();
+
+    }
+  );
+
+  /* ================= LOAD DETACHMENTS ================= */
+
+  async function loadDetachmentsUniqueScope() {
 
     try {
-      let url = "/stats/get_detachment_details";
-      // Construct URL carefully
-      const params = new URLSearchParams();
-      if (det_id) params.append("det_id", det_id);
-      if (min_days > 0) params.append("min_days", min_days);
 
-      if (Array.from(params).length > 0) url += "?" + params.toString();
+      const responseUniqueScope =
+        await fetch("/stats/get_all_dets");
 
-      const response = await fetch(url);
-      const result = await response.json();
-      console.log(result, "this is result");
+      const resultUniqueScope =
+        await responseUniqueScope.json();
 
-      if (result.status !== "success") throw new Error("Fetch failed");
-
-      if (result.data.length === 0) {
-        console.log(result.data.length)
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No personnel found</td></tr>`;
-      } else {
-        result.data.forEach(row => {
-          let colorClass = row.days_on_det > 60 ? 'text-danger fw-bold' : '';
-          tbody.innerHTML += `
-            <tr>
-              <td>${row.army_number}</td>
-              <td>${row.rank}</td>
-              <td>${row.name}</td>
-              <td class="${colorClass}">${row.det_name}</td>
-              <td class="${colorClass}">${row.days_on_det}</td>
-              <td>${row.company}</td>
-              <td>
-                <button class="btn btn-sm btn-danger delete-btn" data-army="${row.army_number}">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          `;
-        });
+      if (resultUniqueScope.status !== "success") {
+        throw new Error("Failed");
       }
 
-      spinner.classList.add("d-none");
-      table.classList.remove("d-none");
+      detFilterUniqueScope.innerHTML = `
+        <option value="">All Detachments</option>
+      `;
 
-      // Delete buttons
-      document.querySelectorAll(".delete-btn").forEach(btn => {
-        btn.addEventListener("click", async function () {
-          const army_number = this.dataset.army;
-          if (!confirm(`Are you sure you want to delete ${army_number}?`)) return;
+      resultUniqueScope.data.forEach(det => {
 
-          try {
-            const res = await fetch("/stats/delete_personnel", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ army_number })
-            });
-            const data = await res.json();
-            if (data.status === "success") {
-              alert("Deleted successfully");
-              load_det_personnel(det_id); // refresh table with current filter
-            } else {
-              alert("Failed to delete");
-            }
-          } catch (err) {
-            console.error(err);
-            alert("Error deleting personnel");
-          }
-        });
+        detFilterUniqueScope.insertAdjacentHTML(
+          "beforeend",
+          `
+            <option value="${det.det_id}">
+              ${det.det_name}
+            </option>
+          `
+        );
+
       });
 
-    } catch (err) {
-      console.error(err);
-      spinner.innerHTML = `<p class="text-danger fw-bold mt-3">❌ Failed to load data</p>`;
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Failed to load detachments");
+
     }
+
   }
+
+  /* ================= LOAD PERSONNEL ================= */
+
+  async function loadDetPersonnelUniqueScope() {
+
+    detSpinnerUniqueScope.classList.remove("d-none");
+
+    detTableUniqueScope.classList.add("d-none");
+
+    detTableBodyUniqueScope.innerHTML = "";
+
+    try {
+
+      const responseUniqueScope =
+        await fetch("/stats/get_detachment_details");
+
+      const resultUniqueScope =
+        await responseUniqueScope.json();
+
+      if (resultUniqueScope.status !== "success") {
+        throw new Error("Failed");
+      }
+
+      detFetchedDataUniqueScope =
+        resultUniqueScope.data;
+
+      /* ================= COMPANY FILTER ================= */
+
+      detCompanyFilterUniqueScope.innerHTML = `
+        <option value="">All Companies</option>
+      `;
+
+      const uniqueCompaniesUniqueScope = [
+        ...new Set(
+          detFetchedDataUniqueScope
+            .map(item => item.company)
+            .filter(Boolean)
+        )
+      ];
+
+      uniqueCompaniesUniqueScope.forEach(company => {
+
+        detCompanyFilterUniqueScope
+          .insertAdjacentHTML(
+            "beforeend",
+            `
+              <option value="${company}">
+                ${company}
+              </option>
+            `
+          );
+
+      });
+
+      renderDetTableUniqueScope();
+
+    } catch (error) {
+
+      console.error(error);
+
+      detSpinnerUniqueScope.innerHTML = `
+        <p class="text-danger fw-bold mt-3">
+          Failed to load data
+        </p>
+      `;
+
+    }
+
+  }
+
+  /* ================= RENDER TABLE ================= */
+
+  function renderDetTableUniqueScope() {
+
+    detTableBodyUniqueScope.innerHTML = "";
+
+    const selectedDetUniqueScope =
+      detFilterUniqueScope.value;
+
+    const selectedCompanyUniqueScope =
+      detCompanyFilterUniqueScope.value;
+
+    let filteredDataUniqueScope =
+      [...detFetchedDataUniqueScope];
+
+    /* ================= DET FILTER ================= */
+
+    if (selectedDetUniqueScope) {
+
+      filteredDataUniqueScope =
+        filteredDataUniqueScope.filter(
+          item =>
+            String(item.det_id) ===
+            String(selectedDetUniqueScope)
+        );
+
+    }
+
+    /* ================= COMPANY FILTER ================= */
+
+    if (selectedCompanyUniqueScope) {
+
+      filteredDataUniqueScope =
+        filteredDataUniqueScope.filter(
+          item =>
+            item.company ===
+            selectedCompanyUniqueScope
+        );
+
+    }
+
+    /* ================= COUNT ================= */
+
+    detCountBadgeUniqueScope.textContent =
+      filteredDataUniqueScope.length;
+
+    /* ================= EMPTY ================= */
+
+    if (filteredDataUniqueScope.length === 0) {
+
+      detTableBodyUniqueScope.innerHTML = `
+        <tr>
+          <td colspan="7" class="text-center py-4">
+            No personnel found
+          </td>
+        </tr>
+      `;
+
+    } else {
+
+      filteredDataUniqueScope.forEach(row => {
+
+        const dangerClassUniqueScope =
+          row.days_on_det > 60
+            ? "detDangerDaysUnique"
+            : "";
+
+        detTableBodyUniqueScope.insertAdjacentHTML(
+          "beforeend",
+          `
+
+          <tr>
+
+            <td>
+              <div class="detCellScrollUnique detArmyNumberUnique">
+                ${row.army_number}
+              </div>
+            </td>
+
+            <td>
+              <div class="detCellScrollUnique">
+                <span class="detRankBadgeUnique">
+                  ${row.rank}
+                </span>
+              </div>
+            </td>
+
+            <td class="detNameCellUnique">
+              ${(row.name || '').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+            </td>
+
+            <td class="${dangerClassUniqueScope}">
+              <div class="detCellScrollUnique">
+                ${(row.det_name || "").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+              </div>
+            </td>
+
+            <td class="${dangerClassUniqueScope}">
+              <div class="detCellScrollUnique">
+                ${row.days_on_det}
+              </div>
+            </td>
+
+            <td>
+              <div class="detCellScrollUnique">
+                <span class="detCompanyBadgeUnique">
+                  ${row.company}
+                </span>
+              </div>
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-sm btn-outline-danger detDeleteButtonUniqueScope"
+                data-army="${row.army_number}">
+
+                <i class="fas fa-trash"></i>
+
+              </button>
+
+            </td>
+
+          </tr>
+
+          `
+        );
+
+      });
+
+    }
+
+    detSpinnerUniqueScope.classList.add("d-none");
+
+    detTableUniqueScope.classList.remove("d-none");
+
+    /* ================= DELETE BUTTONS ================= */
+
+    detModalElementUniqueScope
+      .querySelectorAll(".detDeleteButtonUniqueScope")
+      .forEach(btn => {
+
+        btn.addEventListener(
+          "click",
+          async function () {
+
+            const army_number =
+              this.dataset.army;
+
+            if (
+              !confirm(
+                `Are you sure you want to delete ${army_number}?`
+              )
+            ) {
+              return;
+            }
+
+            try {
+
+              const deleteResponseUniqueScope =
+                await fetch(
+                  "/stats/delete_personnel",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type":
+                        "application/json"
+                    },
+                    body: JSON.stringify({
+                      army_number
+                    })
+                  }
+                );
+                showStatusModal('Removed from Detachment successfully','Red',2500)
+              const deleteResultUniqueScope =
+                await deleteResponseUniqueScope.json();
+
+              if (
+                deleteResultUniqueScope.status ===
+                "success"
+              ) {
+
+                loadDetPersonnelUniqueScope();
+
+              } else {
+
+                alert("Failed to delete");
+
+              }
+
+            } catch (error) {
+
+              console.error(error);
+
+              alert("Error deleting personnel");
+
+            }
+
+          }
+        );
+
+      });
+
+  }
+
+});
+
 </script>

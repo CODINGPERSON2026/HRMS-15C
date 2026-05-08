@@ -734,10 +734,10 @@
       </button>
       {% endif %} {% if role|trim in [ 'NCO PWR', 'NCO QRT', 'NCO CHQ', 'NCO
       IT', 'NCO OP', 'JCO MW', 'NCO MW', 'NCO LRW', 'NCO MCCS', 'NCO LINE', 'NCO
-      RHQ', 'NCO TM', 'NCO MT', 'NCO RP/NA', 'NCO QM', 'SEC JCO', 'JCO LINE',
+      RHQ', 'NCO TM','NCO IT','NCO RHQ', 'NCO MT', 'NCO RP/NA', 'NCO QM','NCO SYS','JCO SYS','SEC JCO', 'JCO LINE',
       'JCO LRW', 'JCO CHQ', 'JCO IT', 'JCO MT', 'JCO RHQ', 'JCO MCCS', 'JCO QM',
       'S/JCO', 'ONCO', 'OC', '2IC', 'JCO QRT', 'JCO TM', 'JCO PWR', 'JCO OP',
-      'JCO SYS', 'JCO DET', 'NCO DET', 'NCO SYS', 'Subedar Major' ] %}
+      'JCO SYS', 'JCO DET', 'NCO DET', 'NCO SYS', 'Subedar Major','PA' ] %}
       <button id="leaveRequestsBtn" class="cmd-btn btn-navy position-relative">
         LEAVE REQUESTS
         <span
@@ -814,7 +814,7 @@
         class="card p-3 text-center"
         style="cursor: pointer"
         data-bs-toggle="modal"
-        data-bs-target="#attachmentModal"
+        data-bs-target="#attachmentModalUniqueScope"
       >
         <div class="icon-circle mb-2">
           <i class="fas fa-cloud-upload-alt"></i>
@@ -955,7 +955,7 @@
       "NCO CHQ", "NCO IT", "NCO MW", "NCO LINE", "NCO OP", "NCO MCCS", "NCO
       RHQ", "NCO LRW", "NCO QM", "NCO MT", "NCO TM", "NCO RP", "JCO PWR", "JCO
       CHQ", "JCO IT", "JCO MW", "JCO LINE", "JCO OP", "JCO MCCS", "JCO RHQ",
-      "JCO TM", "JCO MT", "JCO LRW", "JCO QM",'JCO CHQ']%}
+      "JCO TM", "JCO MT", "JCO LRW", "JCO QM",'JCO CHQ','PA']%}
       <div
         class="card p-3 text-center"
         style="cursor: pointer"
@@ -1025,7 +1025,7 @@
         class="card p-3 text-center"
         style="cursor: pointer"
         data-bs-toggle="modal"
-        data-bs-target="#agniveersModal"
+        data-bs-target="#agni_Modal"
       >
         <div class="icon-circle">
           <i class="fas fa-user-shield"></i>
@@ -1070,6 +1070,10 @@
           <i class="fas fa-sign-in-alt"></i>
         </div>
         <small class="text-muted">DUES IN</small>
+        
+ <H3 id="count-dues-in">
+  <div class="shimmer-number mx-auto"></div>
+          </H3>
       </div>
 
       <div
@@ -1082,6 +1086,9 @@
           <i class="fas fa-edit"></i>
         </div>
         <small class="text-muted">DUES OUT</small>
+        <h3 id="count-dues-out">
+          <div class="shimmer-number mx-auto"></div>
+        </h3>
       </div>
       {% endif %}
     </div>
@@ -1128,42 +1135,56 @@
       </div>
     </div>
 
-    {% include 'modals/detachmentModal/detachment.html' %} {% include
-    'modals/personnelModal/duty_search_modal.html' %} {% include
-    'modals/personnelModal/personal_modal.html' %} {% include
-    'modals/salesmodal/salesModal.html' %} {% include
-    'modals/leaverequest/leave_request.html' %} {% include
-    'modals/interview_pending/modal.html' %} {% include
-    'modals/count_parade/modal.html' %} {% include
-    'modals/attachment-modal/modal.html' %} {% include 'modals/loan/loans.html'
-    %} {% include 'modals/roll_call/modal.html' %} {% include
-    'modals/roll_call/view_roll_call.html' %} {% include
-    'modals/course/courses.html' %} {% include
-    'modals/interview_pending/jco-update-modal.html' %} {% include
-    'modals/success-modal/modal.html' %} {% include
-    'task_manager/update_task_by_jco.html' %} {% include
-    'modals/adduser/user.html' %} {% include 'modals/oncourses/modal.html' %} {%
-    include 'modals/messenger/modal.html' %} {% if role in ['O CENTRE NCO'] %}
+    {% include 'modals/detachmentModal/detachment.html' %}
+    {% include 'modals/personnelModal/duty_search_modal.html' %} 
+    {% include 'modals/personnelModal/personal_modal.html' %} 
+    {% include 'modals/salesmodal/salesModal.html' %} 
+    {% include 'modals/leaverequest/leave_request.html' %} 
+    {% include 'modals/interview_pending/modal.html' %}
+    {% include 'modals/count_parade/modal.html' %}
+    {% include 'modals/attachment-modal/modal.html' %}
+    {% include 'modals/loan/loans.html' %}
+    {% include 'modals/roll_call/modal.html' %}
+    {% include 'modals/roll_call/view_roll_call.html' %}
+    {% include 'modals/course/courses.html' %}
+    {% include 'modals/interview_pending/jco-update-modal.html' %}
+    {% include 'modals/success-modal/modal.html' %}
+    {% include 'task_manager/update_task_by_jco.html' %}
+    {% include 'modals/adduser/user.html' %}
+    {% include 'modals/oncourses/modal.html' %} 
+    {% include 'modals/messenger/modal.html' %}
+
+    {% if role in ['O CENTRE NCO'] %}
     <div class="modal fade" id="tradeModal" tabindex="-1">
       <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">{% include 'modals/trade/trade.html' %}</div>
       </div>
     </div>
-    {% endif %} {% if role in ['CO', '2IC', 'ADJUTANT','TRGJCO','OC'] %} {%
-    include 'modals/agniveer/modal.html' %} {% include
-    'modals/agniveer/fill_up_test_details.html' %} {% endif %} {% if role in ['O
-    CENTRE NCO', 'ONCO'] %} {% include 'modals/parade_data/index.html' %} {%
-    endif %} {% if role =='CO'%} {% include
-    'modals/leaverequest/co-rejected-view.html' %} {% endif %} {% if role in
-    ['CO', '2IC', 'ADJUTANT','OC']%} {% include
-    'modals/alarm/agniveer_test_alarms.html' %} {% endif %} {% if role ==
-    'Subedar Major'%} {% include 'modals/coy_kunba/view_company_kunba.html' %}
-    {% endif %} {% if role in 'O2'%} {% include 'modals/ADD-DUES-IN/modal.html'
-    %} {% include 'modals/ADD-DUES-IN/list_of_dues_in.html' %} {% include
-    'modals/ADD-DUES-OUT/modal.html' %} {% include
-    'modals/ADD-DUES-OUT/list_of_dues_out.html' %} {% endif %}
+    {% endif %}
+    {% if role in ['CO', '2IC', 'ADJUTANT','TRGJCO','OC'] %} 
+    {% include 'modals/agniveer/modal.html' %}
+    {% include 'modals/agniveer/fill_up_test_details.html' %} 
+    {% endif %} 
+    {% if role in ['O CENTRE NCO', 'ONCO'] %}
+    {% include 'modals/parade_data/index.html' %}
+    {% endif %}
+    {% if role =='CO'%}
+    {% include 'modals/leaverequest/co-rejected-view.html' %}
+    {% endif %}
+    {% if role in ['CO', '2IC', 'ADJUTANT','OC']%}
+    {% include 'modals/alarm/agniveer_test_alarms.html' %}
+    {% endif %}
+    {% if role =='Subedar Major'%}
+    {% include 'modals/coy_kunba/view_company_kunba.html' %}
+    {% endif %}
+    {% if role in 'O2'%}
+    {% include 'modals/ADD-DUES-IN/modal.html'%} 
+    {% include 'modals/ADD-DUES-IN/list_of_dues_in.html' %}
+    {% include 'modals/ADD-DUES-OUT/modal.html' %}
+    {% include 'modals/ADD-DUES-OUT/list_of_dues_out.html' %}
+    {% endif %}
      
-     {% include 'modals/Sanctioned_leaves/sanction_leave_modal.html'%}
+    {% include 'modals/Sanctioned_leaves/sanction_leave_modal.html'%}
     
 
     <!-- Parade State Modal -->
@@ -1486,6 +1507,15 @@
             id: "center-roll-points",
             endpoint: "/api/dashboard/rollcall",
             key: "points",
+          },
+          {
+            id:'count-dues-in',
+            endpoint:'/dues/count-dues-in',
+            key:'count_dues_in'
+          },{
+            id:'count-dues-out',
+            endpoint:'/dues/count-dues-out',
+            key:'count_dues_out'
           },
           {
             id: "board-count",

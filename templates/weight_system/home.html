@@ -142,6 +142,7 @@
 
     .header-controls {
         display: flex;
+        justify-content: center;
         gap: 15px;
         align-items: center;
         flex-wrap: wrap;
@@ -173,8 +174,8 @@
     /* Cards */
     .cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
         margin-bottom: 30px;
         transition: all 0.4s ease;
     }
@@ -191,9 +192,9 @@
 
     .card {
         background: var(--card-background);
-        border-radius: 20px;
-        padding: 24px;
-        box-shadow: 0 8px 25px var(--shadow);
+        border-radius: 14px;   /* slightly smaller */
+        padding: 14px;         /* reduced inner spacing */
+        box-shadow: 0 5px 14px var(--shadow);
         border: 1px solid var(--border-color);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         position: relative;
@@ -225,10 +226,7 @@
         pointer-events: none;
     }
 
-    .card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
-    }
+    
 
     .card:hover::before {
         opacity: 1;
@@ -241,11 +239,11 @@
     .card-content {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 8px;
     }
 
     .card h2 {
-        font-size: 2.25rem;
+        font-size: 1.25rem;
         font-weight: 800;
         color: var(--text-primary);
         margin: 0;
@@ -261,12 +259,12 @@
     }
 
     .card p {
-        font-size: 0.9rem;
+        font-size: 0.78rem;   /* reduced from 0.9rem */
         color: var(--text-secondary);
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin: 5px 0 0 0;
+        letter-spacing: 0.3px; /* slightly reduced */
+        margin: 3px 0 0 0;     /* reduced spacing */
     }
 
     .company-badge {
@@ -284,21 +282,21 @@
     }
 
     .btn-success,
-    .btn-danger,
-    .btn-safe,
-    .btn-category,
-    .btn-primary {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-        color: white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+.btn-danger,
+.btn-safe,
+.btn-category,
+.btn-primary {
+    padding: 7px 14px;   /* reduced */
+    border: none;
+    border-radius: 8px;  /* slightly smaller */
+    font-weight: 600;
+    font-size: 0.58rem;  /* reduced text size */
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); /* lighter shadow */
+}
 
     .btn-success:hover,
     .btn-danger:hover,
@@ -370,7 +368,7 @@
     .cards-toggle-container {
         display: flex;
         justify-content: center;
-        margin-bottom: 15px;
+        
     }
 
     #toggle-cards-btn {
@@ -400,7 +398,7 @@
         gap: 25px;
         margin-bottom: 35px;
         background: var(--card-background);
-        padding: 30px;
+        padding: 3px 20px;
         border-radius: 20px;
         box-shadow: 0 10px 40px var(--shadow);
         border: 1px solid var(--border-color);
@@ -977,19 +975,7 @@
         align-items: center;
     }
 
-    .spinner {
-        width: 60px;
-        height: 60px;
-        border: 6px solid var(--border-color);
-        border-top-color: var(--primary-color);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-
+   
     .table-spinner {
         position: absolute;
         top: 50%;
@@ -1041,7 +1027,8 @@
 </div>
 
 <!-- Link external CSS and JS -->
-<link rel="stylesheet" href="/static/weight_ms/home.css">
+<!-- <link rel="stylesheet" href="/static/weight_ms/home.css"> -->
+<link rel="stylesheet" href="{{ dated_url_for('static', filename='weight_ms/home.css') }}">
 <script src="/static/Chart.umd.min.js"></script>
 
 
@@ -1064,6 +1051,11 @@
     
     <div class="dashboard-header">
         <div class="header-controls">
+            <div class="cards-toggle-container">
+                <button id="toggle-cards-btn">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
             <div class="company-filter">
                 <label for="company-select">Filter by Company:</label>
                 <select id="company-select" class="company-select">
@@ -1074,14 +1066,11 @@
                     window.userCompanyFromTemplate = {{ company|tojson|safe if company else 'null' }};
                 </script>
             </div>
+            
         </div>
     </div>
 
-    <div class="cards-toggle-container">
-        <button id="toggle-cards-btn">
-            <i class="fas fa-chevron-down"></i>
-        </button>
-    </div>
+    
 
     <!-- Add User Modal -->
 
@@ -1112,7 +1101,7 @@
                     <p>Fit Count</p>
                 </div>
                 <div class="actions">
-                    <button id="load-auth-btn" class="btn-success">View Fit Details</button>
+                    <button id="load-auth-btn" class="btn-success">Fit Details</button>
                 </div>
                 <div class="info-tooltip">
                     <span class="info-icon">i</span>
@@ -1127,7 +1116,7 @@
                     <p>Unfit Count</p>
                 </div>
                 <div class="actions">
-                    <button id="load-unauth-btn" class="btn-danger">View Unfit Details</button>
+                    <button id="load-unauth-btn" class="btn-danger">Unfit Details</button>
                 </div>
                 <div class="info-tooltip">
                     <span class="info-icon">i</span>
@@ -1142,7 +1131,7 @@
                     <p>Shape I Count</p>
                 </div>
                 <div class="actions">
-                    <button id="load-safe-btn" class="btn-safe">View Shape I Details</button>
+                    <button id="load-safe-btn" class="btn-safe">Shape I</button>
                 </div>
                 <div class="info-tooltip">
                     <span class="info-icon">i</span>
@@ -1157,7 +1146,7 @@
                     <p>Category Count</p>
                 </div>
                 <div class="actions">
-                    <button id="load-category-btn" class="btn-category">Category Details</button>
+                    <button id="load-category-btn" class="btn-category">Category</button>
                 </div>
                 <div class="info-tooltip">
                     <span class="info-icon">i</span>
@@ -2558,13 +2547,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Toggle cards
-    document.getElementById("toggle-cards-btn").addEventListener("click", function () {
-        const cards = document.getElementById("summary-cards");
-        const isHidden = cards.classList.toggle("hidden");
-        this.innerHTML = isHidden
-            ? '<i class="fas fa-chevron-up"></i>'
-            : '<i class="fas fa-chevron-down"></i>';
-    });
+   
 
     // Init
     loadCompanies();

@@ -325,10 +325,6 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     }
 
-    .modal-header {
-        display: none !important;
-    }
-
     .loading-container {
         display: flex;
         flex-direction: column;
@@ -493,7 +489,6 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    /* Subtle "click me" arrow hint */
     .guide-card-title::after {
         content: ' →';
         opacity: 0;
@@ -548,6 +543,7 @@
     }
 
     .welcome-tip i { color: #667eea; margin-right: 4px; }
+
     .btn-enter-wrapper {
         position: relative;
         display: inline-flex;
@@ -614,8 +610,8 @@
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
 
-            <!-- Header (hidden via CSS – toolbar handles everything) -->
-            <div class="modal-header bg-gradient"
+            <!-- Header -->
+            <div class="modal-header"
                 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                 <h5 class="modal-title text-white">
                     <i class="fas fa-clipboard-list"></i>
@@ -674,7 +670,7 @@
                             <i class="fas fa-edit"></i> ENTER/EDIT
                         </button>
                     </div>
-                    <!-- Quick Update: ONCO + today only (hidden by default, shown via JS) -->
+                    <!-- Quick Update button: shown based on role + date + company logic -->
                     <button class="btn-action btn-quick-update d-none" id="btnQuickUpdate"
                             title="Copy yesterday's data into today and edit only what changed">
                         <i class="fas fa-bolt"></i> QUICK UPDATE
@@ -706,7 +702,7 @@
                     </button>
                 </div>
 
-                <!-- Welcome / Guide Screen (shown on first open, hidden once data loads) -->
+                <!-- Welcome / Guide Screen -->
                 <div id="paradeWelcomeScreen">
                     <div class="welcome-icon-ring">
                         <i class="fas fa-clipboard-list"></i>
@@ -795,6 +791,7 @@
 
 <!-- Toast Notification Container (outside modal for correct stacking) -->
 <div id="paradeToastContainer"></div>
+
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         console.log('DOM fully loaded');
@@ -889,19 +886,16 @@
 
             // ─── UI setup ────────────────────────────────────────────────────────────
             setupUIForRole() {
-                const today           = this.getToday();
-                const dateInput       = document.getElementById('paradeDate');
+                const today            = this.getToday();
+                const dateInput        = document.getElementById('paradeDate');
                 const companySelection = document.getElementById('companySelectionContainer');
-                const companyDisplay  = document.getElementById('companyDisplayContainer');
-                const userCompanyDisp = document.getElementById('userCompanyDisplay');
-                const modalTitle      = document.querySelector('#paradeDataModal .modal-title');
+                const companyDisplay   = document.getElementById('companyDisplayContainer');
+                const userCompanyDisp  = document.getElementById('userCompanyDisplay');
+                const modalTitle       = document.querySelector('#paradeDataModal .modal-title');
 
                 if (dateInput) {
                     dateInput.value = today;
-                    dateInput.max   = today;          // can never go to future
-
-                    // ONCO: no hard min restriction – they CAN view past dates
-                    // (edit restriction is enforced in logic, not via HTML attribute)
+                    dateInput.max   = today; // can never go to future
                 }
 
                 if (this.userRole === 'O CENTRE NCO') {
@@ -922,47 +916,64 @@
                     if (modal) modal.hide();
                 }
 
-                // Sync Enter button state with today's default date
+                // Sync button states with default date
                 this.syncEnterButtonState();
             },
 
             /**
-             * Enable/disable the ENTER/EDIT button based on date & role.
-             * Also shows the QUICK UPDATE button for ONCO when today is selected.
-             * ONCO  → ENTER enabled only for today; disabled for past dates.
-             * O CENTRE NCO → always enabled.
+             * Enable/disable the ENTER/EDIT button and show/hide the QUICK UPDATE button
+             * based on role, date, and (for O CENTRE NCO) selected company.
+             *
+             * ONCO rules (unchanged):
+             *   - ENTER enabled only for today; disabled for past dates
+             *   - QUICK UPDATE shown only for today
+             *
+             * O CENTRE NCO rules (new):
+             *   - ENTER always enabled (no date restriction)
+             *   - QUICK UPDATE shown only when today is selected AND a specific company
+             *     (not "All") is chosen
              */
             syncEnterButtonState() {
-                const btnEnter       = document.getElementById('btnEnterData');
-                const btnQuick       = document.getElementById('btnQuickUpdate');
-                const pastNotice     = document.getElementById('pastDateNotice');
-                const selectedDate   = document.getElementById('paradeDate')?.value;
-                const today          = this.getToday();
-                const isPast         = selectedDate && selectedDate < today;
-                const isToday        = selectedDate === today;
+                const btnEnter     = document.getElementById('btnEnterData');
+                const btnQuick     = document.getElementById('btnQuickUpdate');
+                const pastNotice   = document.getElementById('pastDateNotice');
+                const selectedDate = document.getElementById('paradeDate')?.value;
+                const today        = this.getToday();
+                const isPast       = selectedDate && selectedDate < today;
+                const isToday      = selectedDate === today;
 
                 if (!btnEnter) return;
 
                 if (this.userRole === 'ONCO') {
+                    // ── ONCO logic (original, unchanged) ──
                     if (isPast) {
-                        // Past date → disable Enter, show notice, hide Quick Update
                         btnEnter.disabled = true;
                         btnEnter.title    = 'ONCO can only enter/edit data for today';
                         if (pastNotice) pastNotice.classList.remove('d-none');
                         if (btnQuick)   btnQuick.classList.add('d-none');
                     } else if (isToday) {
-                        // Today → enable Enter, show Quick Update
                         btnEnter.disabled = false;
                         btnEnter.title    = '';
                         if (pastNotice) pastNotice.classList.add('d-none');
                         if (btnQuick)   btnQuick.classList.remove('d-none');
                     }
-                } else {
-                    // O CENTRE NCO — no restrictions
+
+                } else if (this.userRole === 'O CENTRE NCO') {
+                    // ── O CENTRE NCO logic ──
+                    // ENTER is always enabled (no date restriction for this role)
                     btnEnter.disabled = false;
                     btnEnter.title    = '';
                     if (pastNotice) pastNotice.classList.add('d-none');
-                    if (btnQuick)   btnQuick.classList.add('d-none');
+
+                    // QUICK UPDATE: only when today is selected AND a specific company (not "All") is chosen
+                    const company = this.resolveCompany();
+                    const hasSpecificCompany = company && company !== 'All';
+
+                    if (isToday && hasSpecificCompany) {
+                        if (btnQuick) btnQuick.classList.remove('d-none');
+                    } else {
+                        if (btnQuick) btnQuick.classList.add('d-none');
+                    }
                 }
             },
 
@@ -992,7 +1003,7 @@
                 // ── Auto-view when date changes ──────────────────────────────────────
                 if (paradeDate) {
                     paradeDate.addEventListener('change', () => {
-                        this.syncEnterButtonState();   // update Enter button immediately
+                        this.syncEnterButtonState(); // update buttons immediately
 
                         // Only auto-load if a company is already selected / known
                         const company = this.resolveCompany();
@@ -1005,6 +1016,8 @@
                 // ── Auto-view when company changes (O CENTRE NCO) ────────────────────
                 if (paradeCompany) {
                     paradeCompany.addEventListener('change', () => {
+                        this.syncEnterButtonState(); // recheck Quick Update visibility
+
                         const company = paradeCompany.value;
                         const date    = document.getElementById('paradeDate')?.value;
                         if (company && date) {
@@ -1023,7 +1036,6 @@
 
             /**
              * Automatically load data in VIEW mode whenever the date (or company) changes.
-             * This keeps the table in sync without the user needing to click VIEW.
              */
             async autoViewOnDateChange() {
                 const date    = document.getElementById('paradeDate')?.value;
@@ -1043,21 +1055,39 @@
             // ─── Quick Update ─────────────────────────────────────────────────────────
 
             /**
-             * Fetches yesterday's data, copies it into today's edit form.
-             * Only available for ONCO on today's date.
+             * Fetches yesterday's data for the resolved company and copies it into today's
+             * edit form.
+             *
+             * Available for:
+             *   - ONCO           → always their own company, only today
+             *   - O CENTRE NCO   → whichever specific company (not "All") is selected, only today
              */
             async handleQuickUpdate() {
                 const today     = this.getToday();
                 const yesterday = this.getYesterday();
 
-                console.log(`Quick Update: copying ${yesterday} → ${today} for ${this.userCompany}`);
+                // Guard: O CENTRE NCO must have a specific company selected
+                if (this.userRole === 'O CENTRE NCO') {
+                    const company = this.resolveCompany();
+                    if (!company) {
+                        this.showAlert('Please select a company before using Quick Update', 'warning');
+                        return;
+                    }
+                    if (company === 'All') {
+                        this.showAlert('Quick Update is not available for "All Companies". Please select a specific company.', 'warning');
+                        return;
+                    }
+                }
+
+                const targetCompany = this.resolveCompany();
+                console.log(`Quick Update: copying ${yesterday} → ${today} for ${targetCompany}`);
 
                 this.showLoading(true);
 
                 try {
                     // 1. Check if today already has data — warn but don't block
                     const todayRes = await fetch(
-                        `/api/parade-data/get/${today}/${encodeURIComponent(this.userCompany)}`
+                        `/api/parade-data/get/${today}/${encodeURIComponent(targetCompany)}`
                     );
                     const todayResult = todayRes.ok ? await todayRes.json() : { success: false };
 
@@ -1070,7 +1100,7 @@
 
                     // 2. Fetch yesterday's data
                     const yRes = await fetch(
-                        `/api/parade-data/get/${yesterday}/${encodeURIComponent(this.userCompany)}`
+                        `/api/parade-data/get/${yesterday}/${encodeURIComponent(targetCompany)}`
                     );
 
                     if (!yRes.ok) {
@@ -1097,7 +1127,7 @@
                     // 4. Set mode to edit for today
                     this.currentMode    = 'edit';
                     this.currentDate    = today;
-                    this.currentCompany = this.userCompany;
+                    this.currentCompany = targetCompany;
 
                     // 5. Render table (edit mode, pre-filled with yesterday's values)
                     this.renderTable();
@@ -1123,12 +1153,12 @@
                 }
             },
 
-            /** Clears Quick Update mode — resets to a blank edit form for today */
+            /** Clears Quick Update mode — resets to a blank edit form */
             clearQuickUpdate() {
                 this.paradeData     = this.getEmptyData();
                 this.currentMode    = 'edit';
                 this.currentDate    = this.getToday();
-                this.currentCompany = this.userCompany;
+                this.currentCompany = this.resolveCompany();
 
                 this.renderTable();
                 this.updateStatusBar();
@@ -1144,7 +1174,6 @@
                 const inputs = document.querySelectorAll('#paradeTableBody input.form-control');
                 inputs.forEach(input => {
                     input.classList.add('copied-from-yesterday');
-                    // Remove highlight once the user touches the cell
                     input.addEventListener('focus', () => {
                         input.classList.remove('copied-from-yesterday');
                     }, { once: true });
@@ -1239,7 +1268,6 @@
                                 this.updateStatusBar();
                                 this.showAlert('No existing data. You can enter new data below.', 'info');
                             } else {
-                                // View mode + empty → show empty table with a notice
                                 this.paradeData = this.getEmptyData();
                                 this.renderTable();
                                 this.updateStatusBar();
@@ -1274,13 +1302,13 @@
                 if (this.paradeData.data) actualData = this.paradeData.data;
 
                 this.categories.forEach((category) => {
-                    const row      = document.createElement('tr');
-                    const isTotal  = !category.editable;
+                    const row     = document.createElement('tr');
+                    const isTotal = !category.editable;
                     if (isTotal) row.classList.add('total-row');
 
                     // Label cell
                     const labelCell = document.createElement('td');
-                    labelCell.className = 'category-label';
+                    labelCell.className   = 'category-label';
                     labelCell.textContent = category.label;
                     row.appendChild(labelCell);
 
@@ -1292,12 +1320,12 @@
 
                         if (this.currentMode === 'edit' && category.editable && !isCalculated) {
                             const input = document.createElement('input');
-                            input.type              = 'number';
-                            input.className         = 'form-control';
-                            input.value             = data[i] || 0;
-                            input.min               = 0;
-                            input.dataset.category  = category.key;
-                            input.dataset.index     = i;
+                            input.type             = 'number';
+                            input.className        = 'form-control';
+                            input.value            = data[i] || 0;
+                            input.min              = 0;
+                            input.dataset.category = category.key;
+                            input.dataset.index    = i;
                             cell.appendChild(input);
                         } else {
                             cell.textContent = data[i] || 0;
@@ -1322,7 +1350,6 @@
                 if (saveContainer) saveContainer.classList.toggle('d-none', this.currentMode !== 'edit');
                 if (container)     container.classList.remove('d-none');
 
-                // Hide welcome screen once data is shown
                 this.hideWelcomeScreen();
 
                 console.log('Table rendered');
@@ -1345,10 +1372,10 @@
                 const data = this.paradeData[categoryKey];
                 if (!data || data.length < 17) return;
 
-                const tOut  = data[3] + data[4] + data[5] + data[6] + data[7] + data[8] + data[9] + data[10] + data[11];
-                data[12]    = Math.max(0, tOut);
-                data[13]    = data[5];
-                data[14]    = Math.max(0, data[2] - data[12]);
+                const tOut = data[3] + data[4] + data[5] + data[6] + data[7] + data[8] + data[9] + data[10] + data[11];
+                data[12]   = Math.max(0, tOut);
+                data[13]   = data[5];
+                data[14]   = Math.max(0, data[2] - data[12]);
 
                 this.updateRowDisplay(categoryKey);
             },
@@ -1386,21 +1413,21 @@
             },
 
             updateRowDisplay(categoryKey) {
-                const data  = this.paradeData[categoryKey];
+                const data = this.paradeData[categoryKey];
                 if (!data) return;
 
-                const rows  = document.getElementById('paradeTableBody')?.querySelectorAll('tr');
+                const rows = document.getElementById('paradeTableBody')?.querySelectorAll('tr');
                 if (!rows) return;
 
-                const idx   = this.categories.findIndex(c => c.key === categoryKey);
+                const idx = this.categories.findIndex(c => c.key === categoryKey);
                 if (idx === -1) return;
 
-                const row   = rows[idx];
+                const row = rows[idx];
                 if (!row) return;
 
                 const cells = row.querySelectorAll('td');
                 for (let i = 0; i < 17; i++) {
-                    const cell  = cells[i + 1];
+                    const cell = cells[i + 1];
                     if (cell) {
                         const input = cell.querySelector('input');
                         if (input) input.value = data[i] || 0;
@@ -1492,11 +1519,11 @@
 
             // ─── status bar ───────────────────────────────────────────────────────────
             updateStatusBar() {
-                const statusBar     = document.getElementById('statusBar');
-                const modeDisplay   = document.getElementById('modeDisplay');
-                const roleDisplay   = document.getElementById('roleDisplay');
-                const companyDisp   = document.getElementById('companyDisplay');
-                const dateDisp      = document.getElementById('dateDisplay');
+                const statusBar   = document.getElementById('statusBar');
+                const modeDisplay = document.getElementById('modeDisplay');
+                const roleDisplay = document.getElementById('roleDisplay');
+                const companyDisp = document.getElementById('companyDisplay');
+                const dateDisp    = document.getElementById('dateDisplay');
 
                 if (statusBar)   statusBar.classList.remove('d-none');
                 if (modeDisplay) {
@@ -1516,7 +1543,7 @@
                 if (spinner) spinner.classList.toggle('d-none', !show);
             },
 
-            // ─── Toast notifications (replaces full-width alert) ──────────────────────
+            // ─── Toast notifications ──────────────────────────────────────────────────
             showAlert(message, type) {
                 const icons = {
                     success: 'fas fa-check-circle',
@@ -1536,12 +1563,9 @@
                     <button class="toast-close" title="Dismiss"><i class="fas fa-times"></i></button>
                 `;
 
-                // Close button
                 toast.querySelector('.toast-close').addEventListener('click', () => this._dismissToast(toast));
 
                 container.appendChild(toast);
-
-                // Auto-dismiss after 4s
                 setTimeout(() => this._dismissToast(toast), 4000);
             },
 
@@ -1605,6 +1629,11 @@
                             <div class="guide-card-title">ENTER / EDIT</div>
                             <div class="guide-card-desc">Enter or edit parade state for any company and date.</div>
                         </div>
+                        <div class="guide-card" data-action="quickupdate">
+                            <div class="guide-card-icon gc-pink"><i class="fas fa-bolt"></i></div>
+                            <div class="guide-card-title">QUICK UPDATE</div>
+                            <div class="guide-card-desc">Copy yesterday's data for the selected company into today's form — only change what's different.</div>
+                        </div>
                         <div class="guide-card" data-action="view">
                             <div class="guide-card-icon gc-teal"><i class="fas fa-eye"></i></div>
                             <div class="guide-card-title">VIEW</div>
@@ -1620,7 +1649,7 @@
                     }
 
                     if (tipEl) tipEl.innerHTML =
-                        '<i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Changing the date or company will auto-load the data in View mode.';
+                        '<i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Quick Update is available when today\'s date is selected and a specific company (not "All") is chosen.';
                 }
             },
 

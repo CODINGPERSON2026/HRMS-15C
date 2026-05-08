@@ -51,7 +51,7 @@ def get_detachment_details():
             FROM assigned_det a
             JOIN personnel p ON p.army_number = a.army_number
             JOIN dets d ON d.det_id = a.det_id
-            WHERE a.det_status = 1
+            WHERE a.det_status = 1 AND p.detachment_status = 1
         """
         params = []
 
@@ -187,7 +187,7 @@ def attachment_details():
         # ✅ FORCE JSON SAFE DATE
         for r in rows:
             td = r.get("td_date")
-            r["td_date"] = td.strftime("%d-%m-%Y %H:%M") if td else ""
+            r["td_date"] = td.strftime("%d-%m-%Y") if td else ""
 
         return jsonify(rows), 200
 

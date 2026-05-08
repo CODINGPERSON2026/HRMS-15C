@@ -54,6 +54,142 @@
 .role-OC { color: #198754; }      /* green */
 .role-CO { color: #dc3545; }      /* red */
 .role-ADMIN { color: #6f42c1; }   /* purple */
+
+/* ── Leave History Popup Card ─────────────────────────────── */
+#leaveHistoryPopup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10500;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+#leaveHistoryPopup.show { display: flex; }
+
+.lhp-card {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 780px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  animation: lhpSlideIn .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes lhpSlideIn {
+  from { transform: translateY(40px) scale(.96); opacity: 0; }
+  to   { transform: translateY(0)    scale(1);   opacity: 1; }
+}
+
+.lhp-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+  color: #fff;
+  padding: 1.4rem 1.75rem;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lhp-header h4 { margin: 0; font-weight: 700; }
+
+.lhp-close {
+  background: rgba(255,255,255,.2);
+  border: none;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.lhp-close:hover { background: rgba(255,255,255,.35); }
+
+.lhp-body { padding: 1.5rem 1.75rem; }
+
+.lhp-year-block {
+  margin-bottom: 1.6rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.lhp-year-heading {
+  background: linear-gradient(90deg, #eff6ff, #dbeafe);
+  padding: .75rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  border-bottom: 1px solid #bfdbfe;
+}
+.lhp-badge-year {
+  background: #2563eb;
+  color: #fff;
+  border-radius: 8px;
+  padding: .25rem .75rem;
+  font-weight: 700;
+  font-size: .95rem;
+}
+.lhp-table { width: 100%; border-collapse: collapse; }
+.lhp-table thead th {
+  background: #f8fafc;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #64748b;
+  padding: .65rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+.lhp-table tbody td {
+  padding: .75rem 1rem;
+  text-align: center;
+  font-size: .93rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.lhp-table tbody td:first-child { text-align: left; font-weight: 600; }
+
+.lhp-pill-total   { background: #dbeafe; color: #1d4ed8; border-radius: 999px; padding: .2rem .7rem; font-weight: 700; font-size: .85rem; display: inline-block; }
+.lhp-pill-taken   { background: #fce7f3; color: #be185d; border-radius: 999px; padding: .2rem .7rem; font-weight: 700; font-size: .85rem; display: inline-block; }
+.lhp-pill-balance { background: #d1fae5; color: #065f46; border-radius: 999px; padding: .2rem .7rem; font-weight: 700; font-size: .85rem; display: inline-block; }
+
+.lhp-empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+/* View History button inside modal footer */
+.vbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0.45rem 1rem;
+  border-radius: 7px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.1s;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.vbtn:hover  { filter: brightness(0.92); }
+.vbtn:active { transform: scale(0.97); }
+
+.vbtn-history  { background: #fff;    border-color: #1e3a5f; color: #1e3a5f; }
+.vbtn-close    { background: #f1f5f9; border-color: #cbd5e1; color: #334155; }
+.vbtn-recommend{ background: #15803d; border-color: #15803d; color: #fff;    }
+.vbtn-reject   { background: #dc2626; border-color: #dc2626; color: #fff;    }
+
+.footer-gap { flex: 1; }
 </style>
 
 <!-- Leave Requests Modal -->
@@ -184,8 +320,6 @@
               <div class="form-control bg-light" id="v_company"></div>
             </div>
 
-           
-
             <!-- Rest of your existing fields -->
             <div class="col-md-6">
               <label class="fw-bold">Leave Days</label>
@@ -224,26 +358,28 @@
               <h6 class="fw-bold">Remarks</h6>
               <div id="v_history" class="remarks-timeline"></div>
             </div>
- <!-- New Reliever Section -->
- <div class="col-12 mt-4">
-  <h6 class="fw-bold text-success border-bottom pb-2">👤 Reliever Details</h6>
-</div>
-<div class="col-md-6">
-  <label class="fw-bold">Reliever Army Number</label>
-  <div class="form-control bg-light" id="v_reliever_army_number"></div>
-</div>
-<div class="col-md-6">
-  <label class="fw-bold">Reliever Rank</label>
-  <div class="form-control bg-light" id="v_reliever_rank"></div>
-</div>
-<div class="col-md-6">
-  <label class="fw-bold">Reliever Name</label>
-  <div class="form-control bg-light" id="v_reliever_name"></div>
-</div>
-<div class="col-md-6">
-  <label class="fw-bold">Reliever Company</label>
-  <div class="form-control bg-light" id="v_reliever_company"></div>
-</div>
+
+            <!-- Reliever Section -->
+            <div class="col-12 mt-4">
+              <h6 class="fw-bold text-success border-bottom pb-2">👤 Reliever Details</h6>
+            </div>
+            <div class="col-md-6">
+              <label class="fw-bold">Reliever Army Number</label>
+              <div class="form-control bg-light" id="v_reliever_army_number"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="fw-bold">Reliever Rank</label>
+              <div class="form-control bg-light" id="v_reliever_rank"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="fw-bold">Reliever Name</label>
+              <div class="form-control bg-light" id="v_reliever_name"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="fw-bold">Reliever Company</label>
+              <div class="form-control bg-light" id="v_reliever_company"></div>
+            </div>
+
             <div class="col-12">
               <label class="fw-bold">Reason</label>
               <div class="form-control bg-light" style="min-height:80px" id="v_reason"></div>
@@ -264,10 +400,34 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="recommend-button" class="btn btn-success">Recommend</button>
-        <button id="reject-button" class="btn btn-danger">Reject</button>
+        <button class="vbtn vbtn-history" id="viewHistoryBtn" onclick="openLeaveHistoryPopup()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Leave History
+        </button>
+        <div class="footer-gap"></div>
+        <button class="vbtn vbtn-close" data-bs-dismiss="modal">Close</button>
+        <button class="vbtn vbtn-recommend" id="recommend-button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          Recommend
+        </button>
+        <button class="vbtn vbtn-reject" id="reject-button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Reject
+        </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Leave History Popup Card (fixed overlay, no separate modal) ── -->
+<div id="leaveHistoryPopup">
+  <div class="lhp-card">
+    <div class="lhp-header">
+      <h4>📋 Leave History</h4>
+      <button class="lhp-close" onclick="closeLeaveHistoryPopup()">✕</button>
+    </div>
+    <div class="lhp-body" id="leaveHistoryPopupBody">
+      <div class="lhp-empty">Loading…</div>
     </div>
   </div>
 </div>
@@ -321,6 +481,7 @@
   // Global variables
   let currentLeaveId = null;
   let rejectLeaveId = null;
+  let currentViewArmyNumber = null; // tracks army number for history popup
 
   // Helper to hide/show rejection reason
   function toggleRejectionReason(show, reason = '') {
@@ -334,18 +495,117 @@
     }
   }
 
+  // ─── LEAVE HISTORY POPUP ─────────────────────────────────────────────────────
+
+  async function openLeaveHistoryPopup() {
+    if (!currentViewArmyNumber) {
+      alert("No army number available.");
+      return;
+    }
+
+    const popup = document.getElementById("leaveHistoryPopup");
+    const body  = document.getElementById("leaveHistoryPopupBody");
+
+    body.innerHTML = '<div class="lhp-empty">⏳ Loading history…</div>';
+    popup.classList.add("show");
+
+    try {
+      const res  = await fetch(`/apply_leave/leave_history/${currentViewArmyNumber}`);
+      const data = await res.json();
+      renderLeaveHistoryPopup(data);
+    } catch (err) {
+      body.innerHTML = '<div class="lhp-empty text-danger">❌ Failed to load history.</div>';
+    }
+  }
+
+  function closeLeaveHistoryPopup() {
+    document.getElementById("leaveHistoryPopup").classList.remove("show");
+  }
+
+  // Close popup when clicking backdrop
+  document.getElementById("leaveHistoryPopup").addEventListener("click", function(e) {
+    if (e.target === this) closeLeaveHistoryPopup();
+  });
+
+  function renderLeaveHistoryPopup(records) {
+    const body = document.getElementById("leaveHistoryPopupBody");
+
+    if (!records || records.length === 0) {
+      body.innerHTML = '<div class="lhp-empty">📭 No leave history found for this employee.</div>';
+      return;
+    }
+
+    const ENTITLEMENTS = { AL: 60, CL: 30, AAL: 20 };
+    let html = '';
+
+    records.forEach(row => {
+      const year     = row.year  || '—';
+      const alTotal  = row.AL   ?? 0;
+      const clTotal  = row.CL   ?? 0;
+      const aalTotal = row.AAL  ?? 0;
+      const remarks  = row.remarks || '';
+
+      const leaveTypes = [
+        { label: 'AL – Annual Leave',             total: ENTITLEMENTS.AL,  taken: alTotal  },
+        { label: 'CL – Casual Leave',             total: ENTITLEMENTS.CL,  taken: clTotal  },
+        { label: 'AAL – Additional Annual Leave', total: ENTITLEMENTS.AAL, taken: aalTotal },
+      ];
+
+      html += `
+        <div class="lhp-year-block">
+          <div class="lhp-year-heading">
+            <span class="lhp-badge-year">${year}</span>
+            <span style="color:#1e40af; font-weight:600; font-size:.9rem;">Leave Summary</span>
+          </div>
+          <table class="lhp-table">
+            <thead>
+              <tr>
+                <th>Leave Type</th>
+                <th>Total Entitled</th>
+                <th>Taken</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      leaveTypes.forEach(lt => {
+        const balance = lt.total - lt.taken;
+        html += `
+          <tr>
+            <td>${lt.label}</td>
+            <td><span class="lhp-pill-total">${lt.total}</span></td>
+            <td><span class="lhp-pill-taken">${lt.taken}</span></td>
+            <td><span class="lhp-pill-balance">${balance}</span></td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table>`;
+
+      if (remarks) {
+        html += `
+          <div style="padding:.6rem 1.2rem; font-size:.83rem; color:#64748b; border-bottom:1px solid #f1f5f9;">
+            📝 <em>${remarks}</em>
+          </div>`;
+      }
+
+      html += `</div>`;
+    });
+
+    body.innerHTML = html;
+  }
+
   // ─── RECOMMEND WITH REMARK MODAL ────────────────────────────────────────────
 
   document.getElementById("recommend-button").addEventListener("click", () => {
     if (!currentLeaveId) return alert("Leave ID missing");
     if (!confirm("Are you sure you want to recommend this leave?")) return;
 
-    // Clear previous remark and show remark modal
     document.getElementById("remarkInput").value = "";
     new bootstrap.Modal(document.getElementById("remarkModal")).show();
   });
 
-  // Shared function: submit recommend with optional remark
   async function submitRecommend(remark = "") {
     try {
       const payload = { leave_id: currentLeaveId };
@@ -369,12 +629,10 @@
     }
   }
 
-  // Skip remark — submit without remark
   document.getElementById("skipRemarkBtn").addEventListener("click", () => {
     submitRecommend("");
   });
 
-  // Submit with remark
   document.getElementById("submitRemarkBtn").addEventListener("click", () => {
     const remark = document.getElementById("remarkInput").value.trim();
     submitRecommend(remark);
@@ -436,13 +694,16 @@
       const data = result.data;
       console.log("Leave Data:", data);
 
+      // Store army number for history popup
+      currentViewArmyNumber = data.army_number || null;
+
       // Applicant Details
       document.getElementById("v_army_number").innerText = data.army_number || "N/A";
       document.getElementById("v_rank").innerText = data.rank || "NIL";
       document.getElementById("name").innerText = data.name || "N/A";
       document.getElementById("v_company").innerText = data.company || "NIL";
 
-      // Reliever Details (New)
+      // Reliever Details
       document.getElementById("v_reliever_army_number").innerText = data.reliever_army_number || "Not Assigned";
       document.getElementById("v_reliever_rank").innerText = data.reliever_rank || "NIL";
       document.getElementById("v_reliever_name").innerText = data.reliever_name || "NIL";
@@ -468,7 +729,6 @@
           const wrapper = document.createElement("div");
           wrapper.classList.add("remark-item");
           const roleClass = item.recommended_by ? `role-${item.recommended_by.toUpperCase()}` : "";
-
           wrapper.innerHTML = `
             <div class="remark-card">
               <div class="remark-header ${roleClass}">
@@ -498,7 +758,7 @@
         document.getElementById("rejectionReasonContainer").classList.add("d-none");
       }
 
-      // Button Text Logic (your existing logic)
+      // Button Text Logic
       document.getElementById("recommend-button").classList.remove("d-none");
       document.getElementById("reject-button").classList.remove("d-none");
 
@@ -538,6 +798,9 @@
     try {
       const res = await fetch(`/apply_leave/get_leave_history/${id}`);
       const data = await res.json();
+
+      // Store army number for history popup
+      currentViewArmyNumber = data.data.army_number || null;
 
       document.getElementById("v_army_number").innerText = data.data.army_number;
       document.getElementById("v_rank").innerText = data.data.rank || "NIL";
@@ -586,6 +849,9 @@
     try {
       const res = await fetch(`/apply_leave/get_leave_request/${id}`);
       const { data } = await res.json();
+
+      // Store army number for history popup
+      currentViewArmyNumber = data.army_number || null;
 
       document.getElementById("v_prefix_date").innerText = data.prefix_date || "NIL";
       document.getElementById("v_suffix_date").innerText = data.suffix_date || "NIL";

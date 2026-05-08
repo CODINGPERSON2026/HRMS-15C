@@ -755,17 +755,51 @@ COMPANIES = [
     "HQ company"
 ]
 
+# def auto_save_monthly_unfit():
+#     now = datetime.now()
+#     year = now.year
+#     month = now.month
+#     conn = get_db_connection()
+#     cursor = conn.cursor(dictionary=True)
+#     for company in COMPANIES:
+#         # Check if already saved
+#         cursor.execute("""
+#             SELECT id FROM monthly_medical_status
+#             WHERE year=%s AND month=%s AND unit=%s
+#         """, (year, month, company))
+
+#         if cursor.fetchone():
+#             continue
+
+#         # Compute official count
+#         data = compute_authorization(company)
+#         unFit = sum(1 for d in data if d['status'] == "UnFit")
+#         print("THIS IS UNFIT COUNT",unFit)
+
+#         cursor.execute("""
+#             INSERT INTO monthly_medical_status (year, month, unit, unfit_count)
+#             VALUES (%s, %s, %s, %s)
+#         """, (year, month, company, unFit))
+
 def auto_save_monthly_unfit():
+
     now = datetime.now()
+
     year = now.year
     month = now.month
+
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
+
     for company in COMPANIES:
+
         # Check if already saved
         cursor.execute("""
-            SELECT id FROM monthly_medical_status
-            WHERE year=%s AND month=%s AND unit=%s
+            SELECT id
+            FROM monthly_medical_status
+            WHERE year=%s
+            AND month=%s
+            AND unit=%s
         """, (year, month, company))
 
         if cursor.fetchone():
@@ -773,14 +807,34 @@ def auto_save_monthly_unfit():
 
         # Compute official count
         data = compute_authorization(company)
-        unFit = sum(1 for d in data if d['status'] == "UnFit")
-        print("THIS IS UNFIT COUNT",unFit)
+
+        unFit = sum(
+            1 for d in data
+            if d['status'] == "UnFit"
+        )
+
+        print("THIS IS UNFIT COUNT", unFit)
 
         cursor.execute("""
-            INSERT INTO monthly_medical_status (year, month, unit, unfit_count)
+            INSERT INTO monthly_medical_status (
+                year,
+                month,
+                unit,
+                unfit_count
+            )
             VALUES (%s, %s, %s, %s)
-        """, (year, month, company, unFit))
+        """, (
+            year,
+            month,
+            company,
+            unFit
+        ))
 
+    # ✅ ADD HERE
+    conn.commit()
+
+    cursor.close()
+    conn.close()
 def _to_json_serializable(val):
     """Convert DB values (e.g. Decimal) to JSON-serializable Python types."""
     if val is None:

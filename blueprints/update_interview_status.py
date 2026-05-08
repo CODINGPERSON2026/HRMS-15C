@@ -85,7 +85,7 @@ def completed_interview_list():
                 army_number,
                 `rank`,
                 name,
-                home_state,
+                home_state,interview_remarks,
                 updated_at AS completed_on
             FROM personnel
             WHERE interview_status = 1
@@ -300,53 +300,81 @@ def assign_jco():
     finally:
         cursor.close()
         conn.close()
+@inteview_bp.route('/get_remarks/<int:id>', methods=['GET'])
+def get_remarks(id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        cursor.execute(
+            "SELECT interview_remarks FROM personnel WHERE id = %s",
+            (id,)
+        )
+        row = cursor.fetchone()
+        return jsonify({ 'remarks': row['interview_remarks'] if row else '' })
+    except Exception as e:
+        print("Get Remarks Error:", e)
+        return jsonify({ 'remarks': '' })
+    finally:
+        if cursor: cursor.close()
+        conn.close()
+@inteview_bp.route('/temp_completed_kunba', methods=['GET'])
+def my_completed_interviews():
 
+    user = require_login()
 
+    current_army_number = user['army_number'].strip()
 
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
 
-#  <div class="theme-tile" data-theme="dark">
-#                 <i class="fas fa-check-circle active-check"></i>
-#                 <div class="theme-swatch" style="background: linear-gradient(135deg, #0f172a, #1e293b);">
-#                   <i class="fas fa-moon" style="color:#cbd5f5"></i>
-#                 </div>
-#                 <span class="theme-tile-name">Dark</span>
-#               </div>
+    try:
 
+        query = """
+            SELECT
+                id,
+                army_number,
+                `rank`,
+                name,
+                company,
+                home_state,
+                interview_remarks,
+                temp_interview_done_by,
+                updated_at AS completed_on
+            FROM personnel
+            WHERE interview_status = 1
+              AND LOWER(TRIM(temp_interview_done_by)) = LOWER(TRIM(%s))
+            ORDER BY updated_at DESC
+        """
 
+        cursor.execute(query, (current_army_number,))
 
+        rows = cursor.fetchall()
 
+        return jsonify(rows)
 
+    except Exception as e:
+        print("My Completed Interviews Error:", e)
+        return jsonify([])
 
-# @media (min-width: 1600px) {
-#   .stats-grid {
-#     grid-template-columns: repeat(8, 1fr);
-#   }
-# }
+    finally:
+        if cursor:
+            cursor.close()
+            conn.close()
 
-# /* Large laptops */
-# @media (max-width: 1400px) {
-#   .stats-grid {
-#     grid-template-columns: repeat(6, 1fr);
-#   }
-# }
-
-# /* Normal laptops */
-# @media (max-width: 1200px) {
-#   .stats-grid {
-#     grid-template-columns: repeat(5, 1fr);
-#   }
-# }
-
-# /* Tablets */
-# @media (max-width: 992px) {
-#   .stats-grid {
-#     grid-template-columns: repeat(4, 1fr);
-#   }
-# }
-
-# /* Mobile */
-# @media (max-width: 576px) {
-#   .stats-grid {
-#     grid-template-columns: repeat(2, 1fr);
-#   }
-# }
+@inteview_bp.route('/get_remarks_by_army/<army_number>', methods=['GET'])
+def get_remarks_by(army_number):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        cursor.execute(
+            "SELECT interview_remarks FROM personnel WHERE army_number = %s",
+            (army_number,)
+        )
+        row = cursor.fetchone()
+        return jsonify({ 'remarks': row['interview_remarks'] if row else '' })
+    except Exception as e:
+        print("Get Remarks Error:", e)
+        return jsonify({ 'remarks': '' })
+    finally:
+        if cursor: cursor.close()
+        conn.close()
