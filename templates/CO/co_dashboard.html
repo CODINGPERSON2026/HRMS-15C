@@ -1,650 +1,982 @@
 {% extends "baseView.html" %} {% block content %}
 
 <style>
-  /* ===== THREE-DOT LOADER OVERLAY ===== */
-  #pageLoader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: var(--card-background, #fff);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    transition: opacity 0.45s ease, visibility 0.45s ease;
+ /* =========================================================
+   GLOBAL / ROOT SAFE DEFAULTS
+========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* =========================================================
+   PAGE LOADER
+========================================================= */
+
+#pageLoader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  background: var(--card-background, #fff);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  transition:
+    opacity 0.45s ease,
+    visibility 0.45s ease;
+}
+
+#pageLoader.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.dot-loader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot-loader span {
+  width: 11px;
+  height: 11px;
+
+  border-radius: 50%;
+
+  background: var(--primary-color, #0d6efd);
+
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+
+.dot-loader span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot-loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot-loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotBounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
   }
 
-  #pageLoader.hide {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .dot-loader {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .dot-loader span {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--primary-color, #0d6efd);
-    animation: dotBounce 1.2s ease-in-out infinite;
-  }
-
-  .dot-loader span:nth-child(1) {
-    animation-delay: 0s;
-  }
-
-  .dot-loader span:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-
-  .dot-loader span:nth-child(3) {
-    animation-delay: 0.4s;
-  }
-
-  @keyframes dotBounce {
-    0%,
-    80%,
-    100% {
-      transform: scale(0.6);
-      opacity: 0.4;
-    }
-
-    40% {
-      transform: scale(1.2);
-      opacity: 1;
-    }
-  }
-
-  .loader-label {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-secondary, #888);
-  }
-
-  /* ===== FADE-IN ANIMATION HELPERS ===== */
-  .fade-in-up {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.45s ease, transform 0.45s ease;
-  }
-
-  .fade-in-up.visible {
+  40% {
+    transform: scale(1.2);
     opacity: 1;
-    transform: translateY(0);
   }
+}
 
-  /* stagger children */
-  .stagger-children > * {
+.loader-label {
+  font-size: 12px;
+  font-weight: 600;
+
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  color: var(--text-secondary, #888);
+}
+
+/* =========================================================
+   FADE ANIMATIONS
+========================================================= */
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(18px);
+
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(14px);
+
+  transition:
+    opacity 0.38s ease,
+    transform 0.38s ease;
+}
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-children.visible > *:nth-child(1) {
+  transition-delay: 0s;
+}
+
+.stagger-children.visible > *:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+.stagger-children.visible > *:nth-child(3) {
+  transition-delay: 0.1s;
+}
+
+.stagger-children.visible > *:nth-child(4) {
+  transition-delay: 0.15s;
+}
+
+.stagger-children.visible > *:nth-child(5) {
+  transition-delay: 0.2s;
+}
+
+.stagger-children.visible > *:nth-child(6) {
+  transition-delay: 0.25s;
+}
+
+.stagger-children.visible > *:nth-child(7) {
+  transition-delay: 0.3s;
+}
+
+.stagger-children.visible > *:nth-child(8) {
+  transition-delay: 0.35s;
+}
+
+.stagger-children.visible > *:nth-child(9) {
+  transition-delay: 0.4s;
+}
+
+.stagger-children.visible > *:nth-child(10) {
+  transition-delay: 0.45s;
+}
+
+.stagger-children.visible > *:nth-child(11) {
+  transition-delay: 0.5s;
+}
+
+.stagger-children.visible > *:nth-child(12) {
+  transition-delay: 0.55s;
+}
+
+.stagger-children.visible > *:nth-child(13) {
+  transition-delay: 0.6s;
+}
+
+.stagger-children.visible > *:nth-child(14) {
+  transition-delay: 0.65s;
+}
+
+.stagger-children.visible > *:nth-child(15) {
+  transition-delay: 0.7s;
+}
+
+.stagger-children.visible > *:nth-child(16) {
+  transition-delay: 0.75s;
+}
+
+/* =========================================================
+   VALUE POP
+========================================================= */
+
+@keyframes valPop {
+  0% {
+    transform: scale(0.7);
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.38s ease, transform 0.38s ease;
   }
 
-  .stagger-children.visible > * {
+  70% {
+    transform: scale(1.12);
     opacity: 1;
-    transform: translateY(0);
   }
 
-  .stagger-children.visible > *:nth-child(1) {
-    transition-delay: 0s;
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.sc-val.popped {
+  animation: valPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)
+    forwards;
+}
+
+/* =========================================================
+   MODAL OVERRIDES
+========================================================= */
+
+.modal-fullscreen .modal-dialog {
+  margin: 10px;
+
+  width: calc(100vw - 20px);
+  max-width: calc(100vw - 20px);
+
+  height: calc(100vh - 20px);
+  max-height: calc(100vh - 20px);
+}
+
+.modal-fullscreen .modal-content {
+  height: 100%;
+  border-radius: 14px;
+}
+
+.modal-backdrop {
+  --bs-backdrop-opacity: 0.12;
+}
+
+/* =========================================================
+   DASHBOARD WRAPPER
+========================================================= */
+
+.db-wrap {
+  width: 100%;
+  overflow-x: hidden;
+
+  padding-inline: clamp(4px, 1vw, 14px);
+}
+
+/* =========================================================
+   ACTION BAR
+========================================================= */
+
+.action-bar {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+
+  opacity: 0;
+  transform: translateY(-8px);
+
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.action-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.action-bar.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ab-btn,
+.ab-ai,
+.ab-toggle {
+  flex-shrink: 0;
+}
+
+.ab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  padding: 7px 13px;
+
+  background: transparent;
+
+  font-size: 11.5px;
+  font-weight: 700;
+
+  white-space: nowrap;
+  letter-spacing: 0.4px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.ab-btn:active,
+.ab-ai:active {
+  transform: scale(0.96);
+}
+
+.ab-btn .bdg {
+  min-width: 16px;
+  height: 16px;
+
+  border-radius: 999px;
+
+  padding-inline: 4px;
+
+  background: #dc3545;
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ab-danger {
+  background: rgba(220, 53, 69, 0.08);
+  border-color: rgba(220, 53, 69, 0.35);
+  color: #dc3545;
+}
+
+.ab-danger:hover {
+  background: rgba(220, 53, 69, 0.15);
+}
+
+.ab-primary {
+  background: rgba(13, 110, 253, 0.08);
+  border-color: rgba(13, 110, 253, 0.35);
+  color: var(--primary-color, #0d6efd);
+}
+
+.ab-primary:hover {
+  background: rgba(13, 110, 253, 0.15);
+}
+
+.ab-blue {
+  background: rgba(0, 132, 255, 0.08);
+  border-color: rgba(0, 132, 255, 0.35);
+  color: #0084ff;
+}
+
+.ab-blue:hover {
+  background: rgba(0, 132, 255, 0.15);
+}
+
+.ab-spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+.ab-ai {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 7px 16px;
+
+  border-radius: 999px;
+
+  border: 1.5px solid #0084ff;
+
+  background: rgba(0, 132, 255, 0.08);
+
+  color: #0084ff;
+
+  font-size: 11.5px;
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.ab-ai:hover {
+  background: rgba(0, 132, 255, 0.16);
+}
+
+.ai-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #0084ff;
+
+  box-shadow: 0 0 5px #0084ff;
+
+  animation: ai-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes ai-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 
-  .stagger-children.visible > *:nth-child(2) {
-    transition-delay: 0.05s;
+  50% {
+    opacity: 0.3;
+    transform: scale(1.6);
   }
+}
 
-  .stagger-children.visible > *:nth-child(3) {
-    transition-delay: 0.1s;
-  }
+/* =========================================================
+   MAIN GRID LAYOUT
+========================================================= */
 
-  .stagger-children.visible > *:nth-child(4) {
-    transition-delay: 0.15s;
-  }
+.db-main-layout {
+  display: grid;
 
-  .stagger-children.visible > *:nth-child(5) {
-    transition-delay: 0.2s;
-  }
+  grid-template-columns:
+    clamp(250px, 24vw, 340px)
+    minmax(0, 1fr);
 
-  .stagger-children.visible > *:nth-child(6) {
-    transition-delay: 0.25s;
-  }
+  gap: 12px;
 
-  .stagger-children.visible > *:nth-child(7) {
-    transition-delay: 0.3s;
-  }
+  align-items: start;
 
-  .stagger-children.visible > *:nth-child(8) {
-    transition-delay: 0.35s;
-  }
+  min-height: calc(100vh - 180px);
+}
 
-  .stagger-children.visible > *:nth-child(9) {
-    transition-delay: 0.4s;
-  }
+/* =========================================================
+   LEFT COLUMN
+========================================================= */
 
-  .stagger-children.visible > *:nth-child(10) {
-    transition-delay: 0.45s;
-  }
+.cards-column {
+  min-width: 0;
+}
 
-  .stagger-children.visible > *:nth-child(11) {
-    transition-delay: 0.5s;
-  }
+.stats-grid {
+  display: grid;
+  gap: 8px;
 
-  .stagger-children.visible > *:nth-child(12) {
-    transition-delay: 0.55s;
-  }
+  max-height: calc(100vh - 220px);
 
-  .stagger-children.visible > *:nth-child(13) {
-    transition-delay: 0.6s;
-  }
+  overflow-y: auto;
+  overflow-x: hidden;
 
-  .stagger-children.visible > *:nth-child(14) {
-    transition-delay: 0.65s;
-  }
+  padding-right: 2px;
 
-  .stagger-children.visible > *:nth-child(15) {
-    transition-delay: 0.7s;
-  }
+  scrollbar-width: thin;
+}
 
-  .stagger-children.visible > *:nth-child(16) {
-    transition-delay: 0.75s;
-  }
+/* =========================================================
+   STAT CARDS
+========================================================= */
 
-  /* Stat card value pop */
-  @keyframes valPop {
-    0% {
-      transform: scale(0.7);
-      opacity: 0;
-    }
+.sc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    70% {
-      transform: scale(1.12);
-      opacity: 1;
-    }
+  gap: 10px;
 
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
+  padding:
+    clamp(10px, 1vw, 13px)
+    clamp(12px, 1vw, 15px);
 
-  .sc-val.popped {
-    animation: valPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
+  border-radius: 10px;
 
-  /* Chart card slide-in */
-  .chart-card-wrap {
+  background: var(--card-background);
+
+  border: 1px solid var(--border-color);
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sc:hover {
+  background: var(--hover-bg, rgba(0, 0, 0, 0.03));
+
+  border-color: var(
+    --border-hover-color,
+    rgba(0, 0, 0, 0.2)
+  );
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+  transform: translateY(-1px);
+}
+
+.sc:active {
+  transform: translateY(0);
+}
+
+.sc-label {
+  flex: 1;
+  min-width: 0;
+
+  font-size: clamp(12px, 0.95vw, 15px);
+  font-weight: 700;
+
+  line-height: 1.35;
+
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+
+  color: var(--text-secondary);
+}
+
+.sc-right {
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.sc-val {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  min-width: 28px;
+  min-height: 20px;
+
+  white-space: nowrap;
+
+  font-size: clamp(15px, 1.1vw, 19px);
+  font-weight: 700;
+
+  color: var(--text-primary);
+}
+
+.sc-sub {
+  margin-top: 2px;
+
+  min-height: 13px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  color: #dc3545;
+
+  white-space: nowrap;
+}
+
+.val-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.val-dots span {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--text-secondary, #aaa);
+
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+
+.val-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.val-dots span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.val-dots span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+/* =========================================================
+   RIGHT CHART AREA
+========================================================= */
+
+.charts-column {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  height: calc(100vh - 240px);
+
+  min-height: 360px;
+  max-height: 520px;
+
+  overflow: hidden;
+}
+
+.charts-scroll-inner {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+
+  transition: transform 0.8s ease-in-out;
+}
+
+.chart-row-card {
+  flex: 0 0 100%;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+  transform: scale(0.985);
+
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.chart-row-card.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.chart-row-card .card {
+  height: 100%;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+}
+
+.chart-row-card .card-body {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+
+  padding: clamp(12px, 1vw, 16px);
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 10px;
+
+  flex-wrap: wrap;
+}
+
+.chart-header h6 {
+  margin: 0;
+
+  font-size: clamp(13px, 1vw, 16px);
+  font-weight: 700;
+}
+
+.chart-canvas-wrap {
+  position: relative;
+
+  flex: 1;
+  min-height: 0;
+
+  width: 100%;
+}
+
+.chart-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* =========================================================
+   TOP BAR ABOVE CHARTS
+========================================================= */
+
+.top-chart-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  margin-bottom: 10px;
+}
+
+.chart-filter-wrap {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   GRAPH STRIP
+========================================================= */
+
+.graph-strip {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  flex: 1;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none;
+}
+
+.graph-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.graph-tab {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 0;
+
+  border: none;
+  background: transparent;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition: color 0.25s ease;
+
+  flex-shrink: 0;
+}
+
+.graph-tab:hover {
+  color: #2563eb;
+}
+
+.graph-tab.active {
+  color: #2563eb;
+}
+
+.graph-tab.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -2px;
+
+  width: 100%;
+  height: 4px;
+
+  border-radius: 999px;
+
+  background: #2563eb;
+
+  animation: underlineSlide 0.25s ease;
+}
+
+@keyframes underlineSlide {
+  from {
+    width: 0;
     opacity: 0;
-    transform: translateY(24px) scale(0.98);
-    transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
-  .chart-card-wrap.visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  /* ===== MODAL OVERRIDES ===== */
-  .modal-fullscreen .modal-dialog {
-    margin: 10px;
-    max-width: calc(100vw - 20px);
-    max-height: calc(100vh - 20px);
-  }
-
-  .modal-fullscreen .modal-content {
-    height: 100%;
-  }
-
-  .modal-backdrop {
-    --bs-backdrop-opacity: 0.12;
-  }
-
-  /* ===== BIRTHDAY MODAL ===== */
-  .birthday-modal-body {
-    position: relative;
-    min-height: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .birthday-gift-wrapper {
-    position: relative;
-    width: 140px;
-    height: 100px;
-    margin-bottom: 20px;
-  }
-
-  .birthday-box {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 70px;
-    background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
-    border-radius: 4px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  }
-
-  .birthday-box::before {
-    content: "";
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120%;
-    height: 8px;
-    background: linear-gradient(90deg, #c41e3a, #ffd700, #c41e3a);
-    border-radius: 4px;
-  }
-
-  .birthday-lid {
-    position: absolute;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 110px;
-    height: 20px;
-    background: linear-gradient(135deg, #c41e3a 0%, #a01830 100%);
-    border-radius: 4px 4px 0 0;
-    transform-origin: left center;
-    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  .birthday-modal-body.opened .birthday-lid {
-    transform: translateX(-50%) rotate(-110deg);
-  }
-
-  .birthday-flowers {
-    position: absolute;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
+  to {
     width: 100%;
-    height: 80px;
-    pointer-events: none;
-  }
-
-  .birthday-flower {
-    position: absolute;
-    font-size: 24px;
-    opacity: 0;
-    transition: all 0.6s ease-out;
-  }
-
-  .birthday-modal-body.opened .birthday-flower {
     opacity: 1;
   }
+}
 
-  .birthday-modal-body.opened .birthday-flower:nth-child(1) {
-    bottom: 50px;
-    left: 10%;
-    transform: rotate(-15deg) scale(1);
+/* =========================================================
+   LARGE MONITORS
+========================================================= */
+
+@media (min-width: 1700px) {
+  .db-main-layout {
+    grid-template-columns:
+      clamp(320px, 22vw, 420px)
+      minmax(0, 1fr);
+
+    gap: 16px;
   }
 
-  .birthday-modal-body.opened .birthday-flower:nth-child(2) {
-    bottom: 65px;
-    left: 25%;
-    transform: rotate(10deg) scale(1.1);
+  .charts-column {
+    max-height: 620px;
   }
 
-  .birthday-modal-body.opened .birthday-flower:nth-child(3) {
-    bottom: 75px;
-    left: 40%;
-    transform: rotate(-5deg) scale(1.2);
-  }
-
-  .birthday-modal-body.opened .birthday-flower:nth-child(4) {
-    bottom: 65px;
-    left: 55%;
-    transform: rotate(15deg) scale(1.1);
-  }
-
-  .birthday-modal-body.opened .birthday-flower:nth-child(5) {
-    bottom: 50px;
-    left: 70%;
-    transform: rotate(-10deg) scale(1);
-  }
-
-  .birthday-modal-body.opened .birthday-flower:nth-child(6) {
-    bottom: 55px;
-    left: 83%;
-    transform: rotate(8deg) scale(1);
-  }
-
-  .birthday-person-card {
-    background: var(--card-background);
-    border: 2px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px 24px;
-    margin-top: 15px;
-    width: 100%;
-    max-width: 450px;
-    text-align: left;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
-  }
-
-  .birthday-modal-body.opened .birthday-person-card {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .birthday-person-card .bday-name {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 8px;
-  }
-
-  .birthday-person-card .bday-row {
-    margin-bottom: 6px;
-    font-size: 0.9rem;
-  }
-
-  .birthday-person-card .bday-label {
-    font-weight: 600;
-    color: var(--text-secondary);
-    min-width: 110px;
-    display: inline-block;
-  }
-
-  .birthday-person-card .bday-value {
-    color: var(--text-primary);
-  }
-
-  /* ===== DASHBOARD WRAPPER ===== */
-  .db-wrap {
-    padding: 1px 2px;
-    min-height: 100vh;
-  }
-
-  /* ===== ACTION BAR ===== */
-  .action-bar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    margin-bottom: 12px;
-    padding-bottom: 2px;
-    opacity: 0;
-    transform: translateY(-8px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-
-  .action-bar.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .action-bar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .ab-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 11.5px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    border: 1px solid transparent;
-    background: transparent;
-    flex-shrink: 0;
-    transition: background 0.15s, transform 0.15s;
-    line-height: 1;
-  }
-
-  .ab-btn:active {
-    transform: scale(0.96);
-  }
-
-  .ab-btn .bdg {
-    min-width: 16px;
-    height: 16px;
-    font-size: 10px;
-    padding: 0 4px;
-    border-radius: 8px;
-    background: #dc3545;
-    color: #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ab-danger {
-    background: rgba(220, 53, 69, 0.08);
-    border-color: rgba(220, 53, 69, 0.35);
-    color: #dc3545;
-  }
-
-  .ab-danger:hover {
-    background: rgba(220, 53, 69, 0.15);
-  }
-
-  .ab-primary {
-    background: rgba(13, 110, 253, 0.08);
-    border-color: rgba(13, 110, 253, 0.35);
-    color: var(--primary-color, #0d6efd);
-  }
-
-  .ab-primary:hover {
-    background: rgba(13, 110, 253, 0.15);
-  }
-
-  .ab-blue {
-    background: rgba(0, 132, 255, 0.08);
-    border-color: rgba(0, 132, 255, 0.35);
-    color: #0084ff;
-  }
-
-  .ab-blue:hover {
-    background: rgba(0, 132, 255, 0.15);
-  }
-
-  .ab-spacer {
-    flex: 1;
-    min-width: 4px;
-  }
-
-  .ab-ai {
-    padding: 6px 16px;
-    border-radius: 20px;
-    border: 1.5px solid #0084ff;
-    background: rgba(0, 132, 255, 0.08);
-    color: #0084ff;
-    font-weight: 700;
-    font-size: 11.5px;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: background 0.15s, transform 0.15s;
-  }
-
-  .ab-ai:hover {
-    background: rgba(0, 132, 255, 0.16);
-  }
-
-  .ab-ai:active {
-    transform: scale(0.96);
-  }
-
-  .ab-toggle {
-    padding: 5px 8px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    background: transparent;
-    cursor: pointer;
-    flex-shrink: 0;
-    color: var(--text-secondary);
-    font-size: 13px;
-    line-height: 1;
-    transition: background 0.15s;
-  }
-
-  .ab-toggle:hover {
-    background: var(--hover-bg, rgba(0, 0, 0, 0.04));
-  }
-
-  /* AI dot pulse */
-  .ai-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #0084ff;
-    box-shadow: 0 0 5px #0084ff;
-    animation: ai-pulse 1.6s ease-in-out infinite;
-    flex-shrink: 0;
-    display: inline-block;
-  }
-
-  @keyframes ai-pulse {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    50% {
-      opacity: 0.3;
-      transform: scale(1.6);
-    }
-  }
-
-  /* ===== STATS GRID ===== */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-    gap: 7px;
-  }
-
-  .stats-grid.grid-hidden {
-    display: none;
-  }
-
-  /* ===== STAT CARD ===== */
   .sc {
-    background: var(--card-background);
-    border: 0.5px solid var(--border-color);
-    border-radius: 8px;
-    padding: 9px 13px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s,
-      transform 0.15s;
+    padding: 14px 18px;
   }
 
-  .sc:hover {
-    background: var(--hover-bg, rgba(0, 0, 0, 0.03));
-    border-color: var(--border-hover-color, rgba(0, 0, 0, 0.2));
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-1px);
+  .graph-tab {
+    font-size: 14px;
+  }
+}
+
+/* =========================================================
+   LAPTOPS
+========================================================= */
+
+@media (max-width: 1366px) {
+  .charts-column {
+    height: calc(100vh - 250px);
+    max-height: 460px;
   }
 
-  .sc:active {
-    transform: translateY(0);
+  .stats-grid {
+    max-height: calc(100vh - 230px);
+  }
+}
+
+/* =========================================================
+   TABLETS
+========================================================= */
+
+@media (max-width: 992px) {
+  .db-main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-column {
+    order: 2;
+  }
+
+  .charts-column {
+    order: 1;
+
+    height: 420px;
+    max-height: unset;
+  }
+
+  .stats-grid {
+    max-height: unset;
+    overflow: visible;
+  }
+
+  .top-chart-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chart-filter-wrap {
+    width: 100%;
+  }
+
+  .graph-strip {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .db-wrap {
+    padding-inline: 6px;
+  }
+
+  .action-bar {
+    gap: 6px;
+  }
+
+  .ab-btn,
+  .ab-ai {
+    font-size: 10.5px;
+    padding: 6px 11px;
+  }
+
+  .sc {
+    padding: 10px 12px;
   }
 
   .sc-label {
-    font-size: 11.5px;
-    font-weight: 400;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.45px;
-    line-height: 1.25;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .sc-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    flex-shrink: 0;
+    font-size: 12px;
   }
 
   .sc-val {
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1;
-    white-space: nowrap;
-    min-width: 28px;
-    min-height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    font-size: 15px;
   }
 
-  /* inline mini dot loader for cards */
-  .val-dots {
-    display: inline-flex;
-    gap: 4px;
-    align-items: center;
+  .charts-column {
+    height: 360px;
+    min-height: 360px;
   }
 
-  .val-dots span {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--text-secondary, #aaa);
-    animation: dotBounce 1.2s ease-in-out infinite;
+  .chart-header {
+    margin-bottom: 8px;
   }
 
-  .val-dots span:nth-child(1) {
-    animation-delay: 0s;
+  .graph-strip {
+    gap: 14px;
   }
 
-  .val-dots span:nth-child(2) {
-    animation-delay: 0.18s;
+  .graph-tab {
+    font-size: 11px;
   }
 
-  .val-dots span:nth-child(3) {
-    animation-delay: 0.36s;
+  .chart-row-card .card-body {
+    padding: 10px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .charts-column {
+    height: 320px;
+    min-height: 320px;
   }
 
-  .sc-sub {
+  .sc {
+    border-radius: 8px;
+  }
+
+  .sc-label {
+    font-size: 11px;
+  }
+
+  .sc-val {
+    font-size: 14px;
+  }
+
+  .graph-tab {
     font-size: 10px;
-    color: #dc3545;
-    margin-top: 2px;
-    line-height: 1;
-    white-space: nowrap;
-    min-height: 13px;
   }
 
-  @media (max-width: 768px) {
-    .db-wrap {
-      padding: 10px;
-    }
-
-    .stats-grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 5px;
-    }
+  .loader-label {
+    font-size: 11px;
   }
+}
 </style>
 
 <!-- ===== THREE-DOT LOADER OVERLAY ===== -->
@@ -655,17 +987,14 @@
 
 <div class="db-wrap">
   <div style="margin: 0 auto; width: 100%">
+
     <!-- ===== MODALS ===== -->
     <div class="modal fade" id="eventModal" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">📅 Today's Events</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
             <ul id="eventList" class="list-group"></ul>
@@ -675,35 +1004,7 @@
     </div>
 
     <!-- Birthday Modal -->
-    <div class="modal fade" id="birthdayModal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">🎂 Today's Birthdays</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body birthday-modal-body" id="birthdayModalBody">
-            <div class="birthday-gift-wrapper">
-              <div class="birthday-lid"></div>
-              <div class="birthday-box"></div>
-              <div class="birthday-flowers">
-                <span class="birthday-flower">🌸</span>
-                <span class="birthday-flower">🌺</span>
-                <span class="birthday-flower">🌷</span>
-                <span class="birthday-flower">🌼</span>
-                <span class="birthday-flower">🌻</span>
-                <span class="birthday-flower">💐</span>
-              </div>
-            </div>
-            <div id="birthdayPersonCards"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+   
 
     <!-- Add Event Modal -->
     <div class="modal fade" id="addEventModal" tabindex="-1">
@@ -711,22 +1012,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">📅 Add Event</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
             <div id="eventForm">
               <label>Event Date</label>
-              <input
-                type="date"
-                class="form-control"
-                id="evt_date"
-                value="{{ today }}"
-                required
-              />
+              <input type="date" class="form-control" id="evt_date" value="{{ today }}" required />
               <label class="mt-2">Event Name</label>
               <input type="text" class="form-control" id="evt_name" required />
               <label class="mt-2">Venue</label>
@@ -740,52 +1031,41 @@
       </div>
     </div>
 
-    {% set header = "15 CORPS ENGINEERING SIGNAL REGIMENT" %} {% set subscript =
-    'Welcome ' ~ role ~ ' ' ~ current_user_name %} {% include
-    'navbar/navbar.html' %}
+    {% set header = "15 CORPS ENGINEERING SIGNAL REGIMENT" %}
+    {% set subscript = 'Welcome ' ~ role ~ ' ' ~ current_user_name %}
+    {% include 'navbar/navbar.html' %}
 
     <div style="margin-bottom: 8px">
-      {% include 'modals/alarm/alarm.html' %} {% include
-      'modals/alarm/attachment_alarm.html' %} {% include
-      'modals/alarm/leave_alarm.html' %} {% include
-      'modals/alarm/agniveer_test_alarms.html' %} {% include
-      'modals/alarm/event_alarm.html' %}
+      {% include 'modals/alarm/alarm.html' %}
+      {% include 'modals/alarm/attachment_alarm.html' %}
+      {% include 'modals/alarm/leave_alarm.html' %}
+      {% include 'modals/alarm/agniveer_test_alarms.html' %}
+      {% include 'modals/alarm/event_alarm.html' %}
     </div>
 
     <!-- ===== ACTION BAR ===== -->
     <div class="action-bar" id="actionBar">
-      <button class="ab-toggle" id="toggleGrid" title="Toggle cards">
-        &#8964;
-      </button>
+      
 
-      <button
-        class="ab-btn ab-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#coRejectedModal"
-        id="rejectedBtn"
-      >
+      <button class="ab-btn ab-danger" data-bs-toggle="modal" data-bs-target="#coRejectedModal" id="rejectedBtn">
         REJECTED LEAVES
-        <span class="bdg" id="coRejectedCount" style="display: none">0</span>
+        <span class="bdg" id="coRejectedCount" style="display:none">0</span>
       </button>
 
-      <button
-        class="ab-btn ab-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#addEventModal"
-      >
+      <button class="ab-btn ab-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">
         ADD EVENT
       </button>
 
       <button class="ab-btn ab-blue" id="chatBtn">
-        <i class="fab fa-facebook-messenger" style="font-size: 12px"></i>
+        <i class="fab fa-facebook-messenger" style="font-size:12px"></i>
         MESSAGES
-        <span class="bdg" id="unreadBadge" style="display: none">0</span>
+        <span class="bdg" id="unreadBadge" style="display:none">0</span>
       </button>
 
       {% if role in ['2IC','CO'] %}
       <button class="ab-btn ab-primary position-relative" id="leaveRequestsBtn">
         LEAVE REQUEST
-        <span class="bdg" id="leaveRequestBadge" style="display: none">0</span>
+        <span class="bdg" id="leaveRequestBadge" style="display:none">0</span>
       </button>
       {% endif %}
 
@@ -796,214 +1076,280 @@
       </button>
     </div>
 
-    <!-- ===== STATS GRID ===== -->
-    <div class="stats-grid stagger-children" id="statsGrid">
-      <!-- Birthday card — hidden until data arrives -->
-      <div
-        class="sc"
-        data-bs-toggle="modal"
-        data-bs-target="#birthdayModal"
-        id="sc-bday"
-        style="display: none"
-      >
-        <span class="sc-label">Today's Birthdays</span>
-        <div class="sc-right">
-          <span class="sc-val" id="birthday-count">0</span>
-        </div>
-      </div>
+    <!-- ===== MAIN TWO-COLUMN LAYOUT ===== -->
+    <div class="db-main-layout">
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#paradeStateModal">
-        <span class="sc-label">Parade State</span>
-        <div class="sc-right">
-          <span class="sc-val" id="mainPower"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+      <!-- ===== LEFT: CARDS COLUMN ===== -->
+      <div class="cards-column">
+        <div class="stats-grid stagger-children" id="statsGrid">
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#attachmentModalUniqueScope">
-        <span class="sc-label">TD / Attachment</span>
-        <div class="sc-right">
-          <span class="sc-val" id="attachment-count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
-<div class="sc" id="viewDetailsBtn">
-        <span class="sc-label">Detachment</span>
-        <div class="sc-right">
-          <span class="sc-val" id="locationCount"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <!-- Birthday card — hidden until data arrives -->
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#birthdayModal" id="sc-bday" style="display:none">
+            <span class="sc-label">Today's Birthdays</span>
+            <div class="sc-right">
+              <span class="sc-val" id="birthday-count">0</span>
+            </div>
+          </div>
 
-      <div class="sc" id="openCourses">
-        <span class="sc-label">On course</span>
-        <div class="sc-right">
-          <span class="sc-val" id="totalCoursesDone"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#dutySearchModal">
-        <span class="sc-label">Domain Spl</span>
-        <div class="sc-right">
-          <span class="sc-val" id="duty-search-count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#paradeStateModal">
+            <span class="sc-label">Parade State</span>
+            <div class="sc-right">
+              <span class="sc-val" id="mainPower"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#attachmentModalUniqueScope">
+            <span class="sc-label">TD / Attachment</span>
+            <div class="sc-right">
+              <span class="sc-val" id="attachment-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      <div class="sc" id="interview-card">
-        <span class="sc-label">Kunba Interview</span>
-        <div class="sc-right">
-          <span class="sc-val">
-            <span id="interview-Count"
-              ><span class="val-dots"
-                ><span></span><span></span><span></span></span
-            ></span>
-            /
-            <span id="total-count"
-              ><span class="val-dots"
-                ><span></span><span></span><span></span></span
-            ></span>
-          </span>
-          <span class="sc-sub" id="interview%">&nbsp;</span>
-        </div>
-      </div>
+          <div class="sc" id="viewDetailsBtn">
+            <span class="sc-label">Detachment</span>
+            <div class="sc-right">
+              <span class="sc-val" id="locationCount"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      
+          <div class="sc" id="openCourses">
+            <span class="sc-label">On Course</span>
+            <div class="sc-right">
+              <span class="sc-val" id="totalCoursesDone"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      <div class="sc" id="openSensitive">
-        <span class="sc-label">Sensitive Indl</span>
-        <div class="sc-right">
-          <span class="sc-val" id="sensitive-count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#dutySearchModal">
+            <span class="sc-label">Domain Spl</span>
+            <div class="sc-right">
+              <span class="sc-val" id="duty-search-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      <div class="sc" id="openBoardDetails">
-        <span class="sc-label">BOOs</span>
-        <div class="sc-right">
-          <span class="sc-val" id="board-count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <div class="sc" id="interview-card">
+            <span class="sc-label">Kunba Interview</span>
+            <div class="sc-right">
+              <span class="sc-val">
+                <span id="interview-Count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                /
+                <span id="total-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+              </span>
+              <span class="sc-sub" id="interview%">&nbsp;</span>
+            </div>
+          </div>
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#loanModal">
-        <span class="sc-label">Active Loans</span>
-        <div class="sc-right">
-          <span class="sc-val" id="active-loan-count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <div class="sc" id="openSensitive">
+            <span class="sc-label">Sensitive Indl</span>
+            <div class="sc-right">
+              <span class="sc-val" id="sensitive-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#projDash_modal">
-        <span class="sc-label">Total Projects</span>
-        <div class="sc-right">
-          <span class="sc-val" id="get_projects_count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <!-- <div class="sc" id="openBoardDetails">
+            <span class="sc-label">BOOs</span>
+            <div class="sc-right">
+              <span class="sc-val" id="board-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div> -->
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#rollCallPoints">
-        <span class="sc-label">Central Roll Call</span>
-        <div class="sc-right">
-          <span class="sc-val" id="center-roll-points"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#loanModal">
+            <span class="sc-label">Active Loans</span>
+            <div class="sc-right">
+              <span class="sc-val" id="active-loan-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal">
-        <span class="sc-label">Agniveer</span>
-        <div class="sc-right">
-          <span class="sc-val" id="agniveer_count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#projDash_modal">
+            <span class="sc-label">Total Projects</span>
+            <div class="sc-right">
+              <span class="sc-val" id="get_projects_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#duesInListModal">
-        <span class="sc-label">Dues In</span>
-        <div class="sc-right">
-          <span class="sc-val" id="dues_in_count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#rollCallPoints">
+            <span class="sc-label">Central Roll Call</span>
+            <div class="sc-right">
+              <span class="sc-val" id="center-roll-points"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
 
-      <div class="sc" data-bs-toggle="modal" data-bs-target="#duesOutListModal">
-        <span class="sc-label">Dues Out</span>
-        <div class="sc-right">
-          <span class="sc-val" id="dues_out_count"
-            ><span class="val-dots"
-              ><span></span><span></span><span></span></span
-          ></span>
-        </div>
-      </div>
-    </div>
-    <!-- /statsGrid -->
+          <!-- <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal">
+            <span class="sc-label">Agniveer</span>
+            <div class="sc-right">
+              <span class="sc-val" id="agniveer_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div> -->
+
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#duesInListModal">
+            <span class="sc-label">Dues In</span>
+            <div class="sc-right">
+              <span class="sc-val" id="dues_in_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
+
+          <div class="sc" data-bs-toggle="modal" data-bs-target="#duesOutListModal">
+            <span class="sc-label">Dues Out</span>
+            <div class="sc-right">
+              <span class="sc-val" id="dues_out_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+            </div>
+          </div>
+
+        </div><!-- /statsGrid -->
+      </div><!-- /cards-column -->
+
+      <!-- ===== RIGHT: CHARTS COLUMN ===== -->
+      <div>
+        <!-- company filter shared across charts -->
+        <!-- ===== FILTER + GRAPH STRIP ROW ===== -->
+<div class="top-chart-bar">
+
+  <!-- LEFT : GRAPH LABEL STRIP -->
+  <div class="graph-strip" id="graphStrip">
+
+    <button class="graph-tab active" data-index="0">
+      Posted Strength
+    </button>
+
+    <button class="graph-tab" data-index="1">
+      Detachment Stats
+    </button>
+
+    <button class="graph-tab" data-index="2">
+      Monthly UnFit
+    </button>
+
+    <button class="graph-tab" data-index="3">
+      Fit vs UnFit
+    </button>
+
+  </div>
+
+  <!-- RIGHT : COMPANY FILTER -->
+  <div class="chart-filter-wrap">
+    <select
+      id="companyFilter"
+      class="form-select form-select-sm"
+    >
+      <option value="ALL">All Companies</option>
+      <option value="1 Company">1 Company</option>
+      <option value="2 Company">2 Company</option>
+      <option value="3 Company">3 Company</option>
+      <option value="HQ Company">HQ Company</option>
+    </select>
+  </div>
+
+</div>
+
+        <div class="charts-column" id="chartsColumn">
+          <div class="charts-scroll-inner" id="chartsScrollInner">
+
+            <!-- Chart 1: Posted Strength (Bar) -->
+            <div class="chart-row-card" id="chartCard0" style="transition-delay:0.05s">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Posted Strength</h6>
+                    <span id="rankTotalCount" style="font-weight:600; color:var(--primary-color); font-size:12px;">Total: --</span>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="rankChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chart 2: Detachment Stats (Donut) -->
+            <div class="chart-row-card" id="chartCard1" style="transition-delay:0.1s">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Detachment Stats</h6>
+                    <span id="detachmentTotal" style="font-weight:600; color:var(--primary-color); font-size:12px;">Total: --</span>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="detachmentChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chart 3: Monthly UnFit Trend (Line) -->
+            <div class="chart-row-card" id="chartCard2" style="transition-delay:0.15s">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Monthly UnFit Comparison</h6>
+                    <span style="font-weight:600; color:#dc2626; font-size:12px;">Trend Analysis</span>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="unfitTrendChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chart 4: Fit vs UnFit (Bar) -->
+            <div class="chart-row-card" id="chartCard3" style="transition-delay:0.2s">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Fit vs UnFit</h6>
+                    <div style="display:flex; gap:12px; font-size:12px; font-weight:700;">
+                      <span style="color:#2563eb;">Fit: <span id="fitCount">--</span></span>
+                      <span style="color:#dc2626;">UnFit: <span id="unfitCount">--</span></span>
+                    </div>
+                  </div>
+                  <div class="chart-canvas-wrap">
+                    <canvas id="fitUnfitChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /charts-scroll-inner -->
+        </div><!-- /charts-column -->
+
+        <!-- scroll nav dots -->
+        
+      </div><!-- /right side -->
+
+    </div><!-- /db-main-layout -->
 
     <!-- ===== ALL OTHER MODALS (unchanged) ===== -->
-    {% include 'modals/Projects/modal.html' %} {% include
-    'modals/detachmentModal/detachment.html' %} {% include
-    'modals/personnelModal/personal_modal.html' %} {% include
-    'modals/personnelModal/duty_search_modal.html' %} {% include
-    'modals/salesmodal/salesModal.html' %} {% include
-    'modals/leaverequest/leave_request.html' %} {% include
-    'modals/interview_pending/modal.html' %} {% include
-    'modals/count_parade/modal.html' %} {% include
-    'modals/attachment-modal/modal.html' %} {% include 'modals/loan/loans.html'
-    %} {% include 'modals/roll_call/modal.html' %} {% include
-    'modals/roll_call/view_roll_call.html' %} {% include
-    'modals/course/courses.html' %} {% include
-    'modals/interview_pending/jco-update-modal.html' %} {% include
-    'modals/success-modal/modal.html' %} {% include
-    'task_manager/update_task_by_jco.html' %} {% include
-    'modals/adduser/user.html' %} {% include 'modals/oncourses/modal.html' %} {%
-    include 'modals/leaverequest/co-rejected-view.html' %} {% include
-    'modals/alarm/agniveer_test_alarms.html' %} {% include
-    'modals/agniveer/modal.html' %} {% include 'modals/messenger/modal.html' %}
-    {% include 'modals/ollama/ollama.html' %} {% include
-    'modals/ADD-DUES-IN/modal.html' %} {% include
-    'modals/ADD-DUES-IN/list_of_dues_in.html' %} {% include
-    'modals/ADD-DUES-OUT/modal.html' %} {% include
-    'modals/ADD-DUES-OUT/list_of_dues_out.html' %}
+    {% include 'modals/Projects/modal.html' %}
+    {% include 'modals/detachmentModal/detachment.html' %}
+    {% include 'modals/personnelModal/personal_modal.html' %}
+    {% include 'modals/personnelModal/duty_search_modal.html' %}
+    {% include 'modals/salesmodal/salesModal.html' %}
+    {% include 'modals/leaverequest/leave_request.html' %}
+    {% include 'modals/interview_pending/modal.html' %}
+    {% include 'modals/count_parade/modal.html' %}
+    {% include 'modals/attachment-modal/modal.html' %}
+    {% include 'modals/loan/loans.html' %}
+    {% include 'modals/roll_call/modal.html' %}
+    {% include 'modals/roll_call/view_roll_call.html' %}
+    {% include 'modals/course/courses.html' %}
+    {% include 'modals/interview_pending/jco-update-modal.html' %}
+    {% include 'modals/success-modal/modal.html' %}
+    {% include 'task_manager/update_task_by_jco.html' %}
+    {% include 'modals/adduser/user.html' %}
+    {% include 'modals/oncourses/modal.html' %}
+    {% include 'modals/leaverequest/co-rejected-view.html' %}
+    {% include 'modals/alarm/agniveer_test_alarms.html' %}
+    {% include 'modals/agniveer/modal.html' %}
+    {% include 'modals/messenger/modal.html' %}
+    {% include 'modals/ollama/ollama.html' %}
+    {% include 'modals/ADD-DUES-IN/modal.html' %}
+    {% include 'modals/ADD-DUES-IN/list_of_dues_in.html' %}
+    {% include 'modals/ADD-DUES-OUT/modal.html' %}
+    {% include 'modals/ADD-DUES-OUT/list_of_dues_out.html' %}
 
-    <div
-      class="modal fade modal-fullscreen"
-      id="paradeStateModal"
-      tabindex="-1"
-    >
+    <div class="modal fade modal-fullscreen" id="paradeStateModal" tabindex="-1">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Parade State</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
             {% include 'modals/parade_state/index.html' %}
@@ -1012,235 +1358,21 @@
       </div>
     </div>
 
-    <!-- ===== CHARTS ROW ===== -->
-    <div class="row mt-3 g-3">
-
-      <!-- Bar Chart -->
-      <div
-        class="col-lg-8 chart-card-wrap"
-        id="barChartWrap"
-        style="transition-delay:0.1s"
-      >
-        <div class="card h-100" style="border-radius:10px;">
-          
-          <div class="card-body" style="padding:14px;">
-    
-            <div style="
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-              margin-bottom:10px;
-              gap:10px;
-              flex-wrap:wrap;
-            ">
-              <h6 style="margin:0; font-weight:600;">
-                Posted Strength
-              </h6>
-    
-              <div style="display:flex; align-items:center; gap:8px;">
-                <select
-                  id="companyFilter"
-                  class="form-select form-select-sm"
-                  style="width:140px;"
-                >
-                  <option value="ALL">All Companies</option>
-                  <option value="1 Company">1 Company</option>
-                  <option value="2 Company">2 Company</option>
-                  <option value="3 Company">3 Company</option>
-                  <option value="HQ Company">HQ Company</option>
-                </select>
-    
-                <span
-                  id="rankTotalCount"
-                  style="font-weight:600; color:var(--primary-color);"
-                >
-                  Total: --
-                </span>
-              </div>
-            </div>
-    
-            <div style="height:200px;">
-              <canvas id="rankChart"></canvas>
-            </div>
-    
-          </div>
-        </div>
-      </div>
-    
-      <!-- Donut Chart -->
-      <div
-        class="col-lg-4 chart-card-wrap"
-        id="donutChartWrap"
-        style="transition-delay:0.2s"
-      >
-        <div class="card h-100" style="border-radius:10px;">
-    
-          <div class="card-body" style="padding:14px;">
-    
-            <div style="
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-              margin-bottom:10px;
-            ">
-              <h6 style="margin:0; font-weight:600;">
-                Detachment Stats
-              </h6>
-    
-              <span
-                id="detachmentTotal"
-                style="font-weight:600; color:var(--primary-color);"
-              >
-                Total: --
-              </span>
-            </div>
-    
-            <div style="height:200px; position:relative;">
-              <canvas id="detachmentChart"></canvas>
-            </div>
-    
-          </div>
-        </div>
-      </div>
-    
-    </div>
-    <!-- ================= SECOND ROW ================= -->
-    <div class="row mt-3 g-3">
-
-      <!-- ================= UNFIT TREND ================= -->
-      <div class="col-lg-8">
-    
-        <div class="card h-100" style="border-radius:10px;">
-    
-          <div class="card-body" style="padding:14px;">
-    
-            <!-- Header -->
-            <div style="
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-              margin-bottom:10px;
-              flex-wrap:wrap;
-              gap:10px;
-            ">
-    
-              <h6 style="margin:0; font-weight:600;">
-                Monthly UnFit Comparison
-              </h6>
-    
-              <span style="
-                font-weight:600;
-                color:#dc2626;
-                font-size:13px;
-              ">
-                Trend Analysis
-              </span>
-    
-            </div>
-    
-            <!-- Chart -->
-            <div style="height:220px;">
-              <canvas id="unfitTrendChart"></canvas>
-            </div>
-    
-          </div>
-    
-        </div>
-    
-      </div>
-    
-      <!-- ================= FIT / UNFIT BAR ================= -->
-      <div class="col-lg-4">
-    
-        <div class="card h-100" style="border-radius:10px;">
-    
-          <div class="card-body" style="padding:14px;">
-    
-            <!-- Header -->
-            <div style="
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-              margin-bottom:10px;
-              flex-wrap:wrap;
-              gap:10px;
-            ">
-    
-              <h6 style="margin:0; font-weight:600;">
-                Fit vs UnFit
-              </h6>
-    
-              <div style="
-                display:flex;
-                gap:12px;
-                font-size:12px;
-                font-weight:700;
-              ">
-    
-                <span style="
-                  color:#2563eb;
-                  font-weight:900;
-                ">
-                  Fit:
-                  <span id="fitCount">--</span>
-                </span>
-    
-                <span style="
-                  color:#dc2626;
-                  font-weight:900;
-                ">
-                  UnFit:
-                  <span id="unfitCount">--</span>
-                </span>
-    
-              </div>
-    
-            </div>
-    
-            <!-- Chart -->
-            <div style="height:220px;">
-              <canvas id="fitUnfitChart"></canvas>
-            </div>
-    
-          </div>
-    
-        </div>
-    
-      </div>
-    
-    </div>
-    {% include 'images_section/section.html' %}
   </div>
-</div>
-<!-- /db-wrap -->
+</div><!-- /db-wrap -->
 
 <!-- ===== SCRIPTS ===== -->
 <script>
   /* ---- Clean up stray modal backdrops ---- */
   document.addEventListener("hidden.bs.modal", function () {
-    document.querySelectorAll(".modal-backdrop").forEach((b) => b.remove());
+    document.querySelectorAll(".modal-backdrop").forEach(b => b.remove());
     document.body.classList.remove("modal-open");
     document.body.style.overflow = "";
   });
 </script>
 
 <script>
-  /* ---- Birthday modal animation ---- */
-  (function () {
-    var bModal = document.getElementById("birthdayModal");
-    if (!bModal) return;
-    bModal.addEventListener("shown.bs.modal", function () {
-      var body = document.getElementById("birthdayModalBody");
-      if (body)
-        setTimeout(function () {
-          body.classList.add("opened");
-        }, 120);
-    });
-    bModal.addEventListener("hide.bs.modal", function () {
-      var body = document.getElementById("birthdayModalBody");
-      if (body) body.classList.remove("opened");
-    });
-  })();
+  
 
   /* ---- Page loader hide ---- */
   function hidePageLoader() {
@@ -1248,7 +1380,7 @@
     if (loader) loader.classList.add("hide");
   }
 
-  /* ---- Show action bar with slide-down ---- */
+  /* ---- Show action bar ---- */
   function showActionBar() {
     var bar = document.getElementById("actionBar");
     if (bar) bar.classList.add("show");
@@ -1262,25 +1394,25 @@
 
   /* ---- Animate chart cards in ---- */
   function showChartCards() {
-    document.querySelectorAll(".chart-card-wrap").forEach(function (el) {
+    document.querySelectorAll(".chart-row-card").forEach(function (el) {
       el.classList.add("visible");
     });
   }
 
-  /* ---- Safe set (replaces mini dots with real value + pop animation) ---- */
+  /* ---- Safe set ---- */
   function safeSet(id, val) {
     var el = document.getElementById(id);
     if (!el) return;
     el.innerHTML = val != null ? val : "0";
     el.classList.remove("popped");
-    void el.offsetWidth; // reflow to restart animation
+    void el.offsetWidth;
     el.classList.add("popped");
   }
 
   /* ---- Toggle grid ---- */
   (function () {
     var grid = document.getElementById("statsGrid");
-    var btn = document.getElementById("toggleGrid");
+    var btn  = document.getElementById("toggleGrid");
     var hidden = false;
     if (btn && grid) {
       btn.addEventListener("click", function () {
@@ -1294,92 +1426,35 @@
   /* ---- Navigation clicks ---- */
   (function () {
     var board = document.getElementById("openBoardDetails");
-    if (board)
-      board.addEventListener("click", function () {
-        window.location.href = "/board_details";
-      });
+    if (board) board.addEventListener("click", function () { window.location.href = "/board_details"; });
     var sens = document.getElementById("openSensitive");
-    if (sens)
-      sens.addEventListener("click", function () {
-        window.location.href = "/mark_personnel";
-      });
+    if (sens)  sens.addEventListener("click",  function () { window.location.href = "/mark_personnel"; });
   })();
 
   /* ---- Save event ---- */
   function saveEvent() {
-    var date = document.getElementById("evt_date").value;
-    var name = document.getElementById("evt_name").value;
+    var date  = document.getElementById("evt_date").value;
+    var name  = document.getElementById("evt_name").value;
     var venue = document.getElementById("evt_venue").value;
-    if (!date || !name || !venue) {
-      alert("Please fill all fields.");
-      return;
-    }
+    if (!date || !name || !venue) { alert("Please fill all fields."); return; }
     var fd = new FormData();
     fd.append("event_date", date);
     fd.append("event_name", name);
     fd.append("venue", venue);
     fetch("/add_event", { method: "POST", body: fd })
-      .then(function (r) {
-        return r.json();
-      })
-      .then(function (d) {
-        if (d.status === "success") {
-          alert("Event Added!");
-          location.reload();
-        } else {
-          alert("Failed to add event.");
-        }
-      })
-      .catch(function () {
-        alert("Network error.");
-      });
+      .then(r => r.json())
+      .then(d => { if (d.status === "success") { alert("Event Added!"); location.reload(); } else { alert("Failed to add event."); } })
+      .catch(() => alert("Network error."));
   }
 
-  /* ---- HTML escape helper ---- */
+  /* ---- HTML escape ---- */
   function escapeHtml(t) {
     if (!t) return "—";
-    var d = document.createElement("div");
-    d.textContent = t;
-    return d.innerHTML;
+    var d = document.createElement("div"); d.textContent = t; return d.innerHTML;
   }
 
   /* ---- Load birthdays ---- */
-  async function loadBirthdays() {
-    try {
-      var r = await fetch("/api/dashboard/birthdays");
-      var d = await r.json();
-      if (d.status !== "success" || !d.data || d.data.length === 0) return;
-      safeSet("birthday-count", d.data.length);
-      var card = document.getElementById("sc-bday");
-      if (card) card.style.display = "flex";
-      var container = document.getElementById("birthdayPersonCards");
-      if (container) {
-        container.innerHTML = d.data
-          .map(function (p) {
-            return (
-              '<div class="birthday-person-card">' +
-              '<div class="bday-name">' +
-              escapeHtml(p.name) +
-              "</div>" +
-              '<div class="bday-row"><span class="bday-label">Rank</span><span class="bday-value">' +
-              escapeHtml(p.rank) +
-              "</span></div>" +
-              '<div class="bday-row"><span class="bday-label">Army No.</span><span class="bday-value">' +
-              escapeHtml(p.army_number) +
-              "</span></div>" +
-              '<div class="bday-row"><span class="bday-label">Company</span><span class="bday-value">' +
-              escapeHtml(p.company) +
-              "</span></div>" +
-              "</div>"
-            );
-          })
-          .join("");
-      }
-    } catch (e) {
-      console.warn("Birthday load failed:", e);
-    }
-  }
-
+  
   /* ---- Load events ---- */
   async function loadEvents() {
     try {
@@ -1389,21 +1464,14 @@
       if (!list) return;
       list.innerHTML = "";
       if (!d.rows || d.rows.length === 0) {
-        list.innerHTML =
-          '<li class="list-group-item text-muted text-center">No events today</li>';
+        list.innerHTML = '<li class="list-group-item text-muted text-center">No events today</li>';
         return;
       }
       d.rows.forEach(function (ev) {
-        list.innerHTML +=
-          '<li class="list-group-item"><strong>' +
-          escapeHtml(ev.event_name) +
-          '</strong><br><small class="text-muted">' +
-          escapeHtml(ev.venue) +
-          "</small></li>";
+        list.innerHTML += '<li class="list-group-item"><strong>' + escapeHtml(ev.event_name) +
+          '</strong><br><small class="text-muted">' + escapeHtml(ev.venue) + '</small></li>';
       });
-    } catch (e) {
-      console.warn("Events load failed:", e);
-    }
+    } catch (e) { console.warn("Events load failed:", e); }
   }
 
   /* ---- Load rejected leaves badge ---- */
@@ -1413,10 +1481,7 @@
       var d = await r.json();
       var cnt = (d.data || []).length;
       var bdg = document.getElementById("coRejectedCount");
-      if (bdg) {
-        bdg.textContent = cnt;
-        bdg.style.display = cnt > 0 ? "inline-flex" : "none";
-      }
+      if (bdg) { bdg.textContent = cnt; bdg.style.display = cnt > 0 ? "inline-flex" : "none"; }
     } catch (e) {}
   }
 
@@ -1427,10 +1492,7 @@
       var d = await r.json();
       var cnt = (d.data || []).length;
       var bdg = document.getElementById("leaveRequestBadge");
-      if (bdg) {
-        bdg.textContent = cnt;
-        bdg.style.display = cnt > 0 ? "inline-flex" : "none";
-      }
+      if (bdg) { bdg.textContent = cnt; bdg.style.display = cnt > 0 ? "inline-flex" : "none"; }
     } catch (e) {}
   }
 
@@ -1444,78 +1506,50 @@
       var mp = data.manpower || {};
       var iv = data.interview || {};
 
-      safeSet(
-        "mainPower",
-        (mp.officerCount || 0) +
-          " – " +
-          (mp.jcoCount || 0) +
-          " – " +
-          (mp.orCount || 0)
-      );
-      safeSet("attachment-count", data.attachment_count);
-      safeSet("duty-search-count", data.duty_count);
-      safeSet("totalCoursesDone", data.courses_count);
-      safeSet("interview-Count", iv.pending_count);
-      safeSet("total-count", iv.total_count);
-      safeSet("interview%", "Pending " + (iv.percentage || 0) + "%");
-      safeSet("locationCount", data.detachments);
-      safeSet("sensitive-count", data.sensitive_count);
-      safeSet("board-count", data.boards_count);
-      safeSet("active-loan-count", data.loan_count);
-      safeSet("get_projects_count", data.projects);
-      safeSet("center-roll-points", data.roll_call_pending_points);
-      safeSet("agniveer_count", data.agniveer_count);
-      safeSet("dues_in_count", data.dues_in);
-      safeSet("dues_out_count", data.dues_out);
+      safeSet("mainPower",           (mp.officerCount || 0) + " – " + (mp.jcoCount || 0) + " – " + (mp.orCount || 0));
+      safeSet("attachment-count",    data.attachment_count);
+      safeSet("duty-search-count",   data.duty_count);
+      safeSet("totalCoursesDone",    data.courses_count);
+      safeSet("interview-Count",     iv.pending_count);
+      safeSet("total-count",         iv.total_count);
+      safeSet("interview%",          "Pending " + (iv.percentage || 0) + "%");
+      safeSet("locationCount",       data.detachments);
+      safeSet("sensitive-count",     data.sensitive_count);
+      safeSet("board-count",         data.boards_count);
+      safeSet("active-loan-count",   data.loan_count);
+      safeSet("get_projects_count",  data.projects);
+      safeSet("center-roll-points",  data.roll_call_pending_points);
+      safeSet("agniveer_count",      data.agniveer_count);
+      safeSet("dues_in_count",       data.dues_in);
+      safeSet("dues_out_count",      data.dues_out);
 
-      await Promise.all([
-        loadRejected(),
-        loadLeaveRequests(),
-        loadEvents(),
-        loadBirthdays(),
-      ]);
+      await Promise.all([loadRejected(), loadLeaveRequests(), loadEvents()]);
 
-      /* All data ready — reveal UI */
       hidePageLoader();
       showActionBar();
       showStatsGrid();
-      /* Charts load after a tiny delay for visual delight */
-      setTimeout(function () {
-        showChartCards();
-      }, 120);
+      setTimeout(function () { showChartCards(); }, 120);
     } catch (e) {
       console.error("Dashboard load error:", e);
-      /* Still reveal on error so UI isn't stuck */
       hidePageLoader();
       showActionBar();
       showStatsGrid();
-      setTimeout(function () {
-        showChartCards();
-      }, 120);
+      setTimeout(function () { showChartCards(); }, 120);
     }
   }
 
   /* ---- Agniveer test modal ---- */
   document.addEventListener("DOMContentLoaded", function () {
-    var testModal = document.getElementById("testDetailsModal");
-    var modalBody = document.getElementById("testDetailsModalBody");
+    var testModal  = document.getElementById("testDetailsModal");
+    var modalBody  = document.getElementById("testDetailsModalBody");
 
     if (testModal && modalBody) {
       testModal.addEventListener("show.bs.modal", function () {
-        modalBody.innerHTML =
-          '<div class="text-center py-4"><div class="spinner-border text-primary"></div></div>';
+        modalBody.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary"></div></div>';
         fetch("/fill-up-test-details")
-          .then(function (r) {
-            return r.text();
-          })
-          .then(function (html) {
-            modalBody.innerHTML = html;
-            initFillUpTestForm();
-          })
-          .catch(function () {
-            modalBody.innerHTML =
-              "<p class='text-danger'>Failed to load form</p>";
-          });
+          .then(r => r.text())
+          .then(html => { modalBody.innerHTML = html; initFillUpTestForm(); })
+          .catch(() => { modalBody.innerHTML = "<p class='text-danger'>Failed to load form</p>"; });
       });
 
       function initFillUpTestForm() {
@@ -1532,26 +1566,10 @@
           var payload = {
             army_number: form.army_number.value,
             tests: [
-              {
-                test: "1st",
-                status: form.test1.value,
-                date: form.test1_date.value,
-              },
-              {
-                test: "2nd",
-                status: form.test2.value,
-                date: form.test2_date.value,
-              },
-              {
-                test: "3rd",
-                status: form.test3.value,
-                date: form.test3_date.value,
-              },
-              {
-                test: "4th",
-                status: form.test4.value,
-                date: form.test4_date.value,
-              },
+              { test:"1st", status:form.test1.value,  date:form.test1_date.value },
+              { test:"2nd", status:form.test2.value,  date:form.test2_date.value },
+              { test:"3rd", status:form.test3.value,  date:form.test3_date.value },
+              { test:"4th", status:form.test4.value,  date:form.test4_date.value },
             ],
           };
           fetch("/api/fill-up-test", {
@@ -1559,46 +1577,111 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
           })
-            .then(function (r) {
-              return r.json();
-            })
-            .then(function () {
-              alert("Test details saved");
-              bootstrap.Modal.getInstance(testModal).hide();
-              location.reload();
-            })
-            .catch(function () {
-              alert("Save failed");
-            });
+            .then(r => r.json())
+            .then(() => { alert("Test details saved"); bootstrap.Modal.getInstance(testModal).hide(); location.reload(); })
+            .catch(() => alert("Save failed"));
         });
       }
     }
 
-    /* Kick off everything */
     loadDashboard();
   });
 </script>
-
 <script>
-  /* ===== CHARTS ===== */
-  let rankChartInstance = null;
+  /* ===== AUTO CHART SLIDESHOW ===== */
+
+let currentChartSlide = 0;
+
+const slider = document.getElementById("chartsScrollInner");
+const cards  = document.querySelectorAll(".chart-row-card");
+const tabs   = document.querySelectorAll(".graph-tab");
+
+/* ===== UPDATE ACTIVE TAB ===== */
+
+function updateActiveTab(index) {
+
+  tabs.forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  const activeTab = document.querySelector(
+    `.graph-tab[data-index="${index}"]`
+  );
+
+  if (activeTab) {
+    activeTab.classList.add("active");
+  }
+}
+
+/* ===== CHANGE SLIDE ===== */
+
+function goToSlide(index) {
+
+  currentChartSlide = index;
+
+  slider.style.transform =
+    `translateX(-${currentChartSlide * 100}%)`;
+
+  updateActiveTab(index);
+}
+
+/* ===== AUTO ===== */
+
+function autoSlideCharts() {
+
+  currentChartSlide++;
+
+  if (currentChartSlide >= cards.length) {
+    currentChartSlide = 0;
+  }
+
+  goToSlide(currentChartSlide);
+}
+
+/* ===== TAB CLICK ===== */
+
+tabs.forEach(tab => {
+
+  tab.addEventListener("click", function () {
+
+    const index = Number(this.dataset.index);
+
+    goToSlide(index);
+  });
+
+});
+
+/* ===== INITIAL ===== */
+
+document.querySelectorAll(".chart-row-card").forEach(card => {
+  card.classList.add("visible");
+});
+
+updateActiveTab(0);
+
+/* ===== START AUTO ===== */
+
+setInterval(autoSlideCharts, 10000);
+</script>
+<script>
+  /* ===== CHARTS SCROLL LOGIC ===== */
+  
+  /* ===== CHART INSTANCES ===== */
+  let rankChartInstance      = null;
   let detachmentChartInstance = null;
-  let fitUnfitChartInstance = null;
+  let fitUnfitChartInstance  = null;
+  let unfitTrendChartInstance = null;
 
   async function loadRankChart(company = "ALL") {
     try {
-      const res = await fetch(
-        `/get_posted_strength?company=${encodeURIComponent(company)}`
-      );
+      const res    = await fetch(`/get_posted_strength?company=${encodeURIComponent(company)}`);
       const result = await res.json();
       if (result.status !== "success") return;
 
-      const data = result.data;
-      const labels = data.map((r) => r.rank);
-      const values = data.map((r) => r.count);
-
-      document.getElementById("rankTotalCount").textContent =
-        "Total: " + result.total;
+      const data   = result.data;
+      const labels = data.map(r => r.rank);
+      const values = data.map(r => r.count);
+      document.getElementById("rankTotalCount").textContent = "Total: " + result.total;
 
       const valueLabelPlugin = {
         id: "valueLabelPlugin",
@@ -1619,259 +1702,129 @@
 
       const ctx = document.getElementById("rankChart").getContext("2d");
       if (rankChartInstance) rankChartInstance.destroy();
-
       rankChartInstance = new Chart(ctx, {
         type: "bar",
         data: {
           labels,
-          datasets: [
-            {
-              data: values,
-              backgroundColor: "#2563eb",
-              borderColor: "#3b6fd8",
-              borderWidth: 1,
-              borderRadius: 6,
-            },
-          ],
+          datasets: [{ data: values, backgroundColor: "#2563eb", borderColor: "#3b6fd8", borderWidth: 1, borderRadius: 6 }],
         },
         plugins: [valueLabelPlugin],
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          animation: {
-            duration: 700,
-            easing: "easeOutQuart",
-          },
+          responsive: true, maintainAspectRatio: false,
+          animation: { duration: 700, easing: "easeOutQuart" },
           plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { precision: 0 } },
-          },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
         },
       });
-    } catch (err) {
-      console.error("Chart error:", err);
-    }
+    } catch (err) { console.error("Chart error:", err); }
   }
 
   async function loadDetachmentChart(company = "ALL") {
     try {
-      const res = await fetch(
-        `/get_detachment_stats_for_graph?company=${encodeURIComponent(company)}`
-      );
+      const res    = await fetch(`/get_detachment_stats_for_graph?company=${encodeURIComponent(company)}`);
       const result = await res.json();
       if (result.status !== "success") return;
 
-      const data = result.data;
-      const labels = data.map((r) => r.detachment);
-      const values = data.map((r) => r.count);
-
-      document.getElementById("detachmentTotal").textContent =
-        "Total: " + result.total;
+      const data   = result.data;
+      const labels = data.map(r => r.detachment);
+      const values = data.map(r => r.count);
+      document.getElementById("detachmentTotal").textContent = "Total: " + result.total;
 
       const ctx = document.getElementById("detachmentChart").getContext("2d");
       if (detachmentChartInstance) detachmentChartInstance.destroy();
-
       detachmentChartInstance = new Chart(ctx, {
         type: "doughnut",
         data: {
           labels,
-          datasets: [
-            {
-              data: values,
-              backgroundColor: [
-                "#2563eb",
-                "#dc2626",
-                "#16a34a",
-                "#f59e0b",
-                "#7c3aed",
-                "#db2777",
-                "#0891b2",
-                "#65a30d",
-                "#ea580c",
-                "#4f46e5",
-                "#0f766e",
-                "#be123c",
-                "#4338ca",
-                "#15803d",
-                "#b45309",
-                "#6d28d9",
-                "#1d4ed8",
-                "#c2410c",
-                "#0f172a",
-                "#a21caf",
-              ],
-              borderWidth: 2,
-              borderColor: "#fff",
-            },
-          ],
+          datasets: [{
+            data: values,
+            backgroundColor: [
+              "#2563eb","#dc2626","#16a34a","#f59e0b","#7c3aed",
+              "#db2777","#0891b2","#65a30d","#ea580c","#4f46e5",
+              "#0f766e","#be123c","#4338ca","#15803d","#b45309",
+              "#6d28d9","#1d4ed8","#c2410c","#0f172a","#a21caf",
+            ],
+            borderWidth: 2,
+            borderColor: "#fff",
+          }],
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          cutout: "65%",
-          animation: {
-            animateRotate: true,
-            duration: 800,
-            easing: "easeOutQuart",
-          },
+          responsive: true, maintainAspectRatio: false, cutout: "65%",
+          animation: { animateRotate: true, duration: 800, easing: "easeOutQuart" },
           plugins: {
             legend: {
               position: "left",
-              labels: {
-                boxWidth: 8,
-                padding: 8,
-                font: {
-                  size: 10
-                }
-              }
+              labels: { boxWidth: 8, padding: 8, font: { size: 10 } },
             },
           },
         },
       });
-    } catch (err) {
-      console.error("Donut chart error:", err);
-    }
+    } catch (err) { console.error("Donut chart error:", err); }
   }
-  let unfitTrendChartInstance = null;
 
   async function loadUnfitTrend(company = "All") {
     try {
-      const res = await fetch(
-        `/api/unfit_trend?company=${encodeURIComponent(company)}`
-      );
-
+      const res    = await fetch(`/api/unfit_trend?company=${encodeURIComponent(company)}`);
       const result = await res.json();
-
       if (result.status !== "success") return;
 
-      const data = result.data;
-
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-
-      const labels = data.map((d) => `${monthNames[d.month - 1]} ${d.year}`);
-
-      const values = data.map((d) => d.unfit_count);
+      const data       = result.data;
+      const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      const labels     = data.map(d => `${monthNames[d.month - 1]} ${d.year}`);
+      const values     = data.map(d => d.unfit_count);
 
       const ctx = document.getElementById("unfitTrendChart").getContext("2d");
-
-      if (unfitTrendChartInstance) {
-        unfitTrendChartInstance.destroy();
-      }
-
+      if (unfitTrendChartInstance) unfitTrendChartInstance.destroy();
       unfitTrendChartInstance = new Chart(ctx, {
         type: "line",
-
         data: {
-          labels: labels,
-
-          datasets: [
-            {
-              label: "UnFit Personnel",
-
-              data: values,
-
-              borderColor: "#dc2626",
-
-              backgroundColor: "rgba(220,38,38,0.12)",
-
-              fill: true,
-
-              tension: 0.4,
-
-              pointRadius: 4,
-
-              pointHoverRadius: 6,
-
-              pointBackgroundColor: "#dc2626",
-
-              borderWidth: 3,
-            },
-          ],
+          labels,
+          datasets: [{
+            label: "UnFit Personnel",
+            data: values,
+            borderColor: "#dc2626",
+            backgroundColor: "rgba(220,38,38,0.12)",
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: "#dc2626",
+            borderWidth: 3,
+          }],
         },
-
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-
-          animation: {
-            duration: 700,
-            easing: "easeOutQuart",
-          },
-
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-
-          scales: {
-            y: {
-              beginAtZero: true,
-
-              ticks: {
-                precision: 0,
-              },
-            },
-          },
+          responsive: true, maintainAspectRatio: false,
+          animation: { duration: 700, easing: "easeOutQuart" },
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
         },
       });
-    } catch (err) {
-      console.error("Trend chart error:", err);
-    }
+    } catch (err) { console.error("Trend chart error:", err); }
   }
 
-  // ================= FIT / UNFIT BAR =================
-
   async function loadFitUnfitChart(company = "All") {
-    if (company === "ALL") {
-      company = "All";
-    }
+    if (company === "ALL") company = "All";
     try {
-      const res = await fetch(
-        `/weight_system/api/summary?company=${encodeURIComponent(company)}`
-      );
-
+      const res    = await fetch(`/weight_system/api/summary?company=${encodeURIComponent(company)}`);
       const result = await res.json();
+      const fit    = result.Fit;
+      const unfit  = result.unFit;
 
-      const fit = result.Fit;
-      const unfit = result.unFit;
-
-      // Counts
-      document.getElementById("fitCount").textContent = fit;
+      document.getElementById("fitCount").textContent   = fit;
       document.getElementById("unfitCount").textContent = unfit;
 
-      // Plugin
       const valueLabelPlugin = {
         id: "valueLabelPlugin",
-
         afterDatasetsDraw(chart) {
           const { ctx } = chart;
-
           chart.data.datasets.forEach((dataset, i) => {
             chart.getDatasetMeta(i).data.forEach((bar, index) => {
               const value = dataset.data[index];
-
               ctx.save();
-
               ctx.font = "bold 12px sans-serif";
               ctx.fillStyle = "#000";
               ctx.textAlign = "center";
-
               ctx.fillText(value, bar.x, bar.y - 8);
-
               ctx.restore();
             });
           });
@@ -1879,65 +1832,29 @@
       };
 
       const ctx = document.getElementById("fitUnfitChart").getContext("2d");
-
-      if (fitUnfitChartInstance) {
-        fitUnfitChartInstance.destroy();
-      }
-
+      if (fitUnfitChartInstance) fitUnfitChartInstance.destroy();
       fitUnfitChartInstance = new Chart(ctx, {
         type: "bar",
-
         data: {
           labels: ["Fit", "UnFit"],
-
-          datasets: [
-            {
-              data: [fit, unfit],
-
-              backgroundColor: ["#2563eb", "#dc2626"],
-
-              borderColor: ["#3b6fd8", "#b91c1c"],
-
-              borderWidth: 1,
-
-              borderRadius: 8,
-
-              barThickness: 70,
-            },
-          ],
+          datasets: [{
+            data: [fit, unfit],
+            backgroundColor: ["#2563eb", "#dc2626"],
+            borderColor:     ["#3b6fd8", "#b91c1c"],
+            borderWidth: 1,
+            borderRadius: 8,
+            barThickness: 70,
+          }],
         },
-
         plugins: [valueLabelPlugin],
-
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-
-          animation: {
-            duration: 700,
-            easing: "easeOutQuart",
-          },
-
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-
-          scales: {
-            y: {
-              beginAtZero: true,
-
-              ticks: {
-                precision: 0,
-              },
-            },
-          },
+          responsive: true, maintainAspectRatio: false,
+          animation: { duration: 700, easing: "easeOutQuart" },
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
         },
       });
-    } catch (err) {
-      console.error("Fit/UnFit chart error:", err);
-    }
+    } catch (err) { console.error("Fit/UnFit chart error:", err); }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -1945,16 +1862,15 @@
     loadDetachmentChart("ALL");
     loadUnfitTrend("ALL");
     loadFitUnfitChart("All");
-    document
-      .getElementById("companyFilter")
-      .addEventListener("change", function () {
-        loadRankChart(this.value);
-        loadDetachmentChart(this.value);
-        loadUnfitTrend(this.value);
-        loadFitUnfitChart(this.value);
-      });
+
+    document.getElementById("companyFilter").addEventListener("change", function () {
+      loadRankChart(this.value);
+      loadDetachmentChart(this.value);
+      loadUnfitTrend(this.value);
+      loadFitUnfitChart(this.value);
+    });
   });
 </script>
 
-<script src="static/js/chat.js"></script>
+
 {% endblock %}

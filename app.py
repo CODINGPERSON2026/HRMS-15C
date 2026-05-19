@@ -31,7 +31,14 @@ app.register_blueprint(onco_leave_bp)
 app.register_blueprint(dues_bp)
 app.register_blueprint(sensitive_bp)
 
+@app.route("/history/15cesr")
+def history_15cesr():
+    return render_template("history/history_15cesr.html")
 
+
+@app.route("/history/15cor")
+def history_15cor():
+    return render_template("history/history_15corps.html")
 
 @app.route('/chat_bot')
 def chat_bot():

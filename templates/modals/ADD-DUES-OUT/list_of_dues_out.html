@@ -1,288 +1,760 @@
 <style>
-*{box-sizing:border-box}
-.dues-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden}
-.dues-header{padding:1rem 1.25rem;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.dues-header h5{font-size:15px;font-weight:600;margin:0;letter-spacing:.05em;color:#111}
-.badge-count{font-size:11px;background:#EFF6FF;color:#1D4ED8;padding:2px 10px;border-radius:20px;font-weight:500}
-.search-wrap{position:relative;width:260px}
-.search-wrap input{width:100%;padding:7px 12px 7px 32px;font-size:13px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;color:#111;outline:none}
-.search-wrap input:focus{border-color:#93C5FD;background:#fff}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#9ca3af}
-.dues-table{width:100%;border-collapse:collapse;font-size:13px}
-.dues-table thead tr{background:#f9fafb}
-.dues-table thead th{padding:10px 14px;font-weight:600;font-size:11px;color:#6B7280;text-align:left;border-bottom:1px solid #e5e7eb;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase;text-align: center;}
-.dues-table tbody tr{border-bottom:1px solid #f3f4f6;transition:background .12s}
-.dues-table tbody tr:last-child{border-bottom:none}
-.dues-table tbody tr:hover{background:#f9fafb}
-.dues-table tbody td{padding:10px 14px;color:#374151;vertical-align:middle;white-space:nowrap}
-.army-chip{font-weight:600;color:#1D4ED8;font-size:12px;background:#EFF6FF;padding:2px 9px;border-radius:20px;display:inline-block}
-.rank-pill{font-size:11px;background:#F3F4F6;border:1px solid #e5e7eb;color:#6B7280;padding:2px 8px;border-radius:20px}
-.name-cell{font-weight:600;color:#111}
-.posted-to{font-size:12px;color:#374151;font-weight:500}
-.remarks-text{font-size:12px;color:#9CA3AF}
-.del-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;font-size:12px;font-weight:500;color:#B91C1C;background:#FEF2F2;border:1px solid #FECACA;border-radius:7px;cursor:pointer;transition:all .15s}
-.del-btn:hover{background:#FEE2E2;border-color:#FCA5A5}
-.empty-cell{text-align:center;padding:2.5rem;color:#9CA3AF;font-size:13px}
-.spinner-sm{width:22px;height:22px;border:2px solid #e5e7eb;border-top-color:#3B82F6;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* Confirm Overlay */
-.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:1070;opacity:0;pointer-events:none;transition:opacity .18s}
-.confirm-overlay.show{opacity:1;pointer-events:all}
-.confirm-modal{background:#fff;border-radius:14px;width:360px;max-width:92vw;overflow:hidden;transform:scale(.96) translateY(10px);transition:transform .2s}
-.confirm-overlay.show .confirm-modal{transform:scale(1) translateY(0)}
-.confirm-modal-top{padding:1.1rem 1.25rem .8rem;border-bottom:1px solid #F3F4F6;display:flex;align-items:center;gap:10px}
-.warn-circle{width:34px;height:34px;border-radius:50%;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.confirm-modal-top h6{font-size:14px;font-weight:600;margin:0;color:#111}
-.confirm-modal-top small{color:#6B7280;font-size:12px}
-.confirm-modal-body{padding:1rem 1.25rem}
-.person-preview{background:#F9FAFB;border-radius:9px;padding:.75rem 1rem;display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb}
-.p-avatar{width:36px;height:36px;border-radius:50%;background:#EFF6FF;color:#1D4ED8;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
-.p-name{font-size:14px;font-weight:600;color:#111}
-.p-army{font-size:12px;color:#6B7280;margin-top:2px}
-.confirm-modal-footer{padding:.75rem 1.25rem 1.25rem;display:flex;gap:8px;justify-content:flex-end}
-.btn-cancel-sm{padding:7px 16px;font-size:13px;border:1px solid #e5e7eb;border-radius:8px;background:transparent;color:#374151;cursor:pointer}
-.btn-cancel-sm:hover{background:#F3F4F6}
-.btn-remove{padding:7px 16px;font-size:13px;font-weight:600;border:none;border-radius:8px;background:#DC2626;color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .15s}
-.btn-remove:hover:not(:disabled){background:#B91C1C}
-.btn-remove:disabled{opacity:.65;cursor:not-allowed}
-
-/* Toast */
-.dues-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(16px);background:#fff;border:1px solid #e5e7eb;border-radius:9px;padding:.55rem 1rem;font-size:13px;display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:all .22s;z-index:1080;white-space:nowrap}
-.dues-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast-dot{width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0}
-</style>
-
-
-<!-- ===== DUES OUT MODAL ===== -->
-<div class="modal fade" id="duesOutListModal" tabindex="-1">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content border-0 shadow-sm" style="border-radius:14px;overflow:hidden">
-
-      <div class="modal-header border-0 pb-0 px-4 pt-4">
-        <div class="d-flex align-items-center gap-2">
-          <h5 class="modal-title fw-bold mb-0" style="font-size:15px">Dues out details</h5>
-          <span class="badge-count" id="duesOutCount">0 records</span>
-        </div>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body px-4 pt-3 pb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-          <div class="search-wrap">
-            <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="6.5" cy="6.5" r="4.5"/><path d="M10.5 10.5l3 3"/>
-            </svg>
-            <input type="text" id="duesOutSearch" placeholder="Search army no or name…">
+  /* =========================================================
+     MODAL SIZE + POSITION
+  ========================================================= */
+  #duesOutListModal .custom-size{
+    max-width:97% !important;
+    width:97% !important;
+  }
+  
+  #duesOutListModal .modal-dialog{
+    margin-top:1px;
+  }
+  
+  #duesOutListModal .modal-content{
+    border:none;
+    border-radius:.8rem;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,.28);
+    animation:duesModalSlideUp .25s ease;
+  }
+  
+  @keyframes duesModalSlideUp{
+    from{
+      opacity:0;
+      transform:translateY(10px);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
+  
+  /* =========================================================
+     MODAL BODY
+  ========================================================= */
+  #duesOutListModal .modal-body{
+    overflow:auto;
+  }
+  
+  /* =========================================================
+     HEADER
+  ========================================================= */
+  #duesOutListModal .modal-header{
+    border-bottom:1px solid #eef1f5;
+  }
+  
+  #duesOutListModal .modal-title{
+    font-size:1rem;
+    font-weight:700;
+    color:#212529;
+  }
+  
+  /* =========================================================
+     SEARCH
+  ========================================================= */
+  #duesOutListModal .duesSearchWrap{
+    position:relative;
+    width:230px;
+  }
+  
+  #duesOutListModal .duesSearchWrap input{
+    width:100%;
+    padding:7px 12px 7px 34px;
+    border:1px solid #dfe3e8;
+    border-radius:8px;
+    font-size:.83rem;
+    background:#fff;
+    outline:none;
+    transition:.18s ease;
+  }
+  
+  #duesOutListModal .duesSearchWrap input:focus{
+    border-color:#86b7fe;
+    box-shadow:0 0 0 .15rem rgba(13,110,253,.12);
+  }
+  
+  #duesOutListModal .duesSearchIcon{
+    position:absolute;
+    left:11px;
+    top:50%;
+    transform:translateY(-50%);
+    width:14px;
+    height:14px;
+    color:#9ca3af;
+  }
+  
+  /* =========================================================
+     COUNT BADGE
+  ========================================================= */
+  #duesOutListModal .duesCountWrap{
+    background:#eef4ff;
+    border:1px solid #d6e4ff;
+  }
+  
+  #duesOutListModal .duesCountLabel{
+    color:#315ca8;
+    font-size:.8rem;
+    font-weight:600;
+  }
+  
+  #duesOutListModal .duesCountBadge{
+    font-size:.78rem;
+    padding:5px 10px;
+    border-radius:20px;
+  }
+  
+  /* =========================================================
+     TABLE WRAPPER
+  ========================================================= */
+  #duesOutListModal .duesTableWrapper{
+    overflow-x:auto;
+    width:100%;
+  }
+  
+  /* =========================================================
+     TABLE
+  ========================================================= */
+  #duesOutListModal #duesOutTable{
+    table-layout:fixed;
+    width:100%;
+    min-width:1300px;
+  }
+  
+  #duesOutListModal #duesOutTable th,
+  #duesOutListModal #duesOutTable td{
+    overflow:hidden;
+    vertical-align:middle;
+    font-size:.84rem;
+    padding:.58rem .65rem;
+  }
+  
+  #duesOutListModal #duesOutTable th{
+    white-space:nowrap;
+    font-weight:600;
+  }
+  
+  /* =========================================================
+     CELL SCROLL
+  ========================================================= */
+  #duesOutListModal .duesCellScroll{
+    width:100%;
+    overflow-x:auto;
+    white-space:nowrap;
+    scrollbar-width:thin;
+  }
+  
+  #duesOutListModal .duesCellScroll::-webkit-scrollbar{
+    height:4px;
+  }
+  
+  #duesOutListModal .duesCellScroll::-webkit-scrollbar-thumb{
+    background:#c7c7c7;
+    border-radius:20px;
+  }
+  
+  /* =========================================================
+     BADGES
+  ========================================================= */
+  #duesOutListModal .army-chip{
+    display:inline-block;
+    background:#eef4ff;
+    color:#0d6efd;
+    border:1px solid #d7e5ff;
+    border-radius:6px;
+    padding:2px 8px;
+    font-size:.74rem;
+    font-weight:700;
+    white-space:nowrap;
+  }
+  
+  #duesOutListModal .rank-pill{
+    display:inline-block;
+    background:#fff3cd;
+    color:#856404;
+    border:1px solid #ffe69c;
+    border-radius:6px;
+    padding:2px 8px;
+    font-size:.74rem;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  
+  /* =========================================================
+     NAME CELL
+  ========================================================= */
+  #duesOutListModal .name-cell{
+    font-weight:600;
+    color:#212529;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:0;
+  }
+  
+  /* =========================================================
+     REMARKS
+  ========================================================= */
+  #duesOutListModal .remarks-text{
+    color:#6c757d;
+  }
+  
+  /* =========================================================
+     REMOVE BUTTON
+  ========================================================= */
+  #duesOutListModal .del-btn{
+    border:none;
+    background:#fff1f2;
+    color:#dc3545;
+    border:1px solid #ffc9cf;
+    border-radius:8px;
+    padding:5px 10px;
+    font-size:.76rem;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:.18s ease;
+  }
+  
+  #duesOutListModal .del-btn:hover{
+    background:#ffe5e8;
+  }
+  
+  /* =========================================================
+     LOADER
+  ========================================================= */
+  #duesOutListModal .spinner-sm{
+    width:24px;
+    height:24px;
+    border:3px solid #dbe7ff;
+    border-top-color:#0d6efd;
+    border-radius:50%;
+    display:inline-block;
+    animation:duesSpin .7s linear infinite;
+  }
+  
+  @keyframes duesSpin{
+    to{
+      transform:rotate(360deg);
+    }
+  }
+  
+  /* =========================================================
+     EMPTY STATE
+  ========================================================= */
+  #duesOutListModal .empty-cell{
+    text-align:center;
+    padding:2.5rem;
+    color:#6c757d;
+    font-weight:500;
+  }
+  
+  /* =========================================================
+     RESPONSIVE
+  ========================================================= */
+  @media(max-width:768px){
+  
+    #duesOutListModal .custom-size{
+      max-width:100% !important;
+      width:100% !important;
+      margin:0;
+    }
+  
+    #duesOutListModal .modal-content{
+      border-radius:0;
+    }
+  
+    #duesOutListModal .duesSearchWrap{
+      width:100%;
+    }
+  
+    #duesOutListModal .modal-header .d-flex{
+      width:100%;
+    }
+  
+  }
+  </style>
+  
+  
+  <!-- =====================================================
+       DUES OUT MODAL
+  ===================================================== -->
+  <div class="modal fade" id="duesOutListModal" tabindex="-1">
+  
+    <div class="modal-dialog modal-xl custom-size">
+  
+      <div class="modal-content">
+  
+        <!-- ================= HEADER ================= -->
+  
+        <div class="modal-header">
+  
+          <div class="d-flex align-items-center gap-3 flex-wrap w-100">
+  
+            <!-- TITLE -->
+  
+            <div class="d-flex align-items-center gap-2">
+  
+              <h5 class="modal-title mb-0">
+                Dues Out Details
+              </h5>
+  
+            </div>
+  
+            <!-- SEARCH -->
+  
+            <div class="duesSearchWrap">
+  
+              <svg
+                class="duesSearchIcon"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5">
+  
+                <circle cx="6.5" cy="6.5" r="4.5"/>
+                <path d="M10.5 10.5l3 3"/>
+  
+              </svg>
+  
+              <input
+                type="text"
+                id="duesOutSearch"
+                placeholder="Search army no or name">
+  
+            </div>
+  
+            <!-- COUNT -->
+  
+            <div
+              class="d-flex align-items-center gap-2 px-3 py-1 rounded-3 duesCountWrap">
+  
+              <span class="duesCountLabel">
+                Total Count
+              </span>
+  
+              <span
+                id="duesOutCount"
+                class="badge rounded-pill bg-primary duesCountBadge">
+  
+                0
+  
+              </span>
+  
+            </div>
+  
           </div>
+  
+          <!-- CLOSE -->
+  
+          <button
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+  
         </div>
-
-        <!-- Loader -->
-        <div id="duesOutLoader" class="text-center py-4">
-          <span class="spinner-sm"></span>
-        </div>
-
-        <!-- Table Card -->
-        <div class="dues-card d-none" id="duesOutTableWrap">
-          <div class="table-responsive">
-            <table class="dues-table" id="duesOutTable">
-              <thead>
+  
+        <!-- ================= BODY ================= -->
+  
+        <div class="modal-body">
+  
+          <!-- ================= LOADER ================= -->
+  
+          <div
+            id="duesOutLoader"
+            class="text-center py-5">
+  
+            <span class="spinner-sm"></span>
+  
+            <div class="mt-2 text-muted">
+              Fetching data...
+            </div>
+  
+          </div>
+  
+          <!-- ================= TABLE ================= -->
+  
+          <div class="duesTableWrapper">
+  
+            <table
+              id="duesOutTable"
+              class="table table-bordered table-hover align-middle d-none">
+  
+              <thead class="table-light">
+  
                 <tr>
+  
                   <th>Action</th>
-                  <th>Army no</th>
+                  <th>Army No</th>
                   <th>Rank</th>
                   <th>Name</th>
                   <th>Trade</th>
-                  <th>Posted to</th>
-                  <th>Dt of move</th>
-                  <th>Order no</th>
+                  <th>Posted To</th>
+                  <th>Dt of Move</th>
+                  <th>Order No</th>
                   <th>Remarks</th>
+  
                 </tr>
+  
               </thead>
+  
               <tbody id="duesOutTableBody"></tbody>
+  
             </table>
+  
           </div>
+  
         </div>
-
+  
       </div>
+  
     </div>
+  
   </div>
-</div>
-
-
-<!-- ===== CONFIRM DELETE OVERLAY ===== -->
-<div class="confirm-overlay" id="duesOutConfirmOverlay">
-  <div class="confirm-modal">
-    <div class="confirm-modal-top">
-      <div class="warn-circle">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 2L14 13H2L8 2Z" stroke="#DC2626" stroke-width="1.5" stroke-linejoin="round"/>
-          <path d="M8 6.5v3" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="8" cy="11.5" r=".75" fill="#DC2626"/>
-        </svg>
-      </div>
-      <div>
-        <h6>Remove from dues out</h6>
-        <small>This action cannot be undone</small>
-      </div>
-    </div>
-    <div class="confirm-modal-body">
-      <div class="person-preview">
-        <div class="p-avatar" id="duesOutConfirmAvatar">—</div>
-        <div>
-          <div class="p-name" id="duesOutConfirmName">—</div>
-          <div class="p-army" id="duesOutConfirmArmy">—</div>
-        </div>
-      </div>
-    </div>
-    <div class="confirm-modal-footer">
-      <button class="btn-cancel-sm" id="duesOutCancelBtn">Cancel</button>
-      <button class="btn-remove" id="duesOutConfirmDeleteBtn">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M3 4h10M6 4V2h4v2M5 4l.5 9h5l.5-9"/>
-        </svg>
-        <span id="duesOutDeleteLabel">Remove</span>
-        <span id="duesOutDeleteSpinner" class="spinner-sm d-none"
-              style="width:13px;height:13px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff"></span>
-      </button>
-    </div>
-  </div>
-</div>
-
-
-<!-- ===== TOAST ===== -->
-<div class="dues-toast" id="duesOutToast">
-  <span class="toast-dot"></span>
-  <span>Record removed successfully</span>
-</div>
-
-
-<script>
-let duesOutData = [];
-let duesOutDeleteId = null;
-
-function duesOutInitials(name){
-  const p = (name||'').split(' ');
-  return (p[0]?.[0]||'') + (p[1]?.[0]||'');
-}
-
-function formatDuesOutDate(d){
-  if(!d) return '—';
-  return new Date(d).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
-}
-
-function updateDuesOutCount(n){
-  document.getElementById('duesOutCount').textContent = n + ' record' + (n === 1 ? '' : 's');
-}
-
-// ── Fetch on modal open ──────────────────────────────────────────
-document.getElementById('duesOutListModal').addEventListener('show.bs.modal', async () => {
-  document.getElementById('duesOutLoader').style.display = 'block';
-  document.getElementById('duesOutTableWrap').classList.add('d-none');
-
-  try {
-    const res = await fetch('/dues/dues-out/list');
-    const result = await res.json();
-    if(result.success){ duesOutData = result.data; renderDuesOutTable(duesOutData); }
-  } catch(e){ console.error(e); }
-});
-
-// ── Render ───────────────────────────────────────────────────────
-function renderDuesOutTable(data){
-  const tbody = document.getElementById('duesOutTableBody');
-  tbody.innerHTML = '';
-  updateDuesOutCount(data.length);
-
-  if(!data.length){
-    tbody.innerHTML = `<tr><td colspan="9" class="empty-cell">No records found</td></tr>`;
-  } else {
-    data.forEach(r => {
-      tbody.innerHTML += `
-        <tr id="duesout-row-${r.id}">
-          <td>
-            <button class="del-btn"
-              onclick="openDuesOutDelete(${r.id},'${(r.name||'').replace(/'/g,"\\'")}','${r.army_number||''}')">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M3 4h10M6 4V2h4v2M5 4l.5 9h5l.5-9"/>
-              </svg>
-              Remove
-            </button>
-          </td>
-          <td><span class="army-chip">${r.army_number||''}</span></td>
-          <td><span class="rank-pill">${r.rank||''}</span></td>
-          <td class="name-cell">${r.name||''}</td>
-          <td>${r.trade||'—'}</td>
-          <td class="posted-to">${r.posted_to||'—'}</td>
-          <td>${formatDuesOutDate(r.date_of_move)}</td>
-          <td>${r.posting_order_no||'—'}</td>
-          <td class="remarks-text">${r.remarks||'—'}</td>
-        </tr>`;
-    });
+  
+  
+  <script>
+  let duesOutData = [];
+  
+  /* =====================================================
+     DATE FORMAT
+  ===================================================== */
+  function formatDuesOutDate(date){
+  
+    if(!date) return "—";
+  
+    return new Date(date).toLocaleDateString(
+      "en-GB",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      }
+    );
+  
   }
-
-  document.getElementById('duesOutLoader').style.display = 'none';
-  document.getElementById('duesOutTableWrap').classList.remove('d-none');
-}
-
-// ── Open confirm overlay ─────────────────────────────────────────
-function openDuesOutDelete(id, name, army){
-  duesOutDeleteId = id;
-  document.getElementById('duesOutConfirmAvatar').textContent = duesOutInitials(name);
-  document.getElementById('duesOutConfirmName').textContent = name;
-  document.getElementById('duesOutConfirmArmy').textContent = army;
-  document.getElementById('duesOutConfirmOverlay').classList.add('show');
-}
-
-// ── Cancel ───────────────────────────────────────────────────────
-document.getElementById('duesOutCancelBtn').addEventListener('click', () => {
-  document.getElementById('duesOutConfirmOverlay').classList.remove('show');
-  duesOutDeleteId = null;
-});
-document.getElementById('duesOutConfirmOverlay').addEventListener('click', function(e){
-  if(e.target === this){ this.classList.remove('show'); duesOutDeleteId = null; }
-});
-
-// ── Confirm Delete ───────────────────────────────────────────────
-document.getElementById('duesOutConfirmDeleteBtn').addEventListener('click', async function(){
-  if(!duesOutDeleteId) return;
-
-  this.disabled = true;
-  document.getElementById('duesOutDeleteLabel').style.display = 'none';
-  document.getElementById('duesOutDeleteSpinner').classList.remove('d-none');
-
-  try {
-    const res = await fetch(`/dues/dues-out/delete/${duesOutDeleteId}`, { method: 'DELETE' });
-    const result = await res.json();
-
-    if(result.success){
-      duesOutData = duesOutData.filter(r => r.id !== duesOutDeleteId);
-      const row = document.getElementById('duesout-row-' + duesOutDeleteId);
-      if(row){ row.style.opacity = '0'; row.style.transition = 'opacity .2s'; setTimeout(() => row.remove(), 200); }
-      updateDuesOutCount(duesOutData.length);
-      document.getElementById('duesOutConfirmOverlay').classList.remove('show');
-      const t = document.getElementById('duesOutToast');
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    } else {
-      alert(result.message || 'Delete failed');
+  
+  /* =====================================================
+     OPEN MODAL
+  ===================================================== */
+  document
+    .getElementById("duesOutListModal")
+    .addEventListener(
+      "show.bs.modal",
+      async function(){
+  
+        await loadDuesOutData();
+  
+      }
+    );
+  
+  /* =====================================================
+     LOAD DATA
+  ===================================================== */
+  async function loadDuesOutData(){
+  
+    const loader =
+      document.getElementById("duesOutLoader");
+  
+    const table =
+      document.getElementById("duesOutTable");
+  
+    const tbody =
+      document.getElementById("duesOutTableBody");
+  
+    loader.classList.remove("d-none");
+  
+    table.classList.add("d-none");
+  
+    tbody.innerHTML = "";
+  
+    try{
+  
+      const response =
+        await fetch("/dues/dues-out/list");
+  
+      const result =
+        await response.json();
+  
+      if(!result.success){
+        throw new Error("Failed");
+      }
+  
+      duesOutData = result.data || [];
+  
+      renderDuesOutTable(duesOutData);
+  
     }
-  } catch(e){
-    console.error(e);
-    alert('Something went wrong');
-  } finally {
-    this.disabled = false;
-    document.getElementById('duesOutDeleteLabel').style.display = '';
-    document.getElementById('duesOutDeleteSpinner').classList.add('d-none');
-    duesOutDeleteId = null;
+    catch(error){
+  
+      console.error(error);
+  
+      loader.innerHTML = `
+        <p class="text-danger fw-bold mt-3">
+          Failed to load data
+        </p>
+      `;
+  
+    }
+  
   }
-});
-
-// ── Search ───────────────────────────────────────────────────────
-document.getElementById('duesOutSearch').addEventListener('keyup', function(){
-  const v = this.value.toLowerCase();
-  renderDuesOutTable(v ? duesOutData.filter(r =>
-    (r.army_number||'').toLowerCase().includes(v) ||
-    (r.name||'').toLowerCase().includes(v)
-  ) : duesOutData);
-});
-</script>
+  
+  /* =====================================================
+     RENDER TABLE
+  ===================================================== */
+  function renderDuesOutTable(data){
+  
+    const tbody =
+      document.getElementById("duesOutTableBody");
+  
+    const loader =
+      document.getElementById("duesOutLoader");
+  
+    const table =
+      document.getElementById("duesOutTable");
+  
+    const count =
+      document.getElementById("duesOutCount");
+  
+    tbody.innerHTML = "";
+  
+    count.textContent = data.length;
+  
+    if(data.length === 0){
+  
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="9" class="empty-cell">
+            No records found
+          </td>
+        </tr>
+      `;
+  
+    }
+    else{
+  
+      data.forEach(row => {
+  
+        tbody.insertAdjacentHTML(
+          "beforeend",
+          `
+  
+          <tr id="dues-row-${row.id}">
+  
+            <td>
+  
+              <button
+                class="del-btn duesDeleteBtn"
+                data-id="${row.id}">
+  
+                <i class="fas fa-trash"></i>
+  
+                Remove
+  
+              </button>
+  
+            </td>
+  
+            <td>
+  
+              <div class="duesCellScroll">
+  
+                <span class="army-chip">
+                  ${row.army_number || ""}
+                </span>
+  
+              </div>
+  
+            </td>
+  
+            <td>
+  
+              <div class="duesCellScroll">
+  
+                <span class="rank-pill">
+                  ${row.rank || ""}
+                </span>
+  
+              </div>
+  
+            </td>
+  
+            <td class="name-cell">
+              ${(row.name || "")
+                .toLowerCase()
+                .replace(/\b\w/g,c=>c.toUpperCase())}
+            </td>
+  
+            <td>
+  
+              <div class="duesCellScroll">
+                ${row.trade || "—"}
+              </div>
+  
+            </td>
+  
+            <td>
+  
+              <div class="duesCellScroll">
+                ${(row.posted_to || "")
+                  .toLowerCase()
+                  .replace(/\b\w/g,c=>c.toUpperCase())}
+              </div>
+  
+            </td>
+  
+            <td>
+  
+              <div class="duesCellScroll">
+                ${formatDuesOutDate(row.date_of_move)}
+              </div>
+  
+            </td>
+  
+            <td>
+  
+              <div class="duesCellScroll">
+                ${row.posting_order_no || "—"}
+              </div>
+  
+            </td>
+  
+            <td class="remarks-text">
+  
+              <div class="duesCellScroll">
+                ${row.remarks || "—"}
+              </div>
+  
+            </td>
+  
+          </tr>
+  
+          `
+        );
+  
+      });
+  
+    }
+  
+    loader.classList.add("d-none");
+  
+    table.classList.remove("d-none");
+  
+    /* ================= DELETE ================= */
+  
+    document
+      .querySelectorAll(".duesDeleteBtn")
+      .forEach(btn => {
+  
+        btn.addEventListener(
+          "click",
+          async function(){
+  
+            const id =
+              this.dataset.id;
+  
+            if(
+              !confirm(
+                "Are you sure you want to remove this record?"
+              )
+            ){
+              return;
+            }
+  
+            try{
+  
+              const response =
+                await fetch(
+                  `/dues/dues-out/delete/${id}`,
+                  {
+                    method:"DELETE"
+                  }
+                );
+  
+              const result =
+                await response.json();
+  
+              if(result.success){
+  
+                duesOutData =
+                  duesOutData.filter(
+                    r => String(r.id) !== String(id)
+                  );
+  
+                renderDuesOutTable(duesOutData);
+  
+                showStatusModal(
+                  "Removed successfully",
+                  "Red",
+                  2500
+                );
+  
+              }
+              else{
+  
+                alert(
+                  result.message ||
+                  "Delete failed"
+                );
+  
+              }
+  
+            }
+            catch(error){
+  
+              console.error(error);
+  
+              alert(
+                "Something went wrong"
+              );
+  
+            }
+  
+          }
+        );
+  
+      });
+  
+  }
+  
+  /* =====================================================
+     SEARCH
+  ===================================================== */
+  document
+    .getElementById("duesOutSearch")
+    .addEventListener(
+      "keyup",
+      function(){
+  
+        const value =
+          this.value.toLowerCase();
+  
+        if(!value){
+  
+          renderDuesOutTable(duesOutData);
+  
+          return;
+  
+        }
+  
+        const filtered =
+          duesOutData.filter(row =>
+  
+            (row.army_number || "")
+              .toLowerCase()
+              .includes(value)
+  
+            ||
+  
+            (row.name || "")
+              .toLowerCase()
+              .includes(value)
+  
+          );
+  
+        renderDuesOutTable(filtered);
+  
+      }
+    );
+  </script>

@@ -64,6 +64,11 @@
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     }
 
+    .page-title p {
+        margin: 0.5rem 0 0 0;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.95);
+    }
     /* ================= DIGITAL CLOCK ================= */
 
     .digital-clock {
@@ -151,42 +156,34 @@
 
 <div class="page-title">
 
-    <img src="/static/image_for_login_page/rt.jpg"
-         class="org-logo"
-         alt="Left Logo">
+    <!-- LEFT LOGO -->
+    <a href="{{ url_for('history_15cesr') }}" class="logo-link">
+        <img src="/static/image_for_login_page/rt.jpg"
+             class="org-logo"
+             alt="15 CESR Logo">
+    </a>
 
     <div class="title-section">
 
         <h3 class="fw-bold">{{ header }}</h3>
+        <p id="para">{{ subscript }}</p>
 
         <!-- REAL TIME DIGITAL CLOCK -->
-        <div class="digital-clock" id="digitalClock">
+        <!-- <div class="digital-clock" id="digitalClock">
             00:00:00
-        </div>
+        </div> -->
 
     </div>
 
-    <img src="/static/image_for_login_page/chinar.jpg"
-         class="org-logo"
-         alt="Right Logo">
+    <!-- RIGHT LOGO -->
+    <a href="{{ url_for('history_15cor') }}" class="logo-link">
+        <img src="/static/image_for_login_page/chinar.jpg"
+             class="org-logo"
+             alt="15 COR Logo">
+    </a>
 
 </div>
 
 <script>
-    function updateClock() {
-
-        const now = new Date();
-
-        let hours = now.getHours().toString().padStart(2, '0');
-        let minutes = now.getMinutes().toString().padStart(2, '0');
-        let seconds = now.getSeconds().toString().padStart(2, '0');
-
-        const timeString = `${hours}:${minutes}:${seconds}`;
-
-        document.getElementById("digitalClock").innerText = timeString;
-    }
-
-    updateClock();
-
-    setInterval(updateClock, 1000);
+    
 </script>
