@@ -5625,6 +5625,266 @@ def unfit_trend():
     return jsonify({
         "status": "success",
         "data": rows})
+@app.route('/api/honours-board', methods=['GET'])
+def get_honours_board():
 
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    query = """
+        SELECT
+            hb.id,
+            hb.army_number,
+            hb.image,
+            hb.medal_icon,
+            hb.comments,
+            hb.commendation,
+            hb.appreciation_type,
+            DATE_FORMAT(
+    hb.appreciation_date,
+    '%d %b %Y'
+) AS appreciation_date,
+
+            p.name,
+            p.`rank`,
+            p.company
+
+        FROM honours_board hb
+
+        JOIN personnel p
+            ON hb.army_number = p.army_number
+
+        ORDER BY hb.appreciation_date DESC
+    """
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "data": data
+    })
+
+@app.route('/api/add-honours-board', methods=['POST'])
+def add_honours_board():
+
+    try:
+
+        army_number = request.form.get('army_number')
+        medal_icon = request.form.get('medal_icon')
+        comments = request.form.get('comments')
+        commendation = request.form.get('commendation')
+        appreciation_type = request.form.get('appreciation_type')
+        appreciation_date = request.form.get('appreciation_date')
+
+        image_path = None
+
+        # =====================================================
+        # IMAGE UPLOAD
+        # =====================================================
+
+        if 'image' in request.files:
+
+            image = request.files['image']
+
+            if image.filename != '':
+
+                filename = secure_filename(image.filename)
+
+                upload_folder = os.path.join(
+                    app.root_path,
+                    'static',
+                    'honours'
+                )
+
+                os.makedirs(upload_folder, exist_ok=True)
+
+                save_path = os.path.join(
+                    upload_folder,
+                    filename
+                )
+
+                image.save(save_path)
+
+                image_path = f"/static/honours/{filename}"
+
+        # =====================================================
+        # DATABASE
+        # ============;=========================================
+
+        conn = get_db_connection()
+
+        cursor = conn.cursor()
+
+        query = """
+            INSERT INTO honours_board
+            (
+                army_number,
+                image,
+                medal_icon,
+                comments,
+                commendation,
+                appreciation_type,
+                appreciation_date
+            )
+            VALUES
+            (
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s
+            )
+        """
+
+        values = (
+            army_number,
+            image_path,
+            medal_icon,
+            comments,
+            commendation,
+            appreciation_type,
+            appreciation_date
+        )
+
+        cursor.execute(query, values)
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Honours entry added successfully."
+        })
+
+    except Exception as e:
+
+        print(e)
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+@app.route('/hb/search_person', methods=['GET'])
+def search_person_hb():
+
+    try:
+
+        q = request.args.get('q', '').strip()
+
+        if len(q) < 2:
+            return jsonify({"results": []})
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = """
+            SELECT
+                army_number,
+                name,
+                `rank`,
+                company
+            FROM personnel
+            WHERE name LIKE %s
+            ORDER BY name ASC
+            LIMIT 10
+        """
+
+        cursor.execute(query, (f'%{q}%',))
+
+        rows = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        results = [
+            {
+                "army_number" : row[0],
+                "name"        : row[1],
+                "rank"        : row[2] or "",
+                "company"     : row[3] or "",
+            }
+            for row in rows
+        ]
+
+        return jsonify({"results": results})
+
+    except Exception as e:
+
+        print(e)
+
+        return jsonify({
+            "success" : False,
+            "message" : str(e)
+        }), 500
+@app.route('/hb/get_calendar_events', methods=['GET'])
+def get_calendar_events():
+
+    try:
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = """
+            SELECT
+                id,
+                event_name,
+                event_date,
+                venue,
+                company
+            FROM daily_events
+            WHERE event_date >= CURDATE()
+            ORDER BY event_date ASC
+        """
+
+        cursor.execute(query)
+
+        rows = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        events = []
+
+        for row in rows:
+
+            events.append({
+
+                "id"    : row[0],
+
+                "title" : row[1],
+
+                "start" : row[2].strftime('%Y-%m-%d'),
+
+                "color" : "green",
+
+                "extendedProps": {
+
+                    "venue"   : row[3] or "",
+
+                    "company" : row[4] or ""
+
+                }
+
+            })
+
+        return jsonify(events)
+
+    except Exception as e:
+
+        print(e)
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
 if __name__ == '__main__':
     app.run(port=4000,debug=True)

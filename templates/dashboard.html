@@ -386,7 +386,7 @@
     <!-- ===== ACTION BAR ===== -->
     <div class="action-bar" id="actionBar">
 
-      <button class="ab-toggle" id="toggleGrid" title="Toggle cards">&#8964;</button>
+      
 
       {%if role in ['O2']%}
       <button class="ab-btn ab-primary" data-bs-toggle="modal" data-bs-target="#add_dues_in">
@@ -464,6 +464,18 @@
       <a href="/onco/manage_leave" class="ab-btn ab-amber">
         <i class="fas fa-calendar-times" style="font-size:11px"></i> MANAGE LEAVE
       </a>
+      <button
+  type="button"
+  class="ab-btn ab-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#addHonoursModal"
+>
+  <span class="ahb-icon">🏅</span>
+
+  <span class="ahb-text">
+    Add Honour Entry
+  </span>
+</button>
       {% endif %}
 
       <div class="ab-spacer"></div>
@@ -703,6 +715,8 @@
 
     {% if role in ['O CENTRE NCO','ONCO'] %}
       {% include 'modals/parade_data/index.html' %}
+      {% include 'modals/add_honours_entry/h_entry.html' %}
+
     {% endif %}
 
     {% if role == 'CO' %}

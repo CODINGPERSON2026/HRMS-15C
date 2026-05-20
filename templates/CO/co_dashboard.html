@@ -1045,7 +1045,23 @@ body {
 
     <!-- ===== ACTION BAR ===== -->
     <div class="action-bar" id="actionBar">
-      
+
+
+      <button class="ab-btn ab-primary" id="openCalendar">
+        <i class="fa fa-calendar"></i>UPCOMING EVENTS
+    </button>
+      <button
+      class="ab-btn ab-primary honours-board-btn"
+      id="openBoard"
+      type="button"
+      onclick="openHonoursBoard()"
+    >
+      <span class="honours-icon">🏆</span>
+    
+      <span class="honours-text">
+        HONOURS BOARD
+      </span>
+    </button>
 
       <button class="ab-btn ab-danger" data-bs-toggle="modal" data-bs-target="#coRejectedModal" id="rejectedBtn">
         REJECTED LEAVES
@@ -1219,7 +1235,7 @@ body {
     </button>
 
     <button class="graph-tab" data-index="3">
-      Fit vs UnFit
+      Fit vs UnFit (Weight Based)
     </button>
 
   </div>
@@ -1317,6 +1333,7 @@ body {
 
     <!-- ===== ALL OTHER MODALS (unchanged) ===== -->
     {% include 'modals/Projects/modal.html' %}
+    {% include 'modals/calender/calender.html' %}
     {% include 'modals/detachmentModal/detachment.html' %}
     {% include 'modals/personnelModal/personal_modal.html' %}
     {% include 'modals/personnelModal/duty_search_modal.html' %}
@@ -1343,6 +1360,7 @@ body {
     {% include 'modals/ADD-DUES-IN/list_of_dues_in.html' %}
     {% include 'modals/ADD-DUES-OUT/modal.html' %}
     {% include 'modals/ADD-DUES-OUT/list_of_dues_out.html' %}
+    {% include 'modals/honours_board/hb.html' %}
 
     <div class="modal fade modal-fullscreen" id="paradeStateModal" tabindex="-1">
       <div class="modal-dialog modal-lg">
@@ -1872,5 +1890,53 @@ setInterval(autoSlideCharts, 10000);
   });
 </script>
 
-
+<script id="u8p3k1">
+  /* ===== AUTO VERTICAL SCROLL FOR CARDS ===== */
+  
+  document.addEventListener("DOMContentLoaded", function () {
+  
+    const statsGrid = document.getElementById("statsGrid");
+  
+    if (!statsGrid) return;
+  
+    let autoScroll;
+    let direction = 1; // 1 = down, -1 = up
+  
+    function startAutoScroll() {
+  
+      autoScroll = setInterval(() => {
+  
+        const maxScroll =
+          statsGrid.scrollHeight - statsGrid.clientHeight;
+  
+        statsGrid.scrollTop += direction * 1;
+  
+        /* reached bottom */
+        if (statsGrid.scrollTop >= maxScroll) {
+          direction = -1;
+        }
+  
+        /* reached top */
+        if (statsGrid.scrollTop <= 0) {
+          direction = 1;
+        }
+  
+      }, 60);
+    }
+  
+    function stopAutoScroll() {
+      clearInterval(autoScroll);
+    }
+  
+    /* start */
+    startAutoScroll();
+  
+    /* pause on hover */
+    statsGrid.addEventListener("mouseenter", stopAutoScroll);
+  
+    /* resume */
+    statsGrid.addEventListener("mouseleave", startAutoScroll);
+  
+  });
+  </script>
 {% endblock %}

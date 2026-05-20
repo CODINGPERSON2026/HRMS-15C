@@ -1,0 +1,726 @@
+<!-- =========================
+     FULLCALENDAR MODAL SYSTEM
+========================= -->
+
+<script src="/static/index.global.min.js"></script>
+
+<style>
+
+    /* =========================
+       GLOBAL MODAL LAYER
+    ========================= */
+
+    .calendar-modal,
+    .event-detail-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+
+        background: rgba(0, 0, 0, 0.72);
+
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+
+    /* =========================
+       CALENDAR BOX
+    ========================= */
+
+    .calendar-box {
+
+        width: 56%;
+        max-width: 1250px;
+
+        height: 92vh;
+
+        background: var(--card-bg-solid, #ffffff);
+
+        border: 1px solid var(--border-color, #e5e7eb);
+
+        border-radius: 18px;
+
+        overflow: hidden;
+
+        display: flex;
+        flex-direction: column;
+
+        box-shadow:
+            0 25px 60px rgba(0,0,0,0.20);
+
+        animation: modalFade 0.22s ease;
+    }
+
+    @keyframes modalFade {
+        from {
+            opacity: 0;
+            transform: translateY(10px) scale(0.98);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .calendar-header {
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 16px 22px;
+
+        background:
+            var(--card-background, #f9fafb);
+
+        border-bottom:
+            1px solid var(--border-color, #e5e7eb);
+
+        flex-shrink: 0;
+    }
+
+    .calendar-header h3 {
+
+        margin: 0;
+
+        font-size: 1.05rem;
+        font-weight: 700;
+
+        color: var(--text-primary, #111827);
+    }
+
+    #closeCalendar,
+    #closeDetail {
+
+        cursor: pointer;
+
+        font-size: 30px;
+        line-height: 1;
+
+        color: #6b7280;
+
+        transition: 0.2s ease;
+        user-select: none;
+    }
+
+    #closeCalendar:hover,
+    #closeDetail:hover {
+
+        color: #ef4444;
+
+        transform: scale(1.08);
+    }
+
+    /* =========================
+       CALENDAR AREA
+    ========================= */
+
+    #calendar {
+
+        flex: 1;
+
+        width: 100%;
+
+        padding: 14px;
+
+        overflow: hidden;
+    }
+
+    /* =========================
+       FULLCALENDAR
+    ========================= */
+
+    .fc {
+
+        height: 100% !important;
+
+        color: #111827;
+
+        font-size: 0.92rem;
+    }
+
+    .fc-theme-standard td,
+    .fc-theme-standard th {
+
+        border-color: #e5e7eb;
+    }
+
+    .fc-scrollgrid {
+
+        border-color: #e5e7eb !important;
+    }
+
+    /* =========================
+       TOOLBAR
+    ========================= */
+
+    .fc .fc-toolbar {
+
+        margin-bottom: 12px !important;
+    }
+
+    .fc .fc-toolbar-title {
+
+        font-size: 1.15rem;
+        font-weight: 700;
+    }
+
+    .fc .fc-button {
+
+        background: #2563eb !important;
+
+        border: none !important;
+
+        color: white !important;
+
+        box-shadow: none !important;
+
+        transition: 0.2s ease;
+
+        padding: 6px 12px !important;
+
+        font-size: 0.82rem !important;
+
+        border-radius: 8px !important;
+    }
+
+    .fc .fc-button:hover {
+
+        background: #1d4ed8 !important;
+    }
+
+    .fc .fc-button-active {
+
+        background: #1d4ed8 !important;
+    }
+
+    /* =========================
+       DAY HEADERS
+    ========================= */
+
+    .fc .fc-col-header-cell {
+
+        background: #f9fafb;
+    }
+
+    .fc .fc-col-header-cell-cushion {
+
+        color: #111827 !important;
+
+        text-decoration: none !important;
+
+        font-weight: 700;
+
+        padding: 10px 0 !important;
+
+        font-size: 0.82rem;
+    }
+
+    /* =========================
+       DAY CELLS
+    ========================= */
+
+    .fc .fc-daygrid-day-frame {
+
+        min-height: 110px !important;
+    }
+
+    .fc .fc-daygrid-day {
+
+        cursor: pointer;
+
+        transition: background 0.2s ease;
+
+        background: white;
+    }
+
+    .fc .fc-daygrid-day:hover {
+
+        background: #f3f4f6;
+    }
+
+    /* =========================
+       DAY NUMBERS
+    ========================= */
+
+    .fc .fc-daygrid-day-number {
+
+        color: #111827 !important;
+
+        font-weight: 700;
+
+        text-decoration: none !important;
+
+        padding: 8px !important;
+
+        font-size: 0.85rem;
+    }
+
+    /* =========================
+       TODAY HIGHLIGHT
+    ========================= */
+
+    .fc .fc-day-today {
+
+        background:
+            rgba(59, 130, 246, 0.08) !important;
+    }
+
+    /* =========================
+       EVENTS
+    ========================= */
+
+    .fc-event {
+
+        border: none !important;
+
+        border-radius: 7px !important;
+
+        padding: 3px 7px !important;
+
+        margin: 2px !important;
+
+        background: #2563eb !important;
+
+        color: white !important;
+
+        font-size: 0.74rem !important;
+
+        font-weight: 600;
+
+        overflow: hidden;
+
+        white-space: nowrap;
+
+        text-overflow: ellipsis;
+
+        max-width: 100%;
+    }
+
+    .fc-event:hover {
+
+        background: #1d4ed8 !important;
+    }
+
+    .fc-event-title {
+
+        overflow: hidden;
+
+        white-space: nowrap;
+
+        text-overflow: ellipsis;
+
+        display: block;
+
+        width: 100%;
+    }
+
+    /* =========================
+       MORE LINK
+    ========================= */
+
+    .fc-daygrid-more-link {
+
+        color: #2563eb !important;
+
+        font-weight: 600;
+
+        text-decoration: none !important;
+
+        font-size: 0.72rem;
+    }
+
+    /* =========================
+       REMOVE BLUE LINKS
+    ========================= */
+
+    .fc a {
+
+        color: inherit !important;
+    }
+
+    /* =========================
+       EVENT DETAIL MODAL
+    ========================= */
+
+    .event-detail-modal {
+
+        z-index: 10000;
+    }
+
+    .event-card {
+
+        width: 100%;
+
+        max-width: 520px;
+
+        background: white;
+
+        border-radius: 18px;
+
+        overflow: hidden;
+
+        position: relative;
+
+        box-shadow:
+            0 20px 55px rgba(0,0,0,0.20);
+
+        animation: modalFade 0.22s ease;
+    }
+
+    .event-card-header {
+
+        background: #f9fafb;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        padding: 20px;
+    }
+
+    .event-card-header h2 {
+
+        margin: 0;
+
+        font-size: 1.15rem;
+
+        font-weight: 700;
+    }
+
+    .event-card-body {
+
+        padding: 22px;
+
+        color: #111827;
+    }
+
+    .event-card-body p {
+
+        margin-bottom: 12px;
+
+        line-height: 1.6;
+
+        font-size: 0.95rem;
+    }
+
+    #detailDescription {
+
+        color: #6b7280;
+    }
+
+    #closeDetail {
+
+        position: absolute;
+
+        top: 10px;
+        right: 16px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 768px) {
+
+        .calendar-modal,
+        .event-detail-modal {
+
+            padding: 0;
+        }
+
+        .calendar-box {
+
+            width: 100%;
+            max-width: 100%;
+
+            height: 100vh;
+
+            border-radius: 0;
+        }
+
+        .event-card {
+
+            width: 100%;
+            max-width: 100%;
+
+            height: auto;
+
+            border-radius: 0;
+        }
+
+        .fc .fc-toolbar {
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+        .fc .fc-daygrid-day-frame {
+
+            min-height: 82px !important;
+        }
+
+        .fc .fc-toolbar-title {
+
+            font-size: 1rem;
+        }
+    }
+
+</style>
+
+<!-- =========================
+     OPEN BUTTON
+========================= -->
+
+<button id="openCalendar">
+    Open Calendar
+</button>
+
+<!-- =========================
+     CALENDAR MODAL
+========================= -->
+
+<div id="calendarModal" class="calendar-modal">
+
+    <div class="calendar-box">
+
+        <div class="calendar-header">
+
+            <h3>Event Calendar</h3>
+
+            <span id="closeCalendar">&times;</span>
+
+        </div>
+
+        <div id="calendar"></div>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     EVENT DETAIL MODAL
+========================= -->
+
+<div id="eventDetailModal" class="event-detail-modal">
+
+    <div class="event-card">
+
+        <span id="closeDetail">&times;</span>
+
+        <div class="event-card-header">
+
+            <h2 id="detailTitle"></h2>
+
+        </div>
+
+        <div class="event-card-body">
+
+            <p>
+                <strong>📅 Date:</strong>
+                <span id="detailDate"></span>
+            </p>
+
+            <p>
+                <strong>📍 Venue:</strong>
+                <span id="detailVenue"></span>
+            </p>
+
+            <p>
+                <strong>🏢 Company:</strong>
+                <span id="detailCompany"></span>
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>Description:</strong>
+            </p>
+
+            <p id="detailDescription"></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    let calendar = null;
+
+    // =========================
+    // SHOW EVENT DETAIL
+    // =========================
+
+    function showEventDetail(eventData) {
+
+        document.getElementById('detailTitle').textContent =
+            eventData.title || "No Event";
+
+        document.getElementById('detailDate').textContent =
+            eventData.start
+                ? eventData.start.toLocaleDateString('en-IN', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                })
+                : "N/A";
+
+        document.getElementById('detailVenue').textContent =
+            eventData.extendedProps?.venue || "N/A";
+
+        document.getElementById('detailCompany').textContent =
+            eventData.extendedProps?.company || "N/A";
+
+        document.getElementById('detailDescription').textContent =
+            eventData.extendedProps?.description ||
+            "No description available.";
+
+        document.getElementById('eventDetailModal')
+            .style.display = 'flex';
+    }
+
+    // =========================
+    // OPEN CALENDAR
+    // =========================
+
+    document.getElementById('openCalendar')
+        .addEventListener('click', function () {
+
+        document.getElementById('calendarModal')
+            .style.display = 'flex';
+
+        if (calendar) {
+
+            calendar.updateSize();
+
+            return;
+        }
+
+        calendar = new FullCalendar.Calendar(
+            document.getElementById('calendar'),
+            {
+
+                initialView: 'dayGridMonth',
+
+                height: '100%',
+
+                events: '/hb/get_calendar_events',
+
+                dayMaxEvents: 1,
+
+                selectable: true,
+
+                expandRows: true,
+
+                // =========================
+                // DATE CLICK
+                // =========================
+
+                dateClick: function(info) {
+
+                    const clickedDate = info.dateStr;
+
+                    const events =
+                        calendar.getEvents().filter(event => {
+
+                            return (
+                                event.startStr.split('T')[0]
+                                === clickedDate
+                            );
+
+                        });
+
+                    if (events.length > 0) {
+
+                        showEventDetail(events[0]);
+
+                    } else {
+
+                        showEventDetail({
+                            title: "No Event",
+                            start: info.date,
+                            extendedProps: {
+                                venue: "—",
+                                company: "—",
+                                description:
+                                    "No events scheduled for this date."
+                            }
+                        });
+                    }
+                },
+
+                // =========================
+                // EVENT CLICK
+                // =========================
+
+                eventClick: function(info) {
+
+                    info.jsEvent.preventDefault();
+
+                    info.jsEvent.stopPropagation();
+
+                    showEventDetail(info.event);
+                }
+            }
+        );
+
+        calendar.render();
+    });
+
+    // =========================
+    // CLOSE CALENDAR
+    // =========================
+
+    document.getElementById('closeCalendar')
+        .addEventListener('click', function () {
+
+        document.getElementById('calendarModal')
+            .style.display = 'none';
+    });
+
+    // =========================
+    // CLOSE EVENT DETAIL
+    // =========================
+
+    document.getElementById('closeDetail')
+        .addEventListener('click', function () {
+
+        document.getElementById('eventDetailModal')
+            .style.display = 'none';
+    });
+
+    // =========================
+    // OUTSIDE CLICK CLOSE
+    // =========================
+
+    window.addEventListener('click', function(e) {
+
+        const calendarModal =
+            document.getElementById('calendarModal');
+
+        const detailModal =
+            document.getElementById('eventDetailModal');
+
+        if (e.target === calendarModal) {
+
+            calendarModal.style.display = 'none';
+        }
+
+        if (e.target === detailModal) {
+
+            detailModal.style.display = 'none';
+        }
+    });
+
+</script>
