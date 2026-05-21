@@ -196,17 +196,11 @@
 
     /* ==================== SIDEBAR ==================== */
     /*
-      Responsive behaviour:
-        < 576px   mobile      — sidebar hidden, bottom nav bar shown
-        576-991px tablet      — 48px icon rail
-        992-1399px laptop     — 56px icon rail  (default)
-        1400-1919px large     — 64px icon rail
-        1920px+   4K/ultra    — 72px icon rail
+      Sidebar is ALWAYS collapsed (56px) by default.
+      On hover it expands to 230px as a floating overlay — the page content never shifts.
     */
-    :root { --sidebar-w: 56px; }
-
     .sidebar {
-      width: var(--sidebar-w);
+      width: 48px;
       min-height: 100vh;
       background: var(--sidebar-background);
       border-right: 1px solid var(--sidebar-border);
@@ -217,32 +211,72 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: width 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    /* Expand on hover — overlays content, no layout shift */
+    .sidebar:hover {
+      width: 230px;
+      box-shadow: 4px 0 24px var(--shadow);
     }
 
     /* ==================== SIDEBAR HEADER ==================== */
     .sidebar-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 18px 0 16px;
+      gap: 10px;
+      padding: 16px 13px 14px;
       border-bottom: 1px solid var(--sidebar-border);
       flex-shrink: 0;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .sidebar-logo-mark {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       border-radius: 8px;
       background: var(--logo-mark-bg);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: -0.3px;
       flex-shrink: 0;
-      cursor: default;
+    }
+
+    .sidebar-brand-info {
+      overflow: hidden;
+      opacity: 0;
+      width: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, width 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .sidebar:hover .sidebar-brand-info {
+      opacity: 1;
+      width: 160px;
+      pointer-events: auto;
+    }
+
+    .sidebar-brand-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .sidebar-brand-sub {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--nav-section-label-color);
+      white-space: nowrap;
     }
 
     /* ==================== NAV BODY ==================== */
@@ -250,7 +284,7 @@
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 10px 0 4px;
+      padding: 8px 0 4px;
       scrollbar-width: thin;
       scrollbar-color: var(--border-color) transparent;
     }
@@ -259,16 +293,37 @@
     .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
     .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 
-    /* Section Labels — hidden (icon-only rail) */
-    .nav-section-label { display: none; }
+    /* Section Labels — hidden when collapsed, shown on hover */
+    .nav-section-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: var(--nav-section-label-color);
+      padding: 10px 14px 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      transition: opacity 0.2s ease, max-height 0.25s ease, padding 0.25s ease;
+    }
+
+    .sidebar:hover .nav-section-label {
+      opacity: 1;
+      max-height: 40px;
+      padding-top: 10px;
+      padding-bottom: 4px;
+    }
 
     /* Nav Links */
     .nav-link {
       display: flex !important;
       align-items: center;
-      justify-content: center;
-      padding: 13px 0 !important;
-      margin: 2px 6px;
+      gap: 10px;
+      padding: 8px 10px !important;
+      margin: 1px 6px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 450;
@@ -277,6 +332,7 @@
       white-space: nowrap;
       position: relative;
       transition: background 0.15s ease, color 0.15s ease;
+      overflow: visible;
     }
 
     .nav-link:hover {
@@ -291,31 +347,96 @@
     }
 
     .nav-link.active .nav-icon { color: var(--nav-link-active-color); }
-    .nav-link:hover .nav-icon  { color: var(--text-primary); }
+    .nav-link:hover .nav-icon { color: var(--text-primary); }
 
     /* Nav Icons */
     .nav-icon {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--nav-section-label-color);
       transition: color 0.15s ease;
-      font-size: 17px;
+      font-size: 13px;
     }
 
-    /* Label text, badges, inline tooltip spans — always hidden */
-    .nav-label-text,
-    .nav-badge,
-    .nav-tooltip { display: none; }
+    /* Nav Label text — hidden when collapsed, shown on hover */
+    .nav-label-text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0;
+      width: 0;
+      transition: opacity 0.2s ease, width 0.25s ease;
+    }
 
-    /* Danger nav item */
+    .sidebar:hover .nav-label-text {
+      opacity: 1;
+      width: auto;
+    }
+
+    /* Badges */
+    .nav-badge {
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--nav-link-active-bg);
+      color: var(--nav-link-active-color);
+      padding: 1px 6px;
+      border-radius: 20px;
+      flex-shrink: 0;
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+      transition: opacity 0.2s ease, width 0.25s ease;
+    }
+
+    .sidebar:hover .nav-badge {
+      opacity: 1;
+      width: auto;
+    }
+
+    /* Tooltip — shown only when collapsed (sidebar NOT hovered) */
+    .nav-tooltip {
+      position: absolute;
+      left: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--tooltip-bg);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 2000;
+      transition: opacity 0.15s ease;
+    }
+
+    .nav-tooltip::before {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-right-color: var(--tooltip-bg);
+    }
+
+    /* Show tooltip only when sidebar is collapsed (not hovered) */
+    .sidebar:not(:hover) .nav-link:hover .nav-tooltip {
+      opacity: 1;
+    }
+
+    /* Danger nav item (logout) */
     .nav-link-danger:hover {
       background: rgba(239, 68, 68, 0.1) !important;
       color: #dc2626 !important;
     }
+
     .nav-link-danger:hover .nav-icon { color: #dc2626 !important; }
 
     /* ==================== SIDEBAR FOOTER ==================== */
@@ -325,132 +446,15 @@
       padding: 6px 0;
     }
 
-    /* ==================== JS-INJECTED TOOLTIP ==================== */
-    #sidebar-tooltip {
-      position: fixed;
-      background: #1e293b;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 5px 11px;
-      border-radius: 6px;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 99999;
-      opacity: 0;
-      transition: opacity 0.12s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    }
-
-    #sidebar-tooltip::before {
-      content: '';
-      position: absolute;
-      right: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 5px solid transparent;
-      border-right-color: #1e293b;
-    }
-
     /* ==================== PAGE WRAPPER ==================== */
+    /*
+      Always offset by the collapsed sidebar width (56px).
+      Never changes — sidebar expansion is an overlay.
+    */
     .page-wrapper {
-      margin-left: var(--sidebar-w);
-      padding: 6px 14px;
+      margin-left: 56px;
+      padding: 5px 10px;
       min-height: 100vh;
-    }
-
-    /* ==================== BOTTOM NAV (mobile only) ==================== */
-    .bottom-nav { display: none; }
-
-    /* ==================== RESPONSIVE BREAKPOINTS ==================== */
-
-    /* Mobile — hide sidebar, show bottom nav */
-    @media (max-width: 575.98px) {
-      :root { --sidebar-w: 0px; }
-      .sidebar { display: none; }
-      #sidebar-tooltip { display: none !important; }
-
-      .page-wrapper {
-        margin-left: 0;
-        padding: 6px 10px 70px;
-      }
-
-      .bottom-nav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 58px;
-        background: var(--sidebar-background);
-        border-top: 1px solid var(--sidebar-border);
-        z-index: 1000;
-        align-items: center;
-        justify-content: space-around;
-        padding: 0 4px;
-        overflow-x: auto;
-        scrollbar-width: none;
-      }
-      .bottom-nav::-webkit-scrollbar { display: none; }
-
-      .bottom-nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        padding: 6px 10px;
-        border-radius: 10px;
-        color: var(--nav-link-color);
-        text-decoration: none;
-        font-size: 9px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.4px;
-        white-space: nowrap;
-        transition: background 0.15s, color 0.15s;
-        flex-shrink: 0;
-      }
-      .bottom-nav-item i { font-size: 18px; line-height: 1; }
-      .bottom-nav-item:hover,
-      .bottom-nav-item.active {
-        color: var(--nav-link-active-color);
-        background: var(--nav-link-active-bg);
-      }
-    }
-
-    /* Small tablet: 576px – 991px — 48px rail */
-    @media (min-width: 576px) and (max-width: 991.98px) {
-      :root { --sidebar-w: 48px; }
-      .sidebar { width: 48px; }
-      .sidebar-logo-mark { width: 28px; height: 28px; font-size: 9px; }
-      .sidebar-header { padding: 14px 0 12px; }
-      .nav-link { padding: 11px 0 !important; margin: 1px 5px; }
-      .nav-icon  { width: 17px; height: 17px; font-size: 15px; }
-    }
-
-    /* Laptop: 992px – 1399px — 56px rail (default, no overrides needed) */
-
-    /* Large monitor: 1400px – 1919px — 64px rail */
-    @media (min-width: 1400px) and (max-width: 1919.98px) {
-      :root { --sidebar-w: 64px; }
-      .sidebar { width: 64px; }
-      .sidebar-logo-mark { width: 38px; height: 38px; font-size: 12px; }
-      .sidebar-header { padding: 20px 0 18px; }
-      .nav-link { padding: 15px 0 !important; margin: 3px 8px; }
-      .nav-icon  { width: 23px; height: 23px; font-size: 20px; }
-      .page-wrapper { padding: 8px 18px; }
-    }
-
-    /* 4K / ultrawide: 1920px+ — 72px rail */
-    @media (min-width: 1920px) {
-      :root { --sidebar-w: 72px; }
-      .sidebar { width: 72px; }
-      .sidebar-logo-mark { width: 42px; height: 42px; font-size: 13px; }
-      .sidebar-header { padding: 22px 0 20px; }
-      .nav-link { padding: 17px 0 !important; margin: 3px 10px; }
-      .nav-icon  { width: 26px; height: 26px; font-size: 22px; }
-      .page-wrapper { padding: 10px 24px; }
     }
 
     /* ==================== THEME SWITCHER ==================== */
@@ -704,9 +708,13 @@
   <div class="sidebar" id="sidebar">
 
     <!-- Header / Brand -->
-    <div class="sidebar-header"
-         data-tiptext="{{role}} | {{current_user_name}} | {{company}}">
+    <div class="sidebar-header">
       <div class="sidebar-logo-mark">UMS</div>
+      <div class="sidebar-brand-info">
+        <div style="font-weight: 900;" class="sidebar-brand-name">{{role}}</div>
+        <div style="font-weight: 900;color: #2b5f4e;" class="sidebar-brand-sub">{{current_user_name}}</div>
+        <div class="sidebar-brand-sub">{{company}}</div>
+      </div>
     </div>
 
     <!-- Nav Body -->
@@ -715,16 +723,14 @@
       <!-- Main Section -->
       <div class="nav-section-label">Main</div>
 
-      <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/"
-         data-tiptext="Dashboard">
+      <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">
         <span class="nav-icon"><i class="fas fa-th-large"></i></span>
         <span class="nav-label-text">Dashboard</span>
         <span class="nav-tooltip">Dashboard</span>
       </a>
 
       {% if role in ['CO', '2IC', 'ADJUTANT', 'OC', 'NCO LINE', 'JCO', 'O CENTRE NCO', 'ONCO', 'NCO CHQ', 'NCO IT', 'NCO OP', 'NCO PWR', 'NCO MW', 'NCO MCCS', 'SEC JCO', 'JCO LINE', 'S/JCO', 'JCO CHQ'] %}
-      <a class="nav-link {% if '/weight_system' in request.path %}active{% endif %}" href="/weight_system"
-         data-tiptext="Weight">
+      <a class="nav-link {% if '/weight_system' in request.path %}active{% endif %}" href="/weight_system">
         <span class="nav-icon"><i class="fas fa-weight"></i></span>
         <span class="nav-label-text">Weight Management</span>
         <span class="nav-tooltip">Weight</span>
@@ -732,8 +738,7 @@
       {% endif %}
 
       {% if role in ['CO', '2IC', 'ADJUTANT', 'OC', 'NCO LINE', 'JCO', 'O CENTRE NCO', 'ONCO', 'NCO CHQ', 'NCO IT', 'NCO OP', 'NCO PWR', 'NCO MW', 'NCO MCCS', 'SEC JCO', 'JCO LINE', 'S/JCO', 'JCO CHQ', 'JCO TM'] %}
-      <a class="nav-link {% if '/personnel_information' in request.path %}active{% endif %}" href="/personnel_information"
-         data-tiptext="Personnel">
+      <a class="nav-link {% if '/personnel_information' in request.path %}active{% endif %}" href="/personnel_information">
         <span class="nav-icon"><i class="fas fa-users"></i></span>
         <span class="nav-label-text">Personnel Management</span>
         <span class="nav-tooltip">Personnel</span>
@@ -741,8 +746,7 @@
       {% endif %}
 
       {% if role in ['CO', '2IC', 'ADJUTANT', 'JCO'] %}
-      <a class="nav-link {% if '/task_manager' in request.path %}active{% endif %}" href="/task_manager/"
-         data-tiptext="Tasks">
+      <a class="nav-link {% if '/task_manager' in request.path %}active{% endif %}" href="/task_manager/">
         <span class="nav-icon"><i class="fas fa-tasks"></i></span>
         <span class="nav-label-text">Task Management</span>
         <span class="nav-tooltip">Tasks</span>
@@ -755,8 +759,7 @@
       {% endif %}
 
       {% if role in ['2IC', 'ADJUTANT', 'PROJECT OFFICER', 'PROJECT JCO'] %}
-      <a class="nav-link {% if '/projects' in request.path %}active{% endif %}" href="{{ url_for('projects_dashboard') }}"
-         data-tiptext="Projects">
+      <a class="nav-link {% if '/projects' in request.path %}active{% endif %}" href="{{ url_for('projects_dashboard') }}">
         <span class="nav-icon"><i class="fas fa-project-diagram"></i></span>
         <span class="nav-label-text">Project Management</span>
         <span class="nav-tooltip">Projects</span>
@@ -764,8 +767,7 @@
       {% endif %}
 
       {% if role in ['CO', '2IC', 'ADJUTANT', 'JCO', 'ACCOUNT OFFICER', 'ACCOUNT JCO'] %}
-      <a class="nav-link {% if '/account' in request.path %}active{% endif %}" href="/account"
-         data-tiptext="Accounts">
+      <a class="nav-link {% if '/account' in request.path %}active{% endif %}" href="/account">
         <span class="nav-icon"><i class="fas fa-file-invoice-dollar"></i></span>
         <span class="nav-label-text">Account Management</span>
         <span class="nav-tooltip">Accounts</span>
@@ -778,8 +780,7 @@
       {% endif %}
 
       {% if role in ['NCO PWR', 'NCO QRT', 'SEC JCO', 'Subedar Major', 'NCO CHQ', 'NCO IT', 'NCO LINE', 'NCO OP', 'NCO PWR', 'NCO MW', 'NCO MCCS', 'SEC JCO', 'JCO LINE', 'S/JCO', 'OC', 'NCO CHQ', 'JCO CHQ', 'NCO JCO', 'NCO LRW', 'ONCO', 'NCO RHQ', 'NCO TM', 'NCO MT', 'NCO RP/NA', 'JCO MW', 'CHMHQ', 'CHM1', 'CHM2', 'CHM3', 'NCO QM', 'NCO DET', 'NCO SYS', 'JCO DET', 'JCO SYS'] %}
-      <a class="nav-link {% if '/apply_leave' in request.path %}active{% endif %}" href="/apply_leave/"
-         data-tiptext="Leave">
+      <a class="nav-link {% if '/apply_leave' in request.path %}active{% endif %}" href="/apply_leave/">
         <span class="nav-icon"><i class="fas fa-calendar-alt"></i></span>
         <span class="nav-label-text">Leave Management</span>
         <span class="nav-tooltip">Leave</span>
@@ -787,8 +788,7 @@
       {% endif %}
 
       {% if role == 'ONCO' %}
-      <a class="nav-link {% if request.path == '/onco/manage_leave' %}active{% endif %}" href="/onco/manage_leave"
-         data-tiptext="Manage Leave">
+      <a class="nav-link {% if request.path == '/onco/manage_leave' %}active{% endif %}" href="/onco/manage_leave">
         <span class="nav-icon"><i class="fas fa-calendar-check"></i></span>
         <span class="nav-label-text">Manage Leave</span>
         <span class="nav-tooltip">Manage Leave</span>
@@ -796,8 +796,7 @@
       {% endif %}
 
       {% if role == 'O CENTRE NCO' %}
-      <a class="nav-link {% if request.path == '/gallery/manage' %}active{% endif %}" href="/gallery/manage"
-         data-tiptext="Gallery">
+      <a class="nav-link {% if request.path == '/gallery/manage' %}active{% endif %}" href="/gallery/manage">
         <span class="nav-icon"><i class="fas fa-images"></i></span>
         <span class="nav-label-text">Manage Gallery</span>
         <span class="nav-tooltip">Gallery</span>
@@ -809,16 +808,14 @@
     <!-- Footer Nav (Settings + Logout) -->
     <div class="sidebar-footer">
       {% if role in ['CO', '2IC'] %}
-      <a class="nav-link {% if '/settings' in request.path %}active{% endif %}" href="/settings"
-         data-tiptext="Settings">
+      <a class="nav-link {% if '/settings' in request.path %}active{% endif %}" href="/settings">
         <span class="nav-icon"><i class="fas fa-cog"></i></span>
         <span class="nav-label-text">Settings</span>
         <span class="nav-tooltip">Settings</span>
       </a>
       {% endif %}
 
-      <a class="nav-link nav-link-danger" href="/logout" id="logoutLink"
-         data-tiptext="Logout">
+      <a class="nav-link nav-link-danger" href="/logout" id="logoutLink">
         <span class="nav-icon"><i class="fas fa-sign-out-alt"></i></span>
         <span class="nav-label-text">Logout</span>
         <span class="nav-tooltip">Logout</span>
@@ -827,9 +824,6 @@
 
   </div>
   <!-- ==================== END SIDEBAR ==================== -->
-
-  <!-- Global tooltip element injected into body — never clipped by sidebar overflow -->
-  <div id="sidebar-tooltip"></div>
 
   <!-- Main Content -->
   <div id="pageWrapper" class="page-wrapper">
@@ -926,79 +920,6 @@
         });
       }
     });
-  </script>
-
-  <!-- ==================== SIDEBAR TOOLTIP (body-level, never clipped) ==================== -->
-  <script>
-    (function () {
-      const tip = document.getElementById('sidebar-tooltip');
-      let hideTimer = null;
-
-      // Read the current --tooltip-bg CSS variable from :root
-      function getTooltipBg() {
-        return getComputedStyle(document.documentElement)
-          .getPropertyValue('--tooltip-bg').trim() || '#1e293b';
-      }
-
-      function showTip(el) {
-        const text = el.getAttribute('data-tiptext');
-        if (!text) return;
-
-        clearTimeout(hideTimer);
-
-        const bg = getTooltipBg();
-        tip.textContent = text;
-        tip.style.background = bg;
-
-        // Update the arrow colour to match
-        // We use a pseudo-element so we set it via a custom property
-        tip.style.setProperty('--arrow-color', bg);
-
-        // Position: vertically centred on the element, 12px right of sidebar
-        const rect = el.getBoundingClientRect();
-        const sidebarWidth = 48;
-
-        tip.style.opacity = '0';
-        tip.style.display = 'block';
-
-        const tipH = tip.offsetHeight;
-        const top = rect.top + (rect.height / 2) - (tipH / 2);
-        const left = sidebarWidth + 12;
-
-        tip.style.top = top + 'px';
-        tip.style.left = left + 'px';
-        tip.style.opacity = '1';
-      }
-
-      function hideTip() {
-        hideTimer = setTimeout(function () {
-          tip.style.opacity = '0';
-        }, 80);
-      }
-
-      // Arrow colour driven by CSS var on the element itself
-      // We inject a tiny style rule so ::before picks up --arrow-color
-      const arrowStyle = document.createElement('style');
-      arrowStyle.textContent =
-        '#sidebar-tooltip::before { border-right-color: var(--arrow-color, #1e293b); }';
-      document.head.appendChild(arrowStyle);
-
-      // Attach to all sidebar items that have data-tiptext
-      document.addEventListener('DOMContentLoaded', function () {
-        const sidebar = document.getElementById('sidebar');
-
-        // Nav links + sidebar header
-        sidebar.querySelectorAll('[data-tiptext]').forEach(function (el) {
-          el.addEventListener('mouseenter', function () { showTip(el); });
-          el.addEventListener('mouseleave', hideTip);
-          el.addEventListener('focus',      function () { showTip(el); });
-          el.addEventListener('blur',       hideTip);
-        });
-
-        // Hide tooltip if mouse enters the tooltip itself (edge case)
-        tip.addEventListener('mouseenter', hideTip);
-      });
-    })();
   </script>
 
   {% block extra_js %}{% endblock %}
