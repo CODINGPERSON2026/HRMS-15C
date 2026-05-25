@@ -5886,5 +5886,59 @@ def get_calendar_events():
             "success": False,
             "message": str(e)
         }), 500
+
+
+
+@app.route("/api/today/schedules", methods=["GET"])
+def get_today_schedules():
+
+    try:
+
+        conn = get_db_connection()
+
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT
+                id,
+                title,
+                description,
+                location,
+                start_time,
+                end_time,
+                status,
+                priority
+            FROM schedules
+            WHERE schedule_date = CURDATE()
+            ORDER BY start_time ASC
+        """)
+
+        schedules = cursor.fetchall()
+
+        # ============================================
+        # CONVERT TIMEDELTA TO STRING
+        # ============================================
+
+        for item in schedules:
+
+            if item["start_time"]:
+                item["start_time"] = str(item["start_time"])
+
+            if item["end_time"]:
+                item["end_time"] = str(item["end_time"])
+
+        return jsonify(schedules)
+
+    except Exception as e:
+
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cursor.close()
+        conn.close()
 if __name__ == '__main__':
     app.run(port=4000,debug=True)

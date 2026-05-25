@@ -3,11 +3,11 @@
 <style>
     /* ================= LIGHT THEME (UNCHANGED) ================= */
     .page-title {
-        height: 105px; /* REDUCED HEIGHT */
+        height: 105px;
         background: linear-gradient(135deg, #3c425c 0%, #764ba2 100%);
         color: white;
 
-        padding: 1rem 1.5rem; /* REDUCED PADDING */
+        padding: 1rem 1.5rem;
         border-radius: 15px;
 
         box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
@@ -16,7 +16,7 @@
         align-items: center;
         justify-content: space-between;
 
-        gap: 0.8rem; /* REDUCED GAP */
+        gap: 0.8rem;
 
         transition: all 0.3s ease;
     }
@@ -58,22 +58,16 @@
 
     .page-title h3 {
         margin: 0;
-        font-size: 1.7rem; /* SLIGHTLY SMALLER */
+        font-size: 1.7rem;
         font-weight: 700;
         color: white;
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     }
 
-    .page-title p {
-        margin: 0.5rem 0 0 0;
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.95);
-    }
     /* ================= DIGITAL CLOCK ================= */
-
     .digital-clock {
-        margin-top: 5px; /* REDUCED */
-        font-size: 1rem; /* SMALLER */
+        margin-top: 5px;
+        font-size: 1rem;
         font-weight: 700;
 
         letter-spacing: 1px;
@@ -86,16 +80,15 @@
     }
 
     /* ================= LOGOS ================= */
-
     .org-logo {
-        width: 90px; /* REDUCED */
-        height: 90px; /* REDUCED */
+        width: 90px;
+        height: 90px;
 
         object-fit: contain;
 
         border-radius: 20%;
 
-        padding: 8px; /* REDUCED */
+        padding: 8px;
 
         background: rgba(255, 255, 255, 0.15);
 
@@ -109,10 +102,58 @@
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     }
 
+    /* ================= SUBSCRIPT — OPTION 3 (frosted pill + avatar) ================= */
+    .sub-3 {
+        margin-top: 8px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .sub-3-inner {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+        padding: 4px 14px 4px 6px;
+    }
+
+    .sub-3-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.30);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: white;
+        letter-spacing: 0;
+        flex-shrink: 0;
+    }
+
+    .sub-3-greet {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.70);
+        font-weight: 400;
+    }
+
+    .sub-3-role {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+    }
+
+    .sub-3-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
     /* ================= LARGE MONITOR ================= */
-
     @media (min-width: 1600px) {
-
         .page-title {
             padding-left: 3rem;
             padding-right: 3rem;
@@ -124,9 +165,7 @@
     }
 
     /* ================= MOBILE ================= */
-
     @media (max-width: 768px) {
-
         .page-title {
             flex-direction: column;
             height: auto;
@@ -151,6 +190,13 @@
         .digital-clock {
             font-size: 0.9rem;
         }
+
+        .sub-3-inner {
+            flex-wrap: wrap;
+            justify-content: center;
+            border-radius: 12px;
+            padding: 6px 12px;
+        }
     }
 </style>
 
@@ -166,12 +212,22 @@
     <div class="title-section">
 
         <h3 class="fw-bold">{{ header }}</h3>
-        <p id="para">{{ subscript }}</p>
 
-        <!-- REAL TIME DIGITAL CLOCK -->
-        <!-- <div class="digital-clock" id="digitalClock">
-            00:00:00
-        </div> -->
+        <!-- SUBSCRIPT — OPTION 3: frosted pill with avatar initials -->
+        <div class="sub-3">
+            <div class="sub-3-inner">
+
+               
+
+                <span class="sub-3-greet">Welcome,</span>
+                <span class="sub-3-role">{{ role }}</span>
+                <span class="sub-3-name">{{ current_user_name }}</span>
+
+            </div>
+        </div>
+
+        <!-- REAL TIME DIGITAL CLOCK (uncomment to enable) -->
+      
 
     </div>
 
@@ -185,5 +241,5 @@
 </div>
 
 <script>
-    
+   
 </script>
