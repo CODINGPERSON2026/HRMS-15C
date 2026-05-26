@@ -1,0 +1,322 @@
+<style>
+  /* ================= MODAL SIZE ================= */
+  #agniDetModalUniqueScope .custom-size {
+    max-width: 97% !important;
+    width: 97% !important;
+  }
+
+  /* ================= MODAL BODY ================= */
+  #agniDetModalUniqueScope .modal-body {
+    overflow: auto;
+  }
+
+  /* ================= TABLE WRAPPER ================= */
+  #agniDetModalUniqueScope .agniDetTableWrapperUniqueScope {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  /* ================= TABLE ================= */
+  #agniDetModalUniqueScope #agniDetTableUniqueScope {
+    table-layout: fixed;
+    width: 100%;
+    min-width: 750px;
+  }
+
+  #agniDetModalUniqueScope #agniDetTableUniqueScope th,
+  #agniDetModalUniqueScope #agniDetTableUniqueScope td {
+    overflow: hidden;
+    vertical-align: middle;
+    font-size: 0.84rem;
+    padding: 0.55rem 0.6rem;
+  }
+
+  #agniDetModalUniqueScope #agniDetTableUniqueScope th {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  /* ================= CELL SCROLL ================= */
+  #agniDetModalUniqueScope .agniDetCellScrollUnique {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+
+  #agniDetModalUniqueScope .agniDetCellScrollUnique::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  #agniDetModalUniqueScope .agniDetCellScrollUnique::-webkit-scrollbar-thumb {
+    background: #c7c7c7;
+    border-radius: 20px;
+  }
+
+  /* ================= BADGES ================= */
+  #agniDetModalUniqueScope .agniDetCompanyBadgeUnique {
+    display: inline-block;
+    background: var(--nav-link-active-bg, #d1e7dd);
+    color: var(--primary-color, #0f5132);
+    border: 1px solid var(--border-color, #badbcc);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ================= NAME CELL ================= */
+  #agniDetModalUniqueScope .agniDetNameCellUnique {
+    font-weight: 600;
+    color: var(--text-primary, #212529);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 0;
+  }
+
+  /* ================= ARMY NUMBER ================= */
+  #agniDetModalUniqueScope .agniDetArmyNumberUnique {
+    font-weight: 700;
+    color: var(--primary-color, #0d6efd);
+  }
+
+  /* ================= COUNT BADGE ================= */
+  #agniDetModalUniqueScope .modal-dialog {
+    margin-top: 1px;
+  }
+  #agniDetModalUniqueScope .agniDetCountBadgeUnique {
+    font-size: 0.78rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+</style>
+
+<div class="modal fade" id="agniDetModalUniqueScope" tabindex="-1">
+  <div class="modal-dialog modal-xl custom-size">
+    <div class="modal-content" style="background-color: var(--card-bg-solid); border: 1px solid var(--border-color);">
+      <!-- ================= HEADER ================= -->
+      <div class="modal-header" style="background-color: var(--primary-color); border-bottom: 1px solid var(--border-color); color: #ffffff;">
+        <div class="d-flex align-items-center gap-3 flex-wrap w-100">
+          <div class="d-flex align-items-center gap-2">
+            <h5 class="modal-title mb-0 fw-bold" style="color: #ffffff; font-weight: 700 !important;">
+              Agniveer on Detachment Details
+            </h5>
+          </div>
+
+          <!-- ================= COMPANY FILTER ================= -->
+          <select
+            id="agniDetCompanyFilterUniqueScope"
+            class="form-select form-select-sm"
+            style="width: 200px; background-color: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25);">
+            <option value="" style="background-color: var(--card-bg-solid); color: var(--text-primary);">All Companies</option>
+          </select>
+
+          <!-- ================= TOTAL COUNT ================= -->
+          <div
+            class="d-flex align-items-center gap-2 px-3 py-1 rounded-3"
+            style="
+              background: rgba(255, 255, 255, 0.15);
+              border: 1px solid rgba(255, 255, 255, 0.25);
+            ">
+            <span
+              class="fw-semibold small"
+              style="color: #ffffff;">
+              Total Count
+            </span>
+            <span
+              id="agniDetTotalCountUniqueScope"
+              class="badge rounded-pill bg-light text-dark agniDetCountBadgeUnique">
+              0
+            </span>
+          </div>
+        </div>
+
+        <!-- ================= CLOSE BUTTON ================= -->
+        <button
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal">
+        </button>
+      </div>
+
+      <!-- ================= BODY ================= -->
+      <div class="modal-body">
+        <!-- ================= SPINNER ================= -->
+        <div
+          id="agniDetSpinnerUniqueScope"
+          class="text-center py-5">
+          <div class="spinner-border text-primary"></div>
+          <div class="mt-2" style="color: var(--text-secondary);">
+            Fetching data...
+          </div>
+        </div>
+
+        <!-- ================= TABLE ================= -->
+        <div class="agniDetTableWrapperUniqueScope">
+          <table
+            id="agniDetTableUniqueScope"
+            class="table table-bordered table-hover align-middle d-none"
+            style="border-color: var(--border-color); color: var(--text-primary);">
+            <thead style="background-color: var(--primary-color); color: #ffffff; border-color: var(--border-color);">
+              <tr style="border-color: var(--border-color);">
+                <th style="background-color: var(--primary-color) !important; border-color: var(--border-color); color: #ffffff !important; width: 20%;">Army Number</th>
+                <th style="background-color: var(--primary-color) !important; border-color: var(--border-color); color: #ffffff !important; width: 35%;">Name</th>
+                <th style="background-color: var(--primary-color) !important; border-color: var(--border-color); color: #ffffff !important; width: 15%;">Company</th>
+                <th style="background-color: var(--primary-color) !important; border-color: var(--border-color); color: #ffffff !important; width: 15%;">Trade</th>
+                <th style="background-color: var(--primary-color) !important; border-color: var(--border-color); color: #ffffff !important; width: 15%;">Det Name</th>
+              </tr>
+            </thead>
+            <tbody id="agniDetTableBodyUniqueScope"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const agniDetModalElementUniqueScope = document.getElementById("agniDetModalUniqueScope");
+  const agniDetTableBodyUniqueScope = document.getElementById("agniDetTableBodyUniqueScope");
+  const agniDetSpinnerUniqueScope = document.getElementById("agniDetSpinnerUniqueScope");
+  const agniDetTableUniqueScope = document.getElementById("agniDetTableUniqueScope");
+  const agniDetCompanyFilterUniqueScope = document.getElementById("agniDetCompanyFilterUniqueScope");
+  const agniDetCountBadgeUniqueScope = document.getElementById("agniDetTotalCountUniqueScope");
+
+  let agniDetFetchedDataUniqueScope = [];
+
+  /* ================= OPEN MODAL ================= */
+  document.getElementById("agniveer_on_detachment").addEventListener("click", async function () {
+    const agniDetModalBootstrapUniqueScope = new bootstrap.Modal(agniDetModalElementUniqueScope);
+    agniDetModalBootstrapUniqueScope.show();
+    await loadAgniDetPersonnelUniqueScope();
+  });
+
+  /* ================= FILTER EVENTS ================= */
+  agniDetCompanyFilterUniqueScope.addEventListener("change", function () {
+    renderAgniDetTableUniqueScope();
+  });
+
+  /* ================= LOAD PERSONNEL ================= */
+  async function loadAgniDetPersonnelUniqueScope() {
+    agniDetSpinnerUniqueScope.classList.remove("d-none");
+    agniDetTableUniqueScope.classList.add("d-none");
+    agniDetTableBodyUniqueScope.innerHTML = "";
+
+    try {
+      const responseUniqueScope = await fetch("/api/agniveer_on_detachment_details");
+      const resultUniqueScope = await responseUniqueScope.json();
+
+      if (resultUniqueScope.status !== "success") {
+        throw new Error("Failed");
+      }
+
+      agniDetFetchedDataUniqueScope = resultUniqueScope.data;
+
+      /* ================= POPULATE COMPANY FILTER ================= */
+      const currentSelectedCompany = agniDetCompanyFilterUniqueScope.value;
+      agniDetCompanyFilterUniqueScope.innerHTML = `<option value="">All Companies</option>`;
+      
+      const uniqueCompaniesUniqueScope = [
+        ...new Set(
+          agniDetFetchedDataUniqueScope
+            .map(item => item.company)
+            .filter(Boolean)
+        )
+      ];
+
+      uniqueCompaniesUniqueScope.forEach(company => {
+        agniDetCompanyFilterUniqueScope.insertAdjacentHTML(
+          "beforeend",
+          `<option value="${company}" style="background-color: var(--card-bg-solid); color: var(--text-primary);">${company}</option>`
+        );
+      });
+      
+      // Preserve selection if it still exists in the new list
+      if (uniqueCompaniesUniqueScope.includes(currentSelectedCompany)) {
+        agniDetCompanyFilterUniqueScope.value = currentSelectedCompany;
+      }
+
+      renderAgniDetTableUniqueScope();
+    } catch (error) {
+      console.error(error);
+      agniDetSpinnerUniqueScope.innerHTML = `
+        <p class="text-danger fw-bold mt-3">
+          Failed to load data
+        </p>
+      `;
+    }
+  }
+
+  /* ================= RENDER TABLE ================= */
+  function renderAgniDetTableUniqueScope() {
+    agniDetTableBodyUniqueScope.innerHTML = "";
+    const selectedCompanyUniqueScope = agniDetCompanyFilterUniqueScope.value;
+    let filteredDataUniqueScope = [...agniDetFetchedDataUniqueScope];
+
+    /* ================= COMPANY FILTER ================= */
+    if (selectedCompanyUniqueScope) {
+      filteredDataUniqueScope = filteredDataUniqueScope.filter(
+        item => item.company === selectedCompanyUniqueScope
+      );
+    }
+
+    /* ================= COUNT ================= */
+    agniDetCountBadgeUniqueScope.textContent = filteredDataUniqueScope.length;
+
+    /* ================= EMPTY STATE ================= */
+    if (filteredDataUniqueScope.length === 0) {
+      agniDetTableBodyUniqueScope.innerHTML = `
+        <tr>
+          <td colspan="5" class="text-center py-4" style="color: var(--text-secondary);">
+            No personnel found
+          </td>
+        </tr>
+      `;
+    } else {
+      filteredDataUniqueScope.forEach(row => {
+        const titleCasedName = (row.name || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        const titleCasedDetName = (row.det_name || 'N/A').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        
+        agniDetTableBodyUniqueScope.insertAdjacentHTML(
+          "beforeend",
+          `
+          <tr style="border-color: var(--border-color);">
+            <td style="border-color: var(--border-color); width: 20%;">
+              <div class="agniDetCellScrollUnique agniDetArmyNumberUnique">
+                ${row.army_number}
+              </div>
+            </td>
+            <td class="agniDetNameCellUnique" style="border-color: var(--border-color); width: 35%; max-width: 200px;">
+              ${titleCasedName}
+            </td>
+            <td style="border-color: var(--border-color); width: 15%;">
+              <div class="agniDetCellScrollUnique">
+                <span class="agniDetCompanyBadgeUnique">
+                  ${row.company}
+                </span>
+              </div>
+            </td>
+            <td style="border-color: var(--border-color); width: 15%;">
+              <div class="agniDetCellScrollUnique">
+                ${(row.trade || 'N/A').toUpperCase()}
+              </div>
+            </td>
+            <td style="border-color: var(--border-color); width: 15%;">
+              <div class="agniDetCellScrollUnique">
+                ${titleCasedDetName}
+              </div>
+            </td>
+          </tr>
+          `
+        );
+      });
+    }
+
+    agniDetSpinnerUniqueScope.classList.add("d-none");
+    agniDetTableUniqueScope.classList.remove("d-none");
+  }
+});
+</script>
