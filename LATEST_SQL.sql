@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
 --
 -- Host: localhost    Database: hrms
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	8.0.46
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -1767,6 +1767,40 @@ LOCK TABLES `sanction_orders` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `schedules`
+--
+
+DROP TABLE IF EXISTS `schedules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `schedules` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `location` varchar(255) DEFAULT NULL,
+  `schedule_date` date NOT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `status` varchar(50) DEFAULT 'pending',
+  `priority` tinyint DEFAULT '3',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `schedules_chk_1` CHECK ((`priority` between 1 and 5))
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `schedules`
+--
+
+LOCK TABLES `schedules` WRITE;
+/*!40000 ALTER TABLE `schedules` DISABLE KEYS */;
+INSERT INTO `schedules` VALUES (1,'Leg Day','Heavy squat session','Gym Floor','2026-05-26','22:00:00','23:30:00','pending',5,'2026-05-26 16:00:08','2026-05-26 16:00:08');
+/*!40000 ALTER TABLE `schedules` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sensitive_marking`
 --
 
@@ -2504,4 +2538,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-21 15:28:29
+-- Dump completed on 2026-05-26 23:09:42
