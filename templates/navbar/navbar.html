@@ -1,245 +1,116 @@
-<!-- ================= HEADER WITH LEFT & RIGHT LOGO ================= -->
-
 <style>
-    /* ================= LIGHT THEME (UNCHANGED) ================= */
     .page-title {
-        height: 105px;
         background: linear-gradient(135deg, #3c425c 0%, #764ba2 100%);
-        color: white;
-
-        padding: 1rem 1.5rem;
-        border-radius: 15px;
-
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-
+        border-radius: clamp(8px, 1vw, 14px);
+        padding: clamp(6px, 1vh, 12px) clamp(12px, 2vw, 28px);
         display: flex;
         align-items: center;
         justify-content: space-between;
-
-        gap: 0.8rem;
-
+        gap: clamp(8px, 1.5vw, 20px);
+        min-height: clamp(54px, 7vh, 72px);
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.25);
         transition: all 0.3s ease;
     }
 
-    /* ================= DARK ================= */
-    [data-theme="dark"] .page-title {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.6);
-    }
+    [data-theme="dark"]     .page-title { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); box-shadow: 0 4px 16px rgba(15,23,42,0.5); }
+    [data-theme="military"] .page-title { background: linear-gradient(135deg, #2f4f3e 0%, #4a7c59 100%); box-shadow: 0 4px 16px rgba(47,79,62,0.4); }
+    [data-theme="ocean"]    .page-title { background: linear-gradient(135deg, #0f4c5c 0%, #1b7288 100%); box-shadow: 0 4px 16px rgba(15,76,92,0.4); }
+    [data-theme="sunset"]   .page-title { background: linear-gradient(135deg, #92400e 0%, #d97706 100%); box-shadow: 0 4px 16px rgba(146,64,14,0.4); }
+    [data-theme="purple"]   .page-title { background: linear-gradient(135deg, #4c1d95 0%, #7e22ce 100%); box-shadow: 0 4px 16px rgba(76,29,149,0.4); }
 
-    /* ================= MILITARY ================= */
-    [data-theme="military"] .page-title {
-        background: linear-gradient(135deg, #2f4f3e 0%, #4a7c59 100%);
-        box-shadow: 0 10px 30px rgba(47, 79, 62, 0.45);
-    }
-
-    /* ================= OCEAN ================= */
-    [data-theme="ocean"] .page-title {
-        background: linear-gradient(135deg, #0f4c5c 0%, #1b7288 100%);
-        box-shadow: 0 10px 30px rgba(15, 76, 92, 0.45);
-    }
-
-    /* ================= SUNSET ================= */
-    [data-theme="sunset"] .page-title {
-        background: linear-gradient(135deg, #92400e 0%, #d97706 100%);
-        box-shadow: 0 10px 30px rgba(146, 64, 14, 0.45);
-    }
-
-    /* ================= PURPLE ================= */
-    [data-theme="purple"] .page-title {
-        background: linear-gradient(135deg, #4c1d95 0%, #7e22ce 100%);
-        box-shadow: 0 10px 30px rgba(76, 29, 149, 0.45);
-    }
-
-    .title-section {
+    .page-title .title-section {
         text-align: center;
         flex: 1;
+        min-width: 0;
     }
 
     .page-title h3 {
         margin: 0;
-        font-size: 1.7rem;
+        font-size: clamp(0.88rem, 1.4vw, 1.25rem);
         font-weight: 700;
-        color: white;
-        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-    }
-
-    /* ================= DIGITAL CLOCK ================= */
-    .digital-clock {
-        margin-top: 5px;
-        font-size: 1rem;
-        font-weight: 700;
-
-        letter-spacing: 1px;
-
         color: #fff;
-
-        text-shadow: 0 0 8px rgba(255,255,255,0.6);
-
-        font-family: 'Courier New', monospace;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        letter-spacing: 0.01em;
     }
 
-    /* ================= LOGOS ================= */
-    .org-logo {
-        width: 90px;
-        height: 90px;
-
-        object-fit: contain;
-
-        border-radius: 20%;
-
-        padding: 8px;
-
-        background: rgba(255, 255, 255, 0.15);
-
-        backdrop-filter: blur(6px);
-
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .org-logo:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-    }
-
-    /* ================= SUBSCRIPT — OPTION 3 (frosted pill + avatar) ================= */
-    .sub-3 {
-        margin-top: 8px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .sub-3-inner {
+    .sub-pill {
         display: inline-flex;
         align-items: center;
-        gap: 9px;
-        background: rgba(255, 255, 255, 0.12);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        gap: clamp(4px, 0.6vw, 8px);
+        background: rgba(255,255,255,0.1);
+        border: 0.5px solid rgba(255,255,255,0.22);
         border-radius: 999px;
-        padding: 4px 14px 4px 6px;
+        padding: clamp(2px, 0.3vh, 4px) clamp(8px, 1.2vw, 14px) clamp(2px, 0.3vh, 4px) clamp(3px, 0.5vw, 6px);
+        margin-top: clamp(2px, 0.4vh, 5px);
     }
 
-    .sub-3-avatar {
-        width: 24px;
-        height: 24px;
+    .sub-avatar {
+        width: clamp(18px, 2vw, 26px);
+        height: clamp(18px, 2vw, 26px);
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.30);
+        background: rgba(255,255,255,0.25);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.68rem;
+        font-size: clamp(0.52rem, 0.7vw, 0.68rem);
         font-weight: 700;
-        color: white;
-        letter-spacing: 0;
+        color: #fff;
         flex-shrink: 0;
     }
 
-    .sub-3-greet {
-        font-size: 0.78rem;
-        color: rgba(255, 255, 255, 0.70);
-        font-weight: 400;
+    .sub-pill .greet { font-size: clamp(0.65rem, 0.85vw, 0.8rem);  color: rgba(255,255,255,0.65); }
+    .sub-pill .role  { font-size: clamp(0.65rem, 0.85vw, 0.8rem);  color: rgba(255,255,255,0.82); }
+    .sub-pill .name  { font-size: clamp(0.68rem, 0.9vw,  0.84rem); font-weight: 700; color: #fff; }
+
+    .org-logo {
+        width: clamp(36px, 4.5vw, 58px);
+        height: clamp(36px, 4.5vw, 58px);
+        object-fit: contain;
+        border-radius: clamp(6px, 0.8vw, 12px);
+        background: rgba(255,255,255,0.12);
+        display: block;
+        transition: transform 0.2s ease;
     }
 
-    .sub-3-role {
-        font-size: 0.78rem;
-        color: rgba(255, 255, 255, 0.85);
-        font-weight: 500;
+    .org-logo:hover { transform: scale(1.07); }
+
+    /* --- explicit breakpoints as safety net --- */
+    @media (max-width: 480px) {
+        .page-title { padding: 5px 10px; }
+        .sub-pill .greet,
+        .sub-pill .role { display: none; }   /* hide verbose text on tiny screens */
     }
 
-    .sub-3-name {
-        font-size: 0.82rem;
-        font-weight: 700;
-        color: #ffffff;
-    }
-
-    /* ================= LARGE MONITOR ================= */
     @media (min-width: 1600px) {
-        .page-title {
-            padding-left: 3rem;
-            padding-right: 3rem;
-        }
-
-        .title-section {
-            max-width: 60%;
-        }
+        .page-title { min-height: 72px; padding: 10px 40px; }
     }
 
-    /* ================= MOBILE ================= */
-    @media (max-width: 768px) {
-        .page-title {
-            flex-direction: column;
-            height: auto;
-            text-align: center;
-
-            padding: 1rem;
-        }
-
-        .org-logo {
-            width: 75px;
-            height: 75px;
-        }
-
-        .title-section {
-            order: 2;
-        }
-
-        .page-title h3 {
-            font-size: 1.35rem;
-        }
-
-        .digital-clock {
-            font-size: 0.9rem;
-        }
-
-        .sub-3-inner {
-            flex-wrap: wrap;
-            justify-content: center;
-            border-radius: 12px;
-            padding: 6px 12px;
-        }
+    @media (min-width: 2000px) {
+        .page-title { min-height: 80px; padding: 12px 56px; border-radius: 16px; }
     }
 </style>
 
 <div class="page-title">
 
-    <!-- LEFT LOGO -->
-    <a href="{{ url_for('history_15cesr') }}" class="logo-link">
-        <img src="/static/image_for_login_page/rt.jpg"
-             class="org-logo"
-             alt="15 CESR Logo">
+    <a href="{{ url_for('history_15cesr') }}">
+        <img src="/static/image_for_login_page/rt.jpg" class="org-logo" alt="15 CESR Logo">
     </a>
 
     <div class="title-section">
-
-        <h3 class="fw-bold">{{ header }}</h3>
-
-        <!-- SUBSCRIPT — OPTION 3: frosted pill with avatar initials -->
-        <div class="sub-3">
-            <div class="sub-3-inner">
-
-               
-
-                <span class="sub-3-greet">Welcome,</span>
-                <span class="sub-3-role">{{ role }}</span>
-                <span class="sub-3-name">{{ current_user_name }}</span>
-
-            </div>
+        <h3>{{ header }}</h3>
+        <div class="sub-pill">
+            <div class="sub-avatar">{{ current_user_name[:2]|upper }}</div>
+            <span class="greet">Welcome,</span>
+            <span class="role">{{ role }}</span>
+            <span class="name">{{ current_user_name }}</span>
         </div>
-
-        <!-- REAL TIME DIGITAL CLOCK (uncomment to enable) -->
-      
-
     </div>
 
-    <!-- RIGHT LOGO -->
-    <a href="{{ url_for('history_15cor') }}" class="logo-link">
-        <img src="/static/image_for_login_page/chinar.jpg"
-             class="org-logo"
-             alt="15 COR Logo">
+    <a href="{{ url_for('history_15cor') }}">
+        <img src="/static/image_for_login_page/chinar.jpg" class="org-logo" alt="15 COR Logo">
     </a>
 
 </div>
-
-<script>
-   
-</script>
