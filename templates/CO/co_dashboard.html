@@ -9,6 +9,7 @@
   *::after {
     box-sizing: border-box;
   }
+
   html,
   body {
     width: 100%;
@@ -31,16 +32,19 @@
     gap: 18px;
     transition: opacity 0.45s ease, visibility 0.45s ease;
   }
+
   #pageLoader.hide {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
   }
+
   .dot-loader {
     display: flex;
     align-items: center;
     gap: 10px;
   }
+
   .dot-loader span {
     width: 11px;
     height: 11px;
@@ -48,13 +52,34 @@
     background: var(--primary-color, #0d6efd);
     animation: dotBounce 1.2s ease-in-out infinite;
   }
-  .dot-loader span:nth-child(1) { animation-delay: 0s; }
-  .dot-loader span:nth-child(2) { animation-delay: 0.2s; }
-  .dot-loader span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes dotBounce {
-    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-    40%            { transform: scale(1.2); opacity: 1; }
+
+  .dot-loader span:nth-child(1) {
+    animation-delay: 0s;
   }
+
+  .dot-loader span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .dot-loader span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes dotBounce {
+
+    0%,
+    80%,
+    100% {
+      transform: scale(0.6);
+      opacity: 0.4;
+    }
+
+    40% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  }
+
   .loader-label {
     font-size: 12px;
     font-weight: 600;
@@ -71,32 +96,59 @@
     transform: translateY(18px);
     transition: opacity 0.45s ease, transform 0.45s ease;
   }
+
   .fade-in-up.visible {
     opacity: 1;
     transform: translateY(0);
   }
-  .stagger-children > * {
+
+  .stagger-children>* {
     opacity: 0;
     transform: translateY(14px);
     transition: opacity 0.38s ease, transform 0.38s ease;
   }
-  .stagger-children.visible > * {
+
+  .stagger-children.visible>* {
     opacity: 1;
     transform: translateY(0);
   }
-  .stagger-children.visible > *:nth-child(1) { transition-delay: 0s; }
-  .stagger-children.visible > *:nth-child(2) { transition-delay: 0.05s; }
-  .stagger-children.visible > *:nth-child(3) { transition-delay: 0.1s; }
-  .stagger-children.visible > *:nth-child(4) { transition-delay: 0.15s; }
+
+  .stagger-children.visible>*:nth-child(1) {
+    transition-delay: 0s;
+  }
+
+  .stagger-children.visible>*:nth-child(2) {
+    transition-delay: 0.05s;
+  }
+
+  .stagger-children.visible>*:nth-child(3) {
+    transition-delay: 0.1s;
+  }
+
+  .stagger-children.visible>*:nth-child(4) {
+    transition-delay: 0.15s;
+  }
 
   /* =========================================================
    VALUE POP
 ========================================================= */
   @keyframes valPop {
-    0%   { transform: scale(0.7); opacity: 0; }
-    70%  { transform: scale(1.12); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+      transform: scale(0.7);
+      opacity: 0;
+    }
+
+    70% {
+      transform: scale(1.12);
+      opacity: 1;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
+
   .sc-val.popped {
     animation: valPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
@@ -111,10 +163,12 @@
     height: calc(100vh - 20px);
     max-height: calc(100vh - 20px);
   }
+
   .modal-fullscreen .modal-content {
     height: 100%;
     border-radius: 14px;
   }
+
   .modal-backdrop {
     --bs-backdrop-opacity: 0.12;
   }
@@ -145,16 +199,22 @@
     transform: translateY(-8px);
     transition: opacity 0.4s ease, transform 0.4s ease;
   }
-  .action-bar::-webkit-scrollbar { display: none; }
+
+  .action-bar::-webkit-scrollbar {
+    display: none;
+  }
+
   .action-bar.show {
     opacity: 1;
     transform: translateY(0);
   }
+
   .ab-btn,
   .ab-ai,
   .ab-toggle {
     flex-shrink: 0;
   }
+
   .ab-btn {
     display: inline-flex;
     align-items: center;
@@ -171,8 +231,12 @@
     cursor: pointer;
     transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
   }
+
   .ab-btn:active,
-  .ab-ai:active { transform: scale(0.96); }
+  .ab-ai:active {
+    transform: scale(0.96);
+  }
+
   .ab-btn .bdg {
     min-width: 16px;
     height: 16px;
@@ -186,28 +250,42 @@
     font-size: 10px;
     font-weight: 700;
   }
+
   .ab-danger {
     background: rgba(220, 53, 69, 0.08);
     border-color: rgba(220, 53, 69, 0.35);
     color: #dc3545;
   }
-  .ab-danger:hover { background: rgba(220, 53, 69, 0.15); }
+
+  .ab-danger:hover {
+    background: rgba(220, 53, 69, 0.15);
+  }
+
   .ab-primary {
     background: rgba(13, 110, 253, 0.08);
     border-color: rgba(13, 110, 253, 0.35);
     color: var(--primary-color, #0d6efd);
   }
-  .ab-primary:hover { background: rgba(13, 110, 253, 0.15); }
+
+  .ab-primary:hover {
+    background: rgba(13, 110, 253, 0.15);
+  }
+
   .ab-blue {
     background: rgba(0, 132, 255, 0.08);
     border-color: rgba(0, 132, 255, 0.35);
     color: #0084ff;
   }
-  .ab-blue:hover { background: rgba(0, 132, 255, 0.15); }
+
+  .ab-blue:hover {
+    background: rgba(0, 132, 255, 0.15);
+  }
+
   .ab-spacer {
     flex: 1;
     min-width: 8px;
   }
+
   .ab-ai {
     display: inline-flex;
     align-items: center;
@@ -225,7 +303,11 @@
     cursor: pointer;
     transition: background 0.15s ease, transform 0.15s ease;
   }
-  .ab-ai:hover { background: rgba(0, 132, 255, 0.16); }
+
+  .ab-ai:hover {
+    background: rgba(0, 132, 255, 0.16);
+  }
+
   .ai-dot {
     width: 7px;
     height: 7px;
@@ -234,9 +316,19 @@
     box-shadow: 0 0 5px #0084ff;
     animation: ai-pulse 1.6s ease-in-out infinite;
   }
+
   @keyframes ai-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.3; transform: scale(1.6); }
+
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.3;
+      transform: scale(1.6);
+    }
   }
 
   /* =========================================================
@@ -257,12 +349,14 @@
     min-width: 0;
     position: relative;
   }
+
   .cards-top-bar {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
   }
+
   .card-tab-strip {
     display: flex;
     align-items: center;
@@ -272,7 +366,11 @@
     overflow-y: hidden;
     scrollbar-width: none;
   }
-  .card-tab-strip::-webkit-scrollbar { display: none; }
+
+  .card-tab-strip::-webkit-scrollbar {
+    display: none;
+  }
+
   .card-tab {
     position: relative;
     display: inline-flex;
@@ -290,8 +388,15 @@
     flex-shrink: 0;
     letter-spacing: 0.3px;
   }
-  .card-tab:hover  { color: var(--primary-color); }
-  .card-tab.active { color: var(--primary-color); }
+
+  .card-tab:hover {
+    color: var(--primary-color);
+  }
+
+  .card-tab.active {
+    color: var(--primary-color);
+  }
+
   .card-tab.active::after {
     content: "";
     position: absolute;
@@ -303,17 +408,20 @@
     background: var(--primary-color);
     animation: underlineSlide 0.25s ease;
   }
+
   .cards-slider-viewport {
     position: relative;
     width: 100%;
     overflow: hidden;
   }
+
   .cards-slider-track {
     display: flex;
     width: 100%;
     transition: transform 0.8s ease-in-out;
     will-change: transform;
   }
+
   .card-group-slide {
     flex: 0 0 100%;
     width: 100%;
@@ -339,16 +447,19 @@
     transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
   }
+
   .sc:hover {
     background: var(--nav-link-hover-bg);
     border-color: var(--primary-color);
     box-shadow: 0 10px 15px -3px var(--shadow), 0 4px 6px -2px var(--shadow);
     transform: translateY(-2px);
   }
+
   .sc:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px var(--shadow);
   }
+
   .sc-label {
     flex: 1;
     min-width: 0;
@@ -360,15 +471,18 @@
     color: var(--text-primary);
     transition: color 0.2s ease;
   }
+
   .sc:hover .sc-label {
     color: var(--primary-color);
   }
+
   .sc-right {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
   }
+
   .sc-val {
     display: flex;
     align-items: center;
@@ -381,6 +495,7 @@
     color: var(--primary-color);
     transition: color 0.2s ease;
   }
+
   .sc-sub {
     margin-top: 2px;
     min-height: 13px;
@@ -389,11 +504,13 @@
     color: var(--danger-color);
     white-space: nowrap;
   }
+
   .val-dots {
     display: inline-flex;
     align-items: center;
     gap: 4px;
   }
+
   .val-dots span {
     width: 5px;
     height: 5px;
@@ -401,9 +518,18 @@
     background: var(--text-secondary, #aaa);
     animation: dotBounce 1.2s ease-in-out infinite;
   }
-  .val-dots span:nth-child(1) { animation-delay: 0s; }
-  .val-dots span:nth-child(2) { animation-delay: 0.18s; }
-  .val-dots span:nth-child(3) { animation-delay: 0.36s; }
+
+  .val-dots span:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .val-dots span:nth-child(2) {
+    animation-delay: 0.18s;
+  }
+
+  .val-dots span:nth-child(3) {
+    animation-delay: 0.36s;
+  }
 
   /* =========================================================
    RIGHT CHART AREA
@@ -417,12 +543,14 @@
     max-height: 520px;
     overflow: hidden;
   }
+
   .charts-scroll-inner {
     display: flex;
     width: 100%;
     height: 100%;
     transition: transform 0.8s ease-in-out;
   }
+
   .chart-row-card {
     flex: 0 0 100%;
     width: 100%;
@@ -431,21 +559,25 @@
     transform: scale(0.985);
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
+
   .chart-row-card.visible {
     opacity: 1;
     transform: scale(1);
   }
+
   .chart-row-card .card {
     height: 100%;
     border-radius: 14px;
     overflow: hidden;
   }
+
   .chart-row-card .card-body {
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: clamp(12px, 1vw, 16px);
   }
+
   .chart-header {
     display: flex;
     align-items: center;
@@ -454,17 +586,20 @@
     margin-bottom: 10px;
     flex-wrap: wrap;
   }
+
   .chart-header h6 {
     margin: 0;
     font-size: clamp(13px, 1vw, 16px);
     font-weight: 700;
   }
+
   .chart-canvas-wrap {
     position: relative;
     flex: 1;
     min-height: 0;
     width: 100%;
   }
+
   .chart-canvas-wrap canvas {
     width: 100% !important;
     height: 100% !important;
@@ -480,6 +615,7 @@
     gap: 14px;
     margin-bottom: 10px;
   }
+
   .chart-filter-wrap {
     width: 160px;
     flex-shrink: 0;
@@ -497,7 +633,11 @@
     overflow-y: hidden;
     scrollbar-width: none;
   }
-  .graph-strip::-webkit-scrollbar { display: none; }
+
+  .graph-strip::-webkit-scrollbar {
+    display: none;
+  }
+
   .graph-tab {
     position: relative;
     display: inline-flex;
@@ -514,8 +654,15 @@
     transition: color 0.25s ease;
     flex-shrink: 0;
   }
-  .graph-tab:hover  { color: var(--primary-color); }
-  .graph-tab.active { color: var(--primary-color); }
+
+  .graph-tab:hover {
+    color: var(--primary-color);
+  }
+
+  .graph-tab.active {
+    color: var(--primary-color);
+  }
+
   .graph-tab.active::after {
     content: "";
     position: absolute;
@@ -527,9 +674,17 @@
     background: var(--primary-color);
     animation: underlineSlide 0.25s ease;
   }
+
   @keyframes underlineSlide {
-    from { width: 0; opacity: 0; }
-    to   { width: 100%; opacity: 1; }
+    from {
+      width: 0;
+      opacity: 0;
+    }
+
+    to {
+      width: 100%;
+      opacity: 1;
+    }
   }
 
   /* =========================================================
@@ -540,52 +695,153 @@
       grid-template-columns: clamp(320px, 22vw, 420px) minmax(0, 1fr);
       gap: 16px;
     }
-    .charts-column { max-height: 620px; }
-    .sc { padding: 14px 18px; }
-    .graph-tab { font-size: 14px; }
+
+    .charts-column {
+      max-height: 620px;
+    }
+
+    .sc {
+      padding: 14px 18px;
+    }
+
+    .graph-tab {
+      font-size: 14px;
+    }
   }
+
   @media (max-width: 1366px) {
     .charts-column {
       height: calc(100vh - 250px);
       max-height: 460px;
     }
   }
+
   @media (max-width: 992px) {
-    .charts-column  { height: 380px; max-height: unset; }
-    .top-chart-bar  { flex-direction: column; align-items: stretch; }
-    .chart-filter-wrap { width: 100%; }
+    .charts-column {
+      height: 380px;
+      max-height: unset;
+    }
+
+    .top-chart-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .chart-filter-wrap {
+      width: 100%;
+    }
+
     .graph-strip,
-    .card-tab-strip { width: 100%; }
+    .card-tab-strip {
+      width: 100%;
+    }
   }
+
   @media (max-width: 768px) {
-    .db-wrap     { padding-inline: 6px; }
-    .action-bar  { gap: 6px; }
+    .db-wrap {
+      padding-inline: 6px;
+    }
+
+    .action-bar {
+      gap: 6px;
+    }
+
     .ab-btn,
-    .ab-ai       { font-size: 10.5px; padding: 6px 11px; }
-    .sc          { padding: 8px 10px; }
-    .sc-label    { font-size: 10.5px; }
-    .sc-val      { font-size: 13px; }
-    .charts-column { height: 320px; min-height: 320px; }
-    .chart-header  { margin-bottom: 8px; }
-    .graph-strip   { gap: 10px; }
-    .graph-tab     { font-size: 10px; }
-    .chart-row-card .card-body { padding: 10px; }
-    .card-tab      { font-size: 10px; }
-    .stime { font-size: 10.5px; }
-    .stitle { font-size: 10.5px; }
-    .slabel { font-size: 8px; padding: 1px 6px; }
-    .scard { padding: 8px 10px; }
+    .ab-ai {
+      font-size: 10.5px;
+      padding: 6px 11px;
+    }
+
+    .sc {
+      padding: 8px 10px;
+    }
+
+    .sc-label {
+      font-size: 10.5px;
+    }
+
+    .sc-val {
+      font-size: 13px;
+    }
+
+    .charts-column {
+      height: 320px;
+      min-height: 320px;
+    }
+
+    .chart-header {
+      margin-bottom: 8px;
+    }
+
+    .graph-strip {
+      gap: 10px;
+    }
+
+    .graph-tab {
+      font-size: 10px;
+    }
+
+    .chart-row-card .card-body {
+      padding: 10px;
+    }
+
+    .card-tab {
+      font-size: 10px;
+    }
+
+    .stime {
+      font-size: 10.5px;
+    }
+
+    .stitle {
+      font-size: 10.5px;
+    }
+
+    .slabel {
+      font-size: 8px;
+      padding: 1px 6px;
+    }
+
+    .scard {
+      padding: 8px 10px;
+    }
   }
+
   @media (max-width: 480px) {
-    .charts-column { height: 280px; min-height: 280px; }
-    .sc            { border-radius: 8px; padding: 6px 8px; }
-    .sc-label      { font-size: 10px; }
-    .sc-val        { font-size: 12px; }
+    .charts-column {
+      height: 280px;
+      min-height: 280px;
+    }
+
+    .sc {
+      border-radius: 8px;
+      padding: 6px 8px;
+    }
+
+    .sc-label {
+      font-size: 10px;
+    }
+
+    .sc-val {
+      font-size: 12px;
+    }
+
     .graph-tab,
-    .card-tab      { font-size: 9px; }
-    .loader-label  { font-size: 11px; }
-    .stime { font-size: 9.5px; }
-    .stitle { font-size: 9.5px; }
+    .card-tab {
+      font-size: 9px;
+    }
+
+    .loader-label {
+      font-size: 11px;
+    }
+
+    .stime {
+      font-size: 9.5px;
+    }
+
+    .stitle {
+      font-size: 9.5px;
+    }
   }
 
   /* =========================================================
@@ -605,50 +861,84 @@
     box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow);
     animation: cardPulse 3s ease-in-out infinite;
   }
+
   @keyframes cardPulse {
-    0%, 100% { box-shadow: 0 0 6px 1px var(--shadow), 0 2px 8px var(--shadow); }
-    50%       { box-shadow: 0 0 16px 4px var(--shadow), 0 2px 8px var(--shadow); }
+
+    0%,
+    100% {
+      box-shadow: 0 0 6px 1px var(--shadow), 0 2px 8px var(--shadow);
+    }
+
+    50% {
+      box-shadow: 0 0 16px 4px var(--shadow), 0 2px 8px var(--shadow);
+    }
   }
+
   .scard::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 2px;
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
     background-size: 200% 100%;
     animation: shimmer 2.5s linear infinite;
   }
+
   .scard::after {
     content: '';
     position: absolute;
-    top: 0; left: -75%;
+    top: 0;
+    left: -75%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%);
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.07) 50%, transparent 100%);
     animation: sweep 4s ease-in-out infinite;
   }
+
   @keyframes shimmer {
-    0%   { background-position: 200% center; }
-    100% { background-position: -200% center; }
+    0% {
+      background-position: 200% center;
+    }
+
+    100% {
+      background-position: -200% center;
+    }
   }
+
   @keyframes sweep {
-    0%  { left: -75%; }
-    60% { left: 130%; }
-    100%{ left: 130%; }
+    0% {
+      left: -75%;
+    }
+
+    60% {
+      left: 130%;
+    }
+
+    100% {
+      left: 130%;
+    }
   }
+
   .scard:hover {
     transform: translateY(-2px);
     border-color: var(--primary-color);
     box-shadow: 0 10px 15px -3px var(--shadow), 0 4px 6px -2px var(--shadow);
     animation: none;
   }
+
   .scard-inner {
     display: flex;
     flex-direction: column;
     gap: 5px;
     width: 100%;
   }
-  .scard-header { text-align: center; }
+
+  .scard-header {
+    text-align: center;
+  }
+
   .slabel {
     font-size: 9px;
     font-weight: 700;
@@ -664,18 +954,21 @@
     border: 1px solid var(--border-color);
     background-color: var(--nav-link-active-bg);
   }
+
   .scard-divider {
     width: 100%;
     height: 1px;
     background: var(--border-color);
     opacity: 0.5;
   }
+
   .scard-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
   }
+
   .snext {
     font-size: 9px;
     color: var(--text-secondary);
@@ -683,17 +976,20 @@
     letter-spacing: 0.05em;
     font-weight: 600;
   }
+
   .stime {
     font-size: 12px;
     font-weight: 700;
     color: var(--primary-color);
   }
+
   .stitle {
     font-size: 12px;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
   }
+
   .sdesc {
     font-size: 11px;
     color: var(--text-secondary);
@@ -711,6 +1007,7 @@
     overflow: hidden;
     min-height: 58px;
   }
+
   .schedule-slide {
     position: absolute;
     inset: 0;
@@ -721,38 +1018,41 @@
     flex-direction: column;
     gap: 6px;
   }
+
   .schedule-slide.active {
     opacity: 1;
     transform: translateX(0);
     position: relative;
   }
+
   .schedule-slide.exit {
     opacity: 0;
     transform: translateX(-100%);
   }
+
   /* =========================================================
 STATUS COLORS
 ========================================================= */
 
-.status-upcoming{
+  .status-upcoming {
 
-  color: var(--primary-color);
-}
+    color: var(--primary-color);
+  }
 
-.status-ongoing{
+  .status-ongoing {
 
-  color:#16a34a;
-}
+    color: #16a34a;
+  }
 
-.status-completed{
+  .status-completed {
 
-  color:#64748b;
-}
+    color: #64748b;
+  }
 
-.status-cancelled{
+  .status-cancelled {
 
-  color:#dc2626;
-}
+    color: #dc2626;
+  }
 </style>
 
 <!-- PAGE LOADER -->
@@ -885,33 +1185,38 @@ STATUS COLORS
             <!-- GROUP 1: STRENGTH -->
             <div class="card-group-slide">
               <div class="sc" data-bs-toggle="modal" data-bs-target="#paradeStateModal">
-                <span class="sc-label">Parade State</span>
+                <span class="sc-label">Man Power</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="mainPower"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="mainPower"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="openCourses">
                 <span class="sc-label">On Course</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="totalCoursesDone"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="totalCoursesDone"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#rollCallPoints">
                 <span class="sc-label">Central Roll Call</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="center-roll-points"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="center-roll-points"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#attachmentModalUniqueScope">
                 <span class="sc-label">TD / Attachment</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="attachment-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="attachment-count"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="viewDetailsBtn">
                 <span class="sc-label">Detachment</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="locationCount"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="locationCount"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
             </div>
@@ -919,22 +1224,26 @@ STATUS COLORS
 
             <!-- GROUP 2: AGNIVEER -->
             <div class="card-group-slide">
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal" id="card-agniveer" style="cursor: pointer">
-                <span class="sc-label">AGNIVEER</span>
+              <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal" id="card-agniveer"
+                style="cursor: pointer">
+                <span class="sc-label">AGNIVEER STRENGTH</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="agniveer_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="agniveer_count"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="agniveer_on_leave" style="cursor: pointer">
                 <span class="sc-label">AGNIVEER ON LEAVE</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="onleave_leave"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="onleave_leave"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="agniveer_on_detachment" style="cursor: pointer">
                 <span class="sc-label">AGNIVEER ON DETACHMENT</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="ondetachment_det"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="ondetachment_det"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" style="cursor: not-allowed">
@@ -951,27 +1260,40 @@ STATUS COLORS
               <div class="sc" data-bs-toggle="modal" data-bs-target="#loanModal">
                 <span class="sc-label">Active Loans</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="active-loan-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="active-loan-count"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#projDash_modal">
                 <span class="sc-label">Total Projects</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="get_projects_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="get_projects_count"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#duesInListModal">
                 <span class="sc-label">Dues In</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="dues_in_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="dues_in_count"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#duesOutListModal">
                 <span class="sc-label">Dues Out</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="dues_out_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="dues_out_count"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
+              <div class="sc" style="cursor: pointer" id="openSensitive">
+               
+
+                <small class="sc-label">SENSITIVE INDL</small>
+
+               <span class="sc-val" id="sensitive-count"><span
+                      class="val-dots"><span></span><span></span><span></span></span></span>
+                </div>
+              
             </div>
             <!-- /GROUP 3 -->
 
@@ -1012,7 +1334,8 @@ STATUS COLORS
                 <div class="card-body">
                   <div class="chart-header">
                     <h6>Posted Strength</h6>
-                    <span id="rankTotalCount" style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
+                    <span id="rankTotalCount" style="font-weight:600;color:var(--primary-color);font-size:12px">Total:
+                      --</span>
                   </div>
                   <div class="chart-canvas-wrap"><canvas id="rankChart"></canvas></div>
                 </div>
@@ -1024,7 +1347,8 @@ STATUS COLORS
                 <div class="card-body">
                   <div class="chart-header">
                     <h6>Detachment Stats</h6>
-                    <span id="detachmentTotal" style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
+                    <span id="detachmentTotal" style="font-weight:600;color:var(--primary-color);font-size:12px">Total:
+                      --</span>
                   </div>
                   <div class="chart-canvas-wrap"><canvas id="detachmentChart"></canvas></div>
                 </div>
@@ -1063,7 +1387,8 @@ STATUS COLORS
                 <div class="card-body">
                   <div class="chart-header">
                     <h6>Agniveer Trade Wise</h6>
-                    <span id="agniveerTradeTotal" style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
+                    <span id="agniveerTradeTotal"
+                      style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
                   </div>
                   <div class="chart-canvas-wrap"><canvas id="agniveerTradeChart"></canvas></div>
                 </div>
@@ -1117,7 +1442,7 @@ STATUS COLORS
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Parade State</h5>
+            <h5 class="modal-title">Man Power</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
@@ -1176,13 +1501,13 @@ STATUS COLORS
     var board = document.getElementById("openBoardDetails");
     if (board) board.addEventListener("click", function () { window.location.href = "/board_details"; });
     var sens = document.getElementById("openSensitive");
-    if (sens)  sens.addEventListener("click",  function () { window.location.href = "/mark_personnel"; });
+    if (sens) sens.addEventListener("click", function () { window.location.href = "/mark_personnel"; });
   })();
 
   /* ── save event ── */
   function saveEvent() {
-    var date  = document.getElementById("evt_date").value;
-    var name  = document.getElementById("evt_name").value;
+    var date = document.getElementById("evt_date").value;
+    var name = document.getElementById("evt_name").value;
     var venue = document.getElementById("evt_venue").value;
     if (!date || !name || !venue) { alert("Please fill all fields."); return; }
     var fd = new FormData();
@@ -1230,7 +1555,7 @@ STATUS COLORS
       var r = await fetch("/apply_leave/rejected_leaves"), d = await r.json();
       var cnt = (d.data || []).length, bdg = document.getElementById("coRejectedCount");
       if (bdg) { bdg.textContent = cnt; bdg.style.display = cnt > 0 ? "inline-flex" : "none"; }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   /* ── load leave requests badge ── */
@@ -1239,7 +1564,7 @@ STATUS COLORS
       var r = await fetch("/apply_leave/get_leave_requests"), d = await r.json();
       var cnt = (d.data || []).length, bdg = document.getElementById("leaveRequestBadge");
       if (bdg) { bdg.textContent = cnt; bdg.style.display = cnt > 0 ? "inline-flex" : "none"; }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   /* ── main dashboard data ── */
@@ -1250,23 +1575,23 @@ STATUS COLORS
       var data = await res.json(), mp = data.manpower || {}, iv = data.interview || {};
       safeSet("mainPower",
         (mp.officerCount || 0) + " \u2013 " + (mp.jcoCount || 0) + " \u2013 " + (mp.orCount || 0));
-      safeSet("attachment-count",        data.attachment_count);
-      safeSet("duty-search-count",       data.duty_count);
-      safeSet("totalCoursesDone",        data.courses_count);
-      safeSet("interview-Count",         iv.pending_count);
-      safeSet("total-count",             iv.total_count);
-      safeSet("interview%",              "Pending " + (iv.percentage || 0) + "%");
-      safeSet("locationCount",           data.detachments);
-      safeSet("sensitive-count",         data.sensitive_count);
-      safeSet("board-count",             data.boards_count);
-      safeSet("active-loan-count",       data.loan_count);
-      safeSet("get_projects_count",      data.projects);
-      safeSet("center-roll-points",      data.roll_call_pending_points);
-      safeSet("agniveer_count",          data.agniveer_count);
-      safeSet("onleave_leave",           data.agniveer_on_leave);
-      safeSet("ondetachment_det",        data.agniveer_on_detachment);
-      safeSet("dues_in_count",           data.dues_in);
-      safeSet("dues_out_count",          data.dues_out);
+      safeSet("attachment-count", data.attachment_count);
+      safeSet("duty-search-count", data.duty_count);
+      safeSet("totalCoursesDone", data.courses_count);
+      safeSet("interview-Count", iv.pending_count);
+      safeSet("total-count", iv.total_count);
+      safeSet("interview%", "Pending " + (iv.percentage || 0) + "%");
+      safeSet("locationCount", data.detachments);
+      safeSet("sensitive-count", data.sensitive_count);
+      safeSet("board-count", data.boards_count);
+      safeSet("active-loan-count", data.loan_count);
+      safeSet("get_projects_count", data.projects);
+      safeSet("center-roll-points", data.roll_call_pending_points);
+      safeSet("agniveer_count", data.agniveer_count);
+      safeSet("onleave_leave", data.agniveer_on_leave);
+      safeSet("ondetachment_det", data.agniveer_on_detachment);
+      safeSet("dues_in_count", data.dues_in);
+      safeSet("dues_out_count", data.dues_out);
       await Promise.all([loadRejected(), loadLeaveRequests_CO(), loadEvents()]);
       hidePageLoader();
       showActionBar();
@@ -1360,17 +1685,17 @@ STATUS COLORS
 
     fetch("/api/today/schedules")
 
-        .then(response => response.json())
+      .then(response => response.json())
 
-        .then(data => {
+      .then(data => {
 
-            /* =========================================
-               NO DATA
-            ========================================= */
+        /* =========================================
+           NO DATA
+        ========================================= */
 
-            if (!data.length) {
+        if (!data.length) {
 
-                slider.innerHTML = `
+          slider.innerHTML = `
 
                     <div class="schedule-slide active">
 
@@ -1408,70 +1733,70 @@ STATUS COLORS
 
                 `;
 
-                return;
-            }
+          return;
+        }
 
-            /* =========================================
-               SORT BY TIME
-            ========================================= */
+        /* =========================================
+           SORT BY TIME
+        ========================================= */
 
-            data.sort((a, b) => {
+        data.sort((a, b) => {
 
-                return a.start_time.localeCompare(b.start_time);
+          return a.start_time.localeCompare(b.start_time);
 
-            });
-
-
-            /* =========================================
-               FIND CURRENT / NEXT EVENT
-            ========================================= */
-
-            const now = new Date();
-
-            const currentMinutes =
-                now.getHours() * 60 + now.getMinutes();
-
-            let activeIndex = 0;
-
-            data.forEach((item, index) => {
-
-                const parts = item.start_time.split(":");
-
-                const startMinutes =
-                    parseInt(parts[0]) * 60 +
-                    parseInt(parts[1]);
-
-                if (startMinutes >= currentMinutes
-                    && activeIndex === 0) {
-
-                    activeIndex = index;
-                }
-
-            });
+        });
 
 
-            /* =========================================
-               RENDER
-            ========================================= */
+        /* =========================================
+           FIND CURRENT / NEXT EVENT
+        ========================================= */
 
-            slider.innerHTML = data.map((item, index) => {
+        const now = new Date();
 
-                let badge = "Upcoming";
+        const currentMinutes =
+          now.getHours() * 60 + now.getMinutes();
 
-                if (item.status === "ongoing") {
+        let activeIndex = 0;
 
-                    badge = "Ongoing";
+        data.forEach((item, index) => {
 
-                } else if (item.status === "completed") {
+          const parts = item.start_time.split(":");
 
-                    badge = "Done";
+          const startMinutes =
+            parseInt(parts[0]) * 60 +
+            parseInt(parts[1]);
 
-                } else if (index === activeIndex) {
+          if (startMinutes >= currentMinutes
+            && activeIndex === 0) {
 
-                    badge = "Next";
-                }
+            activeIndex = index;
+          }
 
-                return `
+        });
+
+
+        /* =========================================
+           RENDER
+        ========================================= */
+
+        slider.innerHTML = data.map((item, index) => {
+
+          let badge = "Upcoming";
+
+          if (item.status === "ongoing") {
+
+            badge = "Ongoing";
+
+          } else if (item.status === "completed") {
+
+            badge = "Done";
+
+          } else if (index === activeIndex) {
+
+            badge = "Next";
+          }
+
+          return `
 
                     <div class="schedule-slide ${index === activeIndex ? 'active' : ''}">
 
@@ -1520,52 +1845,52 @@ STATUS COLORS
 
                 `;
 
-            }).join("");
+        }).join("");
 
 
-            /* =========================================
-               AUTO SLIDE
-            ========================================= */
+        /* =========================================
+           AUTO SLIDE
+        ========================================= */
 
-            let currentSlide = activeIndex;
+        let currentSlide = activeIndex;
 
-            const slides =
-                slider.querySelectorAll(".schedule-slide");
+        const slides =
+          slider.querySelectorAll(".schedule-slide");
 
-            if (slides.length <= 1) return;
+        if (slides.length <= 1) return;
 
-            setInterval(() => {
+        setInterval(() => {
 
-                slides[currentSlide]
-                    .classList.remove("active");
+          slides[currentSlide]
+            .classList.remove("active");
 
-                currentSlide =
-                    (currentSlide + 1) % slides.length;
+          currentSlide =
+            (currentSlide + 1) % slides.length;
 
-                slides[currentSlide]
-                    .classList.add("active");
+          slides[currentSlide]
+            .classList.add("active");
 
-            }, 5000);
+        }, 5000);
 
-        })
+      })
 
-        .catch(error => {
+      .catch(error => {
 
-            console.error(
-                "Schedule fetch error:",
-                error
-            );
+        console.error(
+          "Schedule fetch error:",
+          error
+        );
 
-        });
+      });
 
-}
+  }
 
 
-/* =========================================================
-TIME FORMAT
-========================================================= */
+  /* =========================================================
+  TIME FORMAT
+  ========================================================= */
 
-function formatScheduleTime(timeStr) {
+  function formatScheduleTime(timeStr) {
 
     if (!timeStr) return "--";
 
@@ -1582,7 +1907,7 @@ function formatScheduleTime(timeStr) {
     if (hour === 0) hour = 12;
 
     return `${hour}:${minute} ${ampm}`;
-}
+  }
 </script>
 
 <!-- =====================================================
@@ -1590,6 +1915,108 @@ function formatScheduleTime(timeStr) {
 ===================================================== -->
 <script>
   var rankCI = null, detCI = null, fitCI = null, unfitCI = null, agniveerTradeCI = null;
+
+  var donutDatalabelsPlugin = {
+    id: "donutDatalabels",
+    afterDatasetsDraw: function (chart) {
+      var ctx = chart.ctx;
+      chart.data.datasets.forEach(function (ds, i) {
+        var meta = chart.getDatasetMeta(i);
+        meta.data.forEach(function (arc, j) {
+          var val = ds.data[j];
+          if (val == null || val === 0) return;
+
+          var angle = arc.endAngle - arc.startAngle;
+          if (angle < 0.15) return;
+
+          ctx.save();
+          var midAngle = arc.startAngle + angle / 2;
+          var midRadius = arc.innerRadius + (arc.outerRadius - arc.innerRadius) / 2;
+          var x = arc.x + Math.cos(midAngle) * midRadius;
+          var y = arc.y + Math.sin(midAngle) * midRadius;
+
+          ctx.font = "bold 11px sans-serif";
+          ctx.fillStyle = "#ffffff";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 0.5;
+          ctx.shadowOffsetY = 0.5;
+
+          ctx.fillText(val, x, y);
+          ctx.restore();
+        });
+      });
+    }
+  };
+
+  var donutHoverCenterPlugin = {
+    id: "donutHoverCenter",
+    afterDraw: function (chart) {
+      var ctx = chart.ctx;
+      var x = chart.width / 2;
+      var y = chart.height / 2;
+
+      var meta = chart.getDatasetMeta(0);
+      if (meta && meta.data && meta.data[0]) {
+        x = meta.data[0].x;
+        y = meta.data[0].y;
+      }
+
+      var index = -1;
+      var activeElements = [];
+      if (typeof chart.getActiveElements === 'function') {
+        activeElements = chart.getActiveElements();
+      } else if (chart.tooltip && chart.tooltip._active) {
+        activeElements = chart.tooltip._active;
+      }
+      if (activeElements && activeElements.length > 0) {
+        var activeEl = activeElements[0];
+        index = activeEl.index !== undefined ? activeEl.index : activeEl._index;
+      }
+
+      var title = "TOTAL";
+      var val = chart.data.datasets[0].data.reduce(function (a, b) { return a + b; }, 0);
+      var color = getThemeColor('--text-primary', '#1f2937');
+
+      if (index >= 0) {
+        title = chart.data.labels[index] || "";
+        val = chart.data.datasets[0].data[index];
+
+        if (chart.data.datasets[0].backgroundColor) {
+          var bg = chart.data.datasets[0].backgroundColor;
+          if (Array.isArray(bg) && bg[index]) {
+            color = bg[index];
+          }
+        }
+      }
+
+      ctx.save();
+
+      // Draw Label/Title
+      ctx.font = "600 10px sans-serif";
+      ctx.fillStyle = getThemeColor('--text-secondary', '#6b7280');
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      var maxW = (meta.data[0] ? meta.data[0].innerRadius * 1.5 : 50);
+      var displayTitle = title.toUpperCase();
+      if (ctx.measureText(displayTitle).width > maxW) {
+        displayTitle = displayTitle.slice(0, 10) + "...";
+      }
+      ctx.fillText(displayTitle, x, y - 9);
+
+      // Draw Count Value
+      ctx.font = "bold 18px sans-serif";
+      ctx.fillStyle = color;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(val, x, y + 9);
+
+      ctx.restore();
+    }
+  };
 
   function getThemeColor(variableName, fallback) {
     var val = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
@@ -1678,14 +2105,15 @@ function formatScheduleTime(timeStr) {
               "#16a34a",
               "#f59e0b",
               getThemeColor('--secondary-color', '#7c3aed'),
-              "#db2777","#0891b2","#65a30d","#ea580c","#4f46e5",
-              "#0f766e","#be123c","#4338ca","#15803d","#b45309",
-              "#6d28d9","#1d4ed8","#c2410c","#0f172a","#a21caf",
+              "#db2777", "#0891b2", "#65a30d", "#ea580c", "#4f46e5",
+              "#0f766e", "#be123c", "#4338ca", "#15803d", "#b45309",
+              "#6d28d9", "#1d4ed8", "#c2410c", "#0f172a", "#a21caf",
             ],
             borderWidth: 2,
             borderColor: getThemeColor('--card-bg-solid', '#fff'),
           }],
         },
+        plugins: [donutDatalabelsPlugin, donutHoverCenterPlugin],
         options: {
           responsive: true, maintainAspectRatio: false, cutout: "65%",
           animation: { animateRotate: true, duration: 800, easing: "easeOutQuart" },
@@ -1709,7 +2137,7 @@ function formatScheduleTime(timeStr) {
       var res = await fetch("/api/unfit_trend?company=" + encodeURIComponent(company));
       var result = await res.json();
       if (result.status !== "success") return;
-      var mn = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      var mn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       var labels = result.data.map(function (d) { return mn[d.month - 1] + " " + d.year; });
       var values = result.data.map(function (d) { return d.unfit_count; });
       var ctx = document.getElementById("unfitTrendChart").getContext("2d");
@@ -1754,7 +2182,7 @@ function formatScheduleTime(timeStr) {
       var res = await fetch("/weight_system/api/summary?company=" + encodeURIComponent(company));
       var result = await res.json();
       var fit = result.Fit, unfit = result.unFit;
-      document.getElementById("fitCount").textContent   = fit;
+      document.getElementById("fitCount").textContent = fit;
       document.getElementById("unfitCount").textContent = unfit;
       var vp = {
         id: "vp2",
@@ -1835,14 +2263,15 @@ function formatScheduleTime(timeStr) {
               "#16a34a",
               "#f59e0b",
               getThemeColor('--secondary-color', '#7c3aed'),
-              "#db2777","#0891b2","#65a30d","#ea580c","#4f46e5",
-              "#0f766e","#be123c","#4338ca","#15803d","#b45309",
-              "#6d28d9","#1d4ed8","#c2410c","#0f172a","#a21caf",
+              "#db2777", "#0891b2", "#65a30d", "#ea580c", "#4f46e5",
+              "#0f766e", "#be123c", "#4338ca", "#15803d", "#b45309",
+              "#6d28d9", "#1d4ed8", "#c2410c", "#0f172a", "#a21caf",
             ],
             borderWidth: 2,
             borderColor: getThemeColor('--card-bg-solid', '#fff'),
           }],
         },
+        plugins: [donutDatalabelsPlugin, donutHoverCenterPlugin],
         options: {
           responsive: true, maintainAspectRatio: false, cutout: "65%",
           animation: { animateRotate: true, duration: 800, easing: "easeOutQuart" },
@@ -1866,7 +2295,7 @@ function formatScheduleTime(timeStr) {
     loadUnfitTrend("ALL");
     loadFitUnfitChart("All");
     loadAgniveerTradeChart("ALL");
-    document.getElementById("companyFilter").addEventListener("change", function () {
+    document.getElementById("companyFilter")?.addEventListener("change", function () {
       loadRankChart(this.value);
       loadDetachmentChart(this.value);
       loadUnfitTrend(this.value);
@@ -1904,138 +2333,138 @@ function formatScheduleTime(timeStr) {
      so all three sliders re-sync from that exact moment.
 ===================================================== -->
 <script>
-(function () {
-  var TICK = 6000;   /* 10 s — same interval as before */
+  (function () {
+    var TICK = 6000;   /* 10 s — same interval as before */
 
-  /* ── pause ref-count ──────────────────────────────── */
-  var pauseCount  = 0;
-  var masterTimer = null;
+    /* ── pause ref-count ──────────────────────────────── */
+    var pauseCount = 0;
+    var masterTimer = null;
 
-  /* ── element refs ─────────────────────────────────── */
-  var cardTrack  = document.getElementById("cardsSliderTrack");
-  var cardVP     = document.getElementById("cardsSliderViewport");
-  var cardTabs   = document.querySelectorAll(".card-tab");
-  var cardSlides = document.querySelectorAll(".card-group-slide");
-  var cardTotal  = cardSlides.length;
-  var cardIdx    = 0;
+    /* ── element refs ─────────────────────────────────── */
+    var cardTrack = document.getElementById("cardsSliderTrack");
+    var cardVP = document.getElementById("cardsSliderViewport");
+    var cardTabs = document.querySelectorAll(".card-tab");
+    var cardSlides = document.querySelectorAll(".card-group-slide");
+    var cardTotal = cardSlides.length;
+    var cardIdx = 0;
 
-  var chartInner = document.getElementById("chartsScrollInner");
-  var chartTabs  = document.querySelectorAll(".graph-tab");
-  var chartCards = document.querySelectorAll(".chart-row-card");
-  var chartTotal = chartCards.length;
-  var chartIdx   = 0;
+    var chartInner = document.getElementById("chartsScrollInner");
+    var chartTabs = document.querySelectorAll(".graph-tab");
+    var chartCards = document.querySelectorAll(".chart-row-card");
+    var chartTotal = chartCards.length;
+    var chartIdx = 0;
 
-  /* schedIdx / schedTotal are read live from the DOM
-     because the schedule slides are injected by fetch */
-  var schedIdx = 0;
+    /* schedIdx / schedTotal are read live from the DOM
+       because the schedule slides are injected by fetch */
+    var schedIdx = 0;
 
-  /* ── goTo helpers ─────────────────────────────────── */
-  function goCard(i) {
-    cardIdx = ((i % cardTotal) + cardTotal) % cardTotal;
-    cardTrack.style.transform = "translateX(-" + cardIdx * 100 + "%)";
-    cardTabs.forEach(function (t) { t.classList.remove("active"); });
-    var a = document.querySelector(".card-tab[data-card-index='" + cardIdx + "']");
-    if (a) a.classList.add("active");
-  }
-
-  function goChart(i) {
-    chartIdx = ((i % chartTotal) + chartTotal) % chartTotal;
-    chartInner.style.transform = "translateX(-" + chartIdx * 100 + "%)";
-    chartTabs.forEach(function (t) { t.classList.remove("active"); });
-    var a = document.querySelector(".graph-tab[data-index='" + chartIdx + "']");
-    if (a) a.classList.add("active");
-  }
-
-  function goSched(i) {
-    var all = document.querySelectorAll(".schedule-slide");
-    if (!all.length) return;
-    var total = all.length;
-    var prev  = all[schedIdx];
-    schedIdx  = ((i % total) + total) % total;
-
-    if (prev) {
-      prev.classList.remove("active");
-      prev.classList.add("exit");
-      setTimeout(function () { prev.classList.remove("exit"); }, 600);
+    /* ── goTo helpers ─────────────────────────────────── */
+    function goCard(i) {
+      cardIdx = ((i % cardTotal) + cardTotal) % cardTotal;
+      cardTrack.style.transform = "translateX(-" + cardIdx * 100 + "%)";
+      cardTabs.forEach(function (t) { t.classList.remove("active"); });
+      var a = document.querySelector(".card-tab[data-card-index='" + cardIdx + "']");
+      if (a) a.classList.add("active");
     }
-    all[schedIdx].classList.add("active");
-  }
 
-  /* ── master tick ──────────────────────────────────── */
-  function tick() {
-    if (pauseCount > 0) return;   /* skip while any region is hovered */
-    goCard(cardIdx + 1);
-    goChart(chartIdx + 1);
-    goSched(schedIdx + 1);
-  }
-
-  /* ── timer control ────────────────────────────────── */
-  function startTimer() {
-    clearInterval(masterTimer);
-    masterTimer = setInterval(tick, TICK);
-  }
-
-  /* ── hover pause / resume ─────────────────────────── */
-  function onPause() {
-    pauseCount++;
-    clearInterval(masterTimer);   /* freeze immediately */
-  }
-  function onResume() {
-    pauseCount = Math.max(0, pauseCount - 1);
-    if (pauseCount === 0) {
-      startTimer();               /* restart → all sliders re-sync */
+    function goChart(i) {
+      chartIdx = ((i % chartTotal) + chartTotal) % chartTotal;
+      chartInner.style.transform = "translateX(-" + chartIdx * 100 + "%)";
+      chartTabs.forEach(function (t) { t.classList.remove("active"); });
+      var a = document.querySelector(".graph-tab[data-index='" + chartIdx + "']");
+      if (a) a.classList.add("active");
     }
-  }
 
-  function addPause(el) {
-    if (!el) return;
-    el.addEventListener("mouseenter", onPause);
-    el.addEventListener("mouseleave", onResume);
-  }
+    function goSched(i) {
+      var all = document.querySelectorAll(".schedule-slide");
+      if (!all.length) return;
+      var total = all.length;
+      var prev = all[schedIdx];
+      schedIdx = ((i % total) + total) % total;
 
-  addPause(cardVP);
-  addPause(document.getElementById("chartsColumn"));
-  addPause(document.querySelector(".scard"));
-
-  /* ── tab click handlers ───────────────────────────── */
-  cardTabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      goCard(Number(this.dataset.cardIndex));
-      startTimer();   /* re-sync after manual navigation */
-    });
-  });
-
-  chartTabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      goChart(Number(this.dataset.index));
-      startTimer();
-    });
-  });
-
-  /* ── touch swipe on cards viewport ───────────────── */
-  var touchStartX = 0;
-  if (cardVP) {
-    cardVP.addEventListener("touchstart", function (e) {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-    cardVP.addEventListener("touchend", function (e) {
-      var diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 40) {
-        goCard(diff > 0 ? cardIdx + 1 : cardIdx - 1);
-        startTimer();
+      if (prev) {
+        prev.classList.remove("active");
+        prev.classList.add("exit");
+        setTimeout(function () { prev.classList.remove("exit"); }, 600);
       }
-    }, { passive: true });
-  }
+      all[schedIdx].classList.add("active");
+    }
 
-  /* ── init ─────────────────────────────────────────── */
-  goCard(0);
-  goChart(0);
-  document.querySelectorAll(".chart-row-card").forEach(function (c) {
-    c.classList.add("visible");
-  });
-  startTimer();
+    /* ── master tick ──────────────────────────────────── */
+    function tick() {
+      if (pauseCount > 0) return;   /* skip while any region is hovered */
+      goCard(cardIdx + 1);
+      goChart(chartIdx + 1);
+      goSched(schedIdx + 1);
+    }
 
-})();
+    /* ── timer control ────────────────────────────────── */
+    function startTimer() {
+      clearInterval(masterTimer);
+      masterTimer = setInterval(tick, TICK);
+    }
+
+    /* ── hover pause / resume ─────────────────────────── */
+    function onPause() {
+      pauseCount++;
+      clearInterval(masterTimer);   /* freeze immediately */
+    }
+    function onResume() {
+      pauseCount = Math.max(0, pauseCount - 1);
+      if (pauseCount === 0) {
+        startTimer();               /* restart → all sliders re-sync */
+      }
+    }
+
+    function addPause(el) {
+      if (!el) return;
+      el.addEventListener("mouseenter", onPause);
+      el.addEventListener("mouseleave", onResume);
+    }
+
+    addPause(cardVP);
+    addPause(document.getElementById("chartsColumn"));
+    addPause(document.querySelector(".scard"));
+
+    /* ── tab click handlers ───────────────────────────── */
+    cardTabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        goCard(Number(this.dataset.cardIndex));
+        startTimer();   /* re-sync after manual navigation */
+      });
+    });
+
+    chartTabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        goChart(Number(this.dataset.index));
+        startTimer();
+      });
+    });
+
+    /* ── touch swipe on cards viewport ───────────────── */
+    var touchStartX = 0;
+    if (cardVP) {
+      cardVP.addEventListener("touchstart", function (e) {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+      cardVP.addEventListener("touchend", function (e) {
+        var diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+          goCard(diff > 0 ? cardIdx + 1 : cardIdx - 1);
+          startTimer();
+        }
+      }, { passive: true });
+    }
+
+    /* ── init ─────────────────────────────────────────── */
+    goCard(0);
+    goChart(0);
+    document.querySelectorAll(".chart-row-card").forEach(function (c) {
+      c.classList.add("visible");
+    });
+    startTimer();
+
+  })();
 </script>
 
 {% endblock %}

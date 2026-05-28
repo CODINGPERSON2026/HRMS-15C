@@ -218,7 +218,7 @@
   }
 
   // Show emergency section when a test is chosen
-  document.getElementById("upd_test_no").addEventListener("change", function () {
+  document.getElementById("upd_test_no")?.addEventListener("change", function () {
     const emergencySection = document.getElementById("emergencySection");
     if (emergencySection) emergencySection.style.display = this.value ? "block" : "none";
   });

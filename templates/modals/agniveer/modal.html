@@ -321,8 +321,7 @@
   let agni_isLoading = false;
 
   /* ── Modal open guard ─────────────────────────────── */
-  document.getElementById('agni_Modal')
-    .addEventListener('shown.bs.modal', function () {
+  document.getElementById('agni_Modal')?.addEventListener('shown.bs.modal', function () {
       if (agni_isLoaded || agni_isLoading) return;
       agni_loadData();
     });
@@ -487,8 +486,8 @@
   window.agni_printTable = function () { window.print(); };
 
   /* ── Filter listeners ─────────────────────────────── */
-  document.getElementById('agni_BatchFilter').addEventListener('change', agni_applyFilters);
-  document.getElementById('agni_ResetFilter').addEventListener('click', function () {
+  document.getElementById('agni_BatchFilter')?.addEventListener('change', agni_applyFilters);
+  document.getElementById('agni_ResetFilter')?.addEventListener('click', function () {
     document.getElementById('agni_BatchFilter').value = 'all';
     agni_applyFilters();
   });

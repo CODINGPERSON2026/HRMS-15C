@@ -575,8 +575,7 @@
       }
     
       /* ── Open main modal ── */
-      document.getElementById('kunbaInterviewModal')
-        .addEventListener('shown.bs.modal', loadKunbaInterviewData);
+      document.getElementById('kunbaInterviewModal')?.addEventListener('shown.bs.modal', loadKunbaInterviewData);
     
       /* ── Load pending list ── */
       async function loadKunbaInterviewData() {
@@ -720,8 +719,7 @@
       /* ── Load completed list (lazy, once) ── */
       let completedLoaded = false;
     
-      document.querySelector('[data-bs-target="#completedTab"]')
-        .addEventListener('shown.bs.tab', loadCompletedInterviews);
+      document.querySelector('[data-bs-target="#completedTab"]')?.addEventListener('shown.bs.tab', loadCompletedInterviews);
     
       async function loadCompletedInterviews() {
         if (completedLoaded) return;
@@ -784,8 +782,7 @@
       /* ── Load Assigned Kunba list (lazy, once) ── */
       let assignedKunbaLoaded = false;
     
-      document.querySelector('[data-bs-target="#assignedKunbaTab"]')
-        .addEventListener('shown.bs.tab', loadAssignedKunba);
+      document.querySelector('[data-bs-target="#assignedKunbaTab"]')?.addEventListener('shown.bs.tab', loadAssignedKunba);
     
       async function loadAssignedKunba() {
         if (assignedKunbaLoaded) return;
@@ -846,6 +843,5 @@
       }
     
       /* ── Reload page on modal close ── */
-      document.getElementById('kunbaInterviewModal')
-        .addEventListener('hidden.bs.modal', () => location.reload());
+      document.getElementById('kunbaInterviewModal')?.addEventListener('hidden.bs.modal', () => location.reload());
     </script>

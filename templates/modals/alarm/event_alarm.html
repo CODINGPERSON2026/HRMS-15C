@@ -70,7 +70,7 @@
 
     document.addEventListener('DOMContentLoaded', showTodayEventAlarms);
 
-    document.getElementById("eventAlarm").addEventListener("click", function () {
+    document.getElementById("eventAlarm")?.addEventListener("click", function () {
         const modal = new bootstrap.Modal(document.getElementById('eventModal'));
         modal.show();
         loadTodayEvents();

@@ -51,7 +51,7 @@
     </div>
   </div>
   <script>
-    document.getElementById("countModal").addEventListener("shown.bs.modal", function () {
+    document.getElementById("countModal")?.addEventListener("shown.bs.modal", function () {
     
       fetch("/api/get-parade-count")
         .then(response => response.json())
@@ -108,7 +108,7 @@
     });
 
 
-    document.getElementById("printParadeBtn").addEventListener("click", function () {
+    document.getElementById("printParadeBtn")?.addEventListener("click", function () {
 
       const modalBody = document.querySelector("#paradeDisplayTable").outerHTML;
     

@@ -69,7 +69,7 @@
 </div>
 
 <script>
-  document.getElementById("viewDetailsBtn").addEventListener("click", async function () {
+  document.getElementById("viewDetailsBtn")?.addEventListener("click", async function () {
     const detModal = new bootstrap.Modal(document.getElementById('detModal'));
     detModal.show();
 
@@ -81,7 +81,7 @@
   });
 
   // Detachment dropdown listener
-  document.getElementById("detachmentFilter").addEventListener("change", function () {
+  document.getElementById("detachmentFilter")?.addEventListener("change", function () {
     load_det_personnel(this.value);
   });
 

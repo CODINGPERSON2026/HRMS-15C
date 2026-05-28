@@ -146,7 +146,7 @@ rollType.addEventListener("change", () => {
 });
 
 /* ================= SUBMIT ================= */
-document.getElementById("submitRollCall").addEventListener("click", () => {
+document.getElementById("submitRollCall")?.addEventListener("click", () => {
 
   if (!rollType.value || !rollPoint.value || !rollDesc.value.trim()) {
     showAlert("All fields are required", "danger");
@@ -179,7 +179,7 @@ document.getElementById("submitRollCall").addEventListener("click", () => {
 });
 
 /* ================= UPDATE TAB ================= */
-document.getElementById("updateTabBtn").addEventListener("click", loadPending);
+document.getElementById("updateTabBtn")?.addEventListener("click", loadPending);
 
 function loadPending() {
   fetch("/roll_call/pending")

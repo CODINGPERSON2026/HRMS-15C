@@ -1,7 +1,6 @@
-
 <style>
-    * { 
-        box-sizing: border-box; 
+    * {
+        box-sizing: border-box;
     }
 
     .container {
@@ -9,7 +8,7 @@
         margin: 0 auto;
         background: white;
         border-radius: 8px;
-        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
         overflow: hidden;
         height: 100vh;
         overflow-y: auto;
@@ -34,7 +33,7 @@
         flex-direction: row;
         align-items: center;
         gap: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
         transition: transform 0.2s, box-shadow 0.2s;
         height: 100%;
         min-height: 0;
@@ -42,7 +41,7 @@
 
     .stat-item:hover {
         transform: translateY(-1px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     }
 
     .stat-icon {
@@ -58,9 +57,9 @@
         flex-shrink: 0;
     }
 
-    .stat-content { 
-        display: flex; 
-        flex-direction: column; 
+    .stat-content {
+        display: flex;
+        flex-direction: column;
         flex: 1;
     }
 
@@ -92,9 +91,9 @@
         min-height: 0;
     }
 
-    .stat-item:last-child:hover { 
-        transform: none; 
-        box-shadow: none; 
+    .stat-item:last-child:hover {
+        transform: none;
+        box-shadow: none;
     }
 
     .date-selection-container {
@@ -126,22 +125,22 @@
         transition: all 0.2s;
         font-weight: 500;
         color: #1e293b;
-        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.04);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
     }
 
-    .date-input:hover { 
-        border-color: #3b82f6; 
+    .date-input:hover {
+        border-color: #3b82f6;
     }
 
     .date-input:focus {
         outline: none;
         border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
 
-    .date-input.future-date { 
-        border-color: #ef4444; 
-        background: #fef2f2; 
+    .date-input.future-date {
+        border-color: #ef4444;
+        background: #fef2f2;
     }
 
     /* ==================== CO DASHBOARD SECTION ==================== */
@@ -152,8 +151,8 @@
         display: none;
     }
 
-    .co-dashboard.active { 
-        display: block; 
+    .co-dashboard.active {
+        display: block;
     }
 
     /* ==================== CO CARDS GRID — 2 cards, always side by side ==================== */
@@ -170,7 +169,7 @@
         border: 1px solid #e5e7eb;
         border-radius: 12px;
         padding: 16px;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         width: 100%;
         height: fit-content;
         overflow: hidden;
@@ -203,20 +202,23 @@
         overflow: auto;
     }
 
-    .co-table-container::-webkit-scrollbar { 
-        width: 4px; 
-        height: 4px; 
+    .co-table-container::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
     }
-    .co-table-container::-webkit-scrollbar-track { 
-        background: #f1f1f1; 
-        border-radius: 4px; 
+
+    .co-table-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
     }
-    .co-table-container::-webkit-scrollbar-thumb { 
-        background: #c1c1c1; 
-        border-radius: 4px; 
+
+    .co-table-container::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
     }
-    .co-table-container::-webkit-scrollbar-thumb:hover { 
-        background: #a1a1a1; 
+
+    .co-table-container::-webkit-scrollbar-thumb:hover {
+        background: #a1a1a1;
     }
 
     .co-table {
@@ -226,11 +228,11 @@
         min-width: 100%;
     }
 
-    .co-table thead { 
-        position: sticky; 
-        top: 0; 
-        background: white; 
-        z-index: 10; 
+    .co-table thead {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 10;
     }
 
     .co-table th {
@@ -252,105 +254,120 @@
         white-space: nowrap;
     }
 
-    .co-table tbody tr:last-child td { 
-        border-bottom: none; 
-    }
-    
-    .co-table tbody tr:hover { 
-        background-color: #f9fafb; 
+    .co-table tbody tr:last-child td {
+        border-bottom: none;
     }
 
-    .co-table th:nth-child(1), .co-table td:nth-child(1) { 
-        width: 40%; 
-        min-width: 120px; 
-    }
-    .co-table th:nth-child(2), .co-table td:nth-child(2) { 
-        width: 20%; 
-        min-width: 60px; 
-        text-align: center; 
-    }
-    .co-table th:nth-child(3), .co-table td:nth-child(3) { 
-        width: 20%; 
-        min-width: 60px; 
-        text-align: center; 
-    }
-    .co-table th:nth-child(4), .co-table td:nth-child(4) { 
-        width: 20%; 
-        min-width: 60px; 
-        text-align: center; 
+    .co-table tbody tr:hover {
+        background-color: #f9fafb;
     }
 
-    .co-table#coManpowerTable th:nth-child(1), 
-    .co-table#coManpowerTable td:nth-child(1) { 
-        width: 30%; 
-        min-width: 100px; 
+    .co-table th:nth-child(1),
+    .co-table td:nth-child(1) {
+        width: 40%;
+        min-width: 120px;
     }
-    .co-table#coManpowerTable th:nth-child(2), 
+
+    .co-table th:nth-child(2),
+    .co-table td:nth-child(2) {
+        width: 20%;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .co-table th:nth-child(3),
+    .co-table td:nth-child(3) {
+        width: 20%;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .co-table th:nth-child(4),
+    .co-table td:nth-child(4) {
+        width: 20%;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .co-table#coManpowerTable th:nth-child(1),
+    .co-table#coManpowerTable td:nth-child(1) {
+        width: 30%;
+        min-width: 100px;
+    }
+
+    .co-table#coManpowerTable th:nth-child(2),
     .co-table#coManpowerTable td:nth-child(2),
-    .co-table#coManpowerTable th:nth-child(3), 
+    .co-table#coManpowerTable th:nth-child(3),
     .co-table#coManpowerTable td:nth-child(3),
-    .co-table#coManpowerTable th:nth-child(4), 
-    .co-table#coManpowerTable td:nth-child(4) { 
-        width: 15%; 
-        min-width: 50px; 
-        text-align: center; 
+    .co-table#coManpowerTable th:nth-child(4),
+    .co-table#coManpowerTable td:nth-child(4) {
+        width: 15%;
+        min-width: 50px;
+        text-align: center;
     }
-    .co-table#coManpowerTable th:nth-child(5), 
-    .co-table#coManpowerTable td:nth-child(5) { 
-        width: 15%; 
-        min-width: 50px; 
-        text-align: center; 
-        font-weight: 600; 
-        color: #111827; 
+
+    .co-table#coManpowerTable th:nth-child(5),
+    .co-table#coManpowerTable td:nth-child(5) {
+        width: 15%;
+        min-width: 50px;
+        text-align: center;
+        font-weight: 600;
+        color: #111827;
     }
 
     /* Officer & JCO Leave Table column widths */
-    .co-table#coOfficerLeaveTable th:nth-child(1), 
-    .co-table#coOfficerLeaveTable td:nth-child(1) { 
-        width: 40%; 
-        min-width: 90px; 
-    }
-    .co-table#coOfficerLeaveTable th:nth-child(2), 
-    .co-table#coOfficerLeaveTable td:nth-child(2) { 
-        width: 30%; 
-        min-width: 60px; 
-        text-align: center; 
-    }
-    .co-table#coOfficerLeaveTable th:nth-child(3), 
-    .co-table#coOfficerLeaveTable td:nth-child(3) { 
-        width: 30%; 
-        min-width: 60px; 
-        text-align: center; 
-    }
-    .co-table#coOfficerLeaveTable th:nth-child(4), 
-    .co-table#coOfficerLeaveTable td:nth-child(4) { 
-        width: 23%; 
-        min-width: 55px; 
-        text-align: center; 
+    .co-table#coOfficerLeaveTable th:nth-child(1),
+    .co-table#coOfficerLeaveTable td:nth-child(1) {
+        width: 40%;
+        min-width: 90px;
     }
 
-    .co-table#coJcoLeaveTable th:nth-child(1), 
-    .co-table#coJcoLeaveTable td:nth-child(1) { 
-        width: 30%; 
-        min-width: 90px; 
+    .co-table#coOfficerLeaveTable th:nth-child(2),
+    .co-table#coOfficerLeaveTable td:nth-child(2) {
+        width: 30%;
+        min-width: 60px;
+        text-align: center;
     }
-    .co-table#coJcoLeaveTable th:nth-child(2), 
-    .co-table#coJcoLeaveTable td:nth-child(2) { 
-        width: 24%; 
-        min-width: 60px; 
-        text-align: center; 
+
+    .co-table#coOfficerLeaveTable th:nth-child(3),
+    .co-table#coOfficerLeaveTable td:nth-child(3) {
+        width: 30%;
+        min-width: 60px;
+        text-align: center;
     }
-    .co-table#coJcoLeaveTable th:nth-child(3), 
-    .co-table#coJcoLeaveTable td:nth-child(3) { 
-        width: 23%; 
-        min-width: 60px; 
-        text-align: center; 
+
+    .co-table#coOfficerLeaveTable th:nth-child(4),
+    .co-table#coOfficerLeaveTable td:nth-child(4) {
+        width: 23%;
+        min-width: 55px;
+        text-align: center;
     }
-    .co-table#coJcoLeaveTable th:nth-child(4), 
-    .co-table#coJcoLeaveTable td:nth-child(4) { 
-        width: 23%; 
-        min-width: 55px; 
-        text-align: center; 
+
+    .co-table#coJcoLeaveTable th:nth-child(1),
+    .co-table#coJcoLeaveTable td:nth-child(1) {
+        width: 30%;
+        min-width: 90px;
+    }
+
+    .co-table#coJcoLeaveTable th:nth-child(2),
+    .co-table#coJcoLeaveTable td:nth-child(2) {
+        width: 24%;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .co-table#coJcoLeaveTable th:nth-child(3),
+    .co-table#coJcoLeaveTable td:nth-child(3) {
+        width: 23%;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .co-table#coJcoLeaveTable th:nth-child(4),
+    .co-table#coJcoLeaveTable td:nth-child(4) {
+        width: 23%;
+        min-width: 55px;
+        text-align: center;
     }
 
     .co-table td[colspan] {
@@ -361,46 +378,90 @@
     }
 
     /* Percentage coloring */
-    .percentage-high { color: #ef4444 !important; font-weight: 700; }
-    .percentage-medium { color: #f97316 !important; font-weight: 600; }
-    .percentage-low { color: #3b82f6 !important; font-weight: 600; }
+    .percentage-high {
+        color: #ef4444 !important;
+        font-weight: 700;
+    }
+
+    .percentage-medium {
+        color: #f97316 !important;
+        font-weight: 600;
+    }
+
+    .percentage-low {
+        color: #3b82f6 !important;
+        font-weight: 600;
+    }
 
     /* ==================== RESPONSIVE ==================== */
     /* co-cards-container is always 2-column; only collapse on very narrow screens */
     @media (max-width: 700px) {
-        .co-cards-container { grid-template-columns: 1fr; }
+        .co-cards-container {
+            grid-template-columns: 1fr;
+        }
     }
 
     @media (max-width: 1024px) {
-        .stats-bar { 
-            grid-template-columns: repeat(4, 1fr); 
+        .stats-bar {
+            grid-template-columns: repeat(4, 1fr);
             gap: 6px;
             padding: 6px 12px;
         }
-        .stat-item { padding: 7px 10px; }
-        .stat-value { font-size: 16px; }
-        .stat-icon { width: 28px; height: 28px; font-size: 12px; }
+
+        .stat-item {
+            padding: 7px 10px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+        }
+
+        .stat-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+        }
     }
 
     @media (max-width: 768px) {
-        .stats-bar { 
-            grid-template-columns: repeat(2, 1fr); 
+        .stats-bar {
+            grid-template-columns: repeat(2, 1fr);
             gap: 6px;
             padding: 6px 10px;
         }
+
         .co-cards-container {
             grid-template-columns: 1fr;
             padding: 10px 12px;
         }
-        .co-card { 
-            max-width: 100%; 
-            padding: 12px; 
+
+        .co-card {
+            max-width: 100%;
+            padding: 12px;
         }
-        .co-table { font-size: 11px; }
-        .co-table th, .co-table td { padding: 5px 3px; }
-        .stat-item { padding: 7px 8px; }
-        .stat-value { font-size: 15px; }
-        .stat-icon { width: 26px; height: 26px; font-size: 11px; }
+
+        .co-table {
+            font-size: 11px;
+        }
+
+        .co-table th,
+        .co-table td {
+            padding: 5px 3px;
+        }
+
+        .stat-item {
+            padding: 7px 8px;
+        }
+
+        .stat-value {
+            font-size: 15px;
+        }
+
+        .stat-icon {
+            width: 26px;
+            height: 26px;
+            font-size: 11px;
+        }
     }
 
     /* ==================== EXPAND VIEW BUTTON ==================== */
@@ -419,20 +480,23 @@
         gap: 10px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         margin: 16px auto;
-        box-shadow: 0 8px 15px -3px rgba(59,130,246,0.4);
+        box-shadow: 0 8px 15px -3px rgba(59, 130, 246, 0.4);
         width: calc(100% - 32px);
         max-width: 580px;
     }
 
-    .expand-view-btn:hover { 
-        transform: translateY(-2px) scale(1.02); 
-        box-shadow: 0 15px 20px -5px rgba(59,130,246,0.5); 
+    .expand-view-btn:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 15px 20px -5px rgba(59, 130, 246, 0.5);
     }
 
     /* ==================== FULL PAGE VIEW ==================== */
     .full-page-view {
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: white;
         z-index: 1000;
         padding: 0;
@@ -440,7 +504,11 @@
         display: none;
     }
 
-    .full-page-view.active { display: block; }
+    .full-page-view.active {
+        display: block;
+    }
+
+
 
     .full-page-header {
         display: flex;
@@ -468,23 +536,23 @@
         align-items: center;
         gap: 8px;
         transition: all 0.2s;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .back-btn:hover { 
-        background: #f8f9fa; 
-        transform: translateY(-1px); 
+    .back-btn:hover {
+        background: #f8f9fa;
+        transform: translateY(-1px);
     }
 
-    .full-page-title { 
-        font-size: 24px; 
-        font-weight: 600; 
-        color: white; 
-        margin: 0; 
+    .full-page-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: white;
+        margin: 0;
     }
 
-    .full-page-content { 
-        padding: 0 24px 24px; 
+    .full-page-content {
+        padding: 0 24px 24px;
     }
 
     .search-section-full {
@@ -508,14 +576,15 @@
         transition: border-color 0.2s;
     }
 
-    .search-input:focus { 
-        outline: none; 
-        border-color: #3b82f6; 
-        box-shadow: 0 0 0 3px rgba(59,130,246,0.1); 
+    .search-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
-    .search-input.future-date { 
-        border-color: #ff6b6b; 
-        background: #fff5f5; 
+
+    .search-input.future-date {
+        border-color: #ff6b6b;
+        background: #fff5f5;
     }
 
     .btn {
@@ -530,12 +599,35 @@
         gap: 8px;
     }
 
-    .btn-primary { background: #3b82f6; color: white; }
-    .btn-primary:hover { background: #2563eb; }
-    .btn-primary:disabled { background: #9ca3af; cursor: not-allowed; }
-    .btn-secondary { background: #fff; color: #333; border: 1px solid #ddd; }
-    .btn-secondary:hover { background: #f5f5f5; }
-    .btn-secondary:disabled { background: #f5f5f5; color: #999; cursor: not-allowed; }
+    .btn-primary {
+        background: #3b82f6;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #2563eb;
+    }
+
+    .btn-primary:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+    }
+
+    .btn-secondary {
+        background: #fff;
+        color: #333;
+        border: 1px solid #ddd;
+    }
+
+    .btn-secondary:hover {
+        background: #f5f5f5;
+    }
+
+    .btn-secondary:disabled {
+        background: #f5f5f5;
+        color: #999;
+        cursor: not-allowed;
+    }
 
     .actions-bar {
         display: flex;
@@ -550,10 +642,11 @@
         gap: 16px;
     }
 
-    .actions-left, .actions-right { 
-        display: flex; 
-        gap: 12px; 
-        flex-wrap: wrap; 
+    .actions-left,
+    .actions-right {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
     }
 
     .status-message {
@@ -567,10 +660,29 @@
         min-height: 48px;
     }
 
-    .status-message.success { background: #f0f9f0; color: #2e7d32; border: 1px solid #c8e6c9; }
-    .status-message.error { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
-    .status-message.warning { background: #fff3e0; color: #f57c00; border: 1px solid #ffcc80; }
-    .status-message.info { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+    .status-message.success {
+        background: #f0f9f0;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+    }
+
+    .status-message.error {
+        background: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
+    }
+
+    .status-message.warning {
+        background: #fff3e0;
+        color: #f57c00;
+        border: 1px solid #ffcc80;
+    }
+
+    .status-message.info {
+        background: #e3f2fd;
+        color: #1565c0;
+        border: 1px solid #90caf9;
+    }
 
     .table-wrapper {
         overflow-x: auto;
@@ -624,12 +736,35 @@
         z-index: 5;
     }
 
-    .full-page-table tr:hover td { background-color: #f9f9f9; }
-    .full-page-table .total-row td { background-color: #d5e8f7 !important; font-weight: bold; }
-    .full-page-table .grand-total-row td { background-color: #2c3e50 !important; color: white; font-weight: 700; }
-    .full-page-table .grand-total-row .category-label { background-color: #2c3e50 !important; color: white; }
-    .full-page-table .calculated-cell { background: #fff3cd !important; font-weight: 600; }
-    .full-page-table .read-only-cell { background: #e9ecef !important; cursor: not-allowed; }
+    .full-page-table tr:hover td {
+        background-color: #f9f9f9;
+    }
+
+    .full-page-table .total-row td {
+        background-color: #d5e8f7 !important;
+        font-weight: bold;
+    }
+
+    .full-page-table .grand-total-row td {
+        background-color: #2c3e50 !important;
+        color: white;
+        font-weight: 700;
+    }
+
+    .full-page-table .grand-total-row .category-label {
+        background-color: #2c3e50 !important;
+        color: white;
+    }
+
+    .full-page-table .calculated-cell {
+        background: #fff3cd !important;
+        font-weight: 600;
+    }
+
+    .full-page-table .read-only-cell {
+        background: #e9ecef !important;
+        cursor: not-allowed;
+    }
 
     .full-page-table input[type="number"] {
         width: 100%;
@@ -645,35 +780,41 @@
         font-weight: 500;
     }
 
-    .full-page-table input[type="number"]:focus { 
-        outline: none; 
-        border-color: #3b82f6; 
-        box-shadow: 0 0 0 3px rgba(59,130,246,0.1); 
+    .full-page-table input[type="number"]:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
-    .full-page-table input[type="number"]:disabled { 
-        background: #f5f5f5; 
-        color: #999; 
-        cursor: not-allowed; 
+
+    .full-page-table input[type="number"]:disabled {
+        background: #f5f5f5;
+        color: #999;
+        cursor: not-allowed;
     }
 
     .loading-overlay {
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(255,255,255,0.9);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
         display: none;
         justify-content: center;
         align-items: center;
         z-index: 2000;
     }
 
-    .loading-overlay.active { display: flex; }
+    .loading-overlay.active {
+        display: flex;
+    }
 
     .loading-content {
         text-align: center;
         padding: 40px;
         background: white;
         border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
     .loading {
@@ -686,27 +827,237 @@
         animation: spin 1s linear infinite;
     }
 
-    @keyframes spin { 
-        0% { transform: rotate(0deg); } 
-        100% { transform: rotate(360deg); } 
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
 
-    .mode-badge { 
-        font-size: 0.9rem; 
-        padding: 6px 12px; 
-        border-radius: 20px; 
-        font-weight: 600; 
-    }
-    .role-badge { 
-        font-size: 0.7rem; 
-        padding: 3px 8px; 
-        border-radius: 10px; 
-        margin-left: 8px; 
-        vertical-align: middle; 
+    .mode-badge {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
     }
 
-    @media print { 
-        .no-print { display: none !important; } 
+    .role-badge {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        border-radius: 10px;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+
+    @media print {
+        @page {
+            size: landscape;
+            margin: 1cm;
+        }
+        
+        /* Force text inside the print content area to be visible and solid black */
+        body.printing-parade-state #fullPageView, 
+        body.printing-parade-state #fullPageView * {
+            color: black !important;
+            text-shadow: none !important;
+            box-shadow: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* High-priority color overrides for print area headers & totals */
+        body.printing-parade-state #fullPageView .full-page-table th,
+        body.printing-parade-state #fullPageView .full-page-table th *,
+        body.printing-parade-state #fullPageView .full-page-table .grand-total-row td,
+        body.printing-parade-state #fullPageView .full-page-table .grand-total-row td *,
+        body.printing-parade-state #fullPageView .full-page-table .grand-total-row .category-label {
+            color: white !important;
+        }
+
+        body.printing-parade-state {
+            background: white !important;
+            color: black !important;
+        }
+
+        /* Neutralize parent Bootstrap modals, fixed wrappers, and container limits */
+        body.printing-parade-state,
+        body.printing-parade-state #pageWrapper, 
+        body.printing-parade-state .page-wrapper, 
+        body.printing-parade-state .db-wrap, 
+        body.printing-parade-state #paradeStateModal, 
+        body.printing-parade-state #paradeStateModal .modal-dialog, 
+        body.printing-parade-state #paradeStateModal .modal-content, 
+        body.printing-parade-state #paradeStateModal .modal-body {
+            display: block !important;
+            position: static !important;
+            overflow: visible !important;
+            height: auto !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            background: white !important;
+            box-shadow: none !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Hide all other page/dashboard structures, sidebars, and other modals */
+        body.printing-parade-state .sidebar, 
+        body.printing-parade-state .bottom-nav, 
+        body.printing-parade-state .theme-switcher, 
+        body.printing-parade-state #sidebar-tooltip, 
+        body.printing-parade-state .modal-backdrop, 
+        body.printing-parade-state #pageLoader, 
+        body.printing-parade-state #actionBar, 
+        body.printing-parade-state .db-main-layout, 
+        body.printing-parade-state .scard, 
+        body.printing-parade-state .cards-top-bar, 
+        body.printing-parade-state .cards-slider-viewport, 
+        body.printing-parade-state .top-chart-bar, 
+        body.printing-parade-state .charts-column, 
+        body.printing-parade-state .modal-header, 
+        body.printing-parade-state .modal-footer, 
+        body.printing-parade-state #paradeStateModal .container, 
+        body.printing-parade-state .full-page-header, 
+        body.printing-parade-state .search-section-full, 
+        body.printing-parade-state .no-print, 
+        body.printing-parade-state #fullPageStatusMessage, 
+        body.printing-parade-state .modal:not(#paradeStateModal) { /* Force hide all other modals */
+            display: none !important;
+        }
+
+        /* Force display of the detailed view and its content */
+        body.printing-parade-state .full-page-view {
+            display: block !important;
+            position: static !important;
+            width: 100% !important;
+            height: auto !important;
+            overflow: visible !important;
+            padding: 0 !important;
+            background: white !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        body.printing-parade-state .full-page-content {
+            padding: 0 !important;
+            display: block !important;
+            overflow: visible !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        body.printing-parade-state .print-only-header {
+            display: block !important;
+            margin-bottom: 20px !important;
+            text-align: center !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        body.printing-parade-state .print-only-header * {
+            color: #2c3e50 !important;
+        }
+
+        body.printing-parade-state .table-wrapper {
+            border: none !important;
+            overflow: visible !important;
+            max-height: none !important;
+            width: 100% !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        body.printing-parade-state .full-page-table {
+            min-width: 100% !important;
+            width: 100% !important;
+            font-size: 9.5px !important;
+            border-collapse: collapse !important;
+            border: 1px solid #1a252f !important;
+            display: table !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        body.printing-parade-state .full-page-table th {
+            background-color: #2c3e50 !important;
+            border: 1px solid #1a252f !important;
+            padding: 8px 4px !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body.printing-parade-state .full-page-table td {
+            padding: 5px 3px !important;
+            border: 1px solid #c0c0c0 !important;
+            color: black !important;
+        }
+
+        body.printing-parade-state .full-page-table .category-label {
+            background-color: #ecf0f1 !important;
+            color: black !important;
+            font-weight: bold !important;
+            position: static !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body.printing-parade-state .full-page-table .total-row td {
+            background-color: #d5e8f7 !important;
+            font-weight: bold !important;
+            color: black !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body.printing-parade-state .full-page-table .grand-total-row td {
+            background-color: #2c3e50 !important;
+            font-weight: bold !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body.printing-parade-state .full-page-table .grand-total-row .category-label {
+            background-color: #2c3e50 !important;
+        }
+
+        body.printing-parade-state .full-page-table .calculated-cell {
+            background-color: #fff3cd !important;
+            color: #856404 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body.printing-parade-state .full-page-table .read-only-cell {
+            background-color: #e9ecef !important;
+            color: black !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        /* Style editable input boxes as clean plain text on print */
+        body.printing-parade-state .full-page-table input[type="number"] {
+            border: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            min-height: 0 !important;
+            text-align: center !important;
+            color: black !important;
+            font-weight: bold !important;
+            -moz-appearance: textfield;
+            width: 100% !important;
+        }
+
+        body.printing-parade-state .full-page-table input[type="number"]::-webkit-outer-spin-button,
+        body.printing-parade-state .full-page-table input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     }
 </style>
 </head>
@@ -733,6 +1084,15 @@
                 <button class="btn btn-secondary" onclick="searchFullPageByDate()" id="fullPageSearchBtn">
                     🔍 Search Parade State
                 </button>
+                <button class="btn btn-primary" onclick="printParadeState()" id="fullPagePrintBtn">
+                    🖨️ Print Parade State
+                </button>
+            </div>
+
+            <!-- Print-only Header (only shown during active printing) -->
+            <div class="print-only-header" style="display: none;">
+                <h1 style="margin: 0; font-size: 20px; font-weight: bold; color: #1a252f; text-align: center;">15 CORPS ENGINEERING SIGNAL REGIMENT</h1>
+                <h2 style="margin: 5px 0 15px 0; font-size: 16px; font-weight: 600; color: #2c3e50; text-align: center;">DAILY PARADE STATE - <span id="printDatePlaceholder"></span></h2>
             </div>
 
             <div id="fullPageStatusMessage" style="display: none;"></div>
@@ -778,14 +1138,16 @@
                 </div>
             </div>
             <div class="stat-item">
-                <div class="stat-icon" style="color: #10b981; background: #d1fae5;"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-icon" style="color: #10b981; background: #d1fae5;"><i class="fas fa-check-circle"></i>
+                </div>
                 <div class="stat-content">
                     <div class="stat-value" id="presentUnit">0</div>
                     <div class="stat-label">Present Unit Strength</div>
                 </div>
             </div>
             <div class="stat-item">
-                <div class="stat-icon" style="color: #ef4444; background: #fee2e2;"><i class="fas fa-sign-out-alt"></i></div>
+                <div class="stat-icon" style="color: #ef4444; background: #fee2e2;"><i class="fas fa-sign-out-alt"></i>
+                </div>
                 <div class="stat-content">
                     <div class="stat-value" id="totalOut">0</div>
                     <div class="stat-label">Total Out</div>
@@ -801,7 +1163,7 @@
 
         <!-- CO Dashboard Section -->
         <div class="co-dashboard no-print" id="coDashboard" style="padding: 10px 24px;">
-            
+
         </div>
 
         <!-- CO Cards Container: exactly 2 cards side by side -->
@@ -816,7 +1178,8 @@
                 <div class="co-table-container">
                     <table class="co-table" id="coLeaveTable">
                         <thead>
-                            <tr style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
+                            <tr
+                                style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Company</th>
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Leave %</th>
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">On Leave</th>
@@ -824,7 +1187,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td colspan="4" style="text-align:center;padding:20px;color:#999;">Select a date to view data</td></tr>
+                            <tr>
+                                <td colspan="4" style="text-align:center;padding:20px;color:#999;">Select a date to view
+                                    data</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -839,7 +1205,8 @@
                 <div class="co-table-container">
                     <table class="co-table" id="coManpowerTable">
                         <thead>
-                            <tr style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
+                            <tr
+                                style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Company</th>
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Officers</th>
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">JCOs</th>
@@ -848,7 +1215,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">Select a date to view data</td></tr>
+                            <tr>
+                                <td colspan="5" style="text-align:center;padding:20px;color:#999;">Select a date to view
+                                    data</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -865,15 +1235,21 @@
                 <div class="co-table-container">
                     <table class="co-table" id="coOfficerLeaveTable">
                         <thead>
-                            <tr style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
+                            <tr
+                                style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Company</th>
-                                <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Officers Leave %</th>
-                                <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Officers On Leave</th>
+                                <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Officers Leave %
+                                </th>
+                                <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Officers On Leave
+                                </th>
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Total Officers</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td colspan="4" style="text-align:center;padding:20px;color:#999;">Select a date to view data</td></tr>
+                            <tr>
+                                <td colspan="4" style="text-align:center;padding:20px;color:#999;">Select a date to view
+                                    data</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -885,7 +1261,8 @@
                 <div class="co-table-container">
                     <table class="co-table" id="coJcoLeaveTable">
                         <thead>
-                            <tr style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
+                            <tr
+                                style="background: linear-gradient(90deg, #1e3c72, #2a5298); color: white; text-align: center;">
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">Company</th>
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">JCO Leave %</th>
                                 <th style="padding: 10px 6px; border: 1px solid #ddd; color: white;">JCOs On Leave</th>
@@ -893,7 +1270,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td colspan="4" style="text-align:center;padding:20px;color:#999;">Select a date to view data</td></tr>
+                            <tr>
+                                <td colspan="4" style="text-align:center;padding:20px;color:#999;">Select a date to view
+                                    data</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -915,19 +1295,19 @@
         const TODAY = DEFAULT_DATE;
 
         const categories = [
-            { name: 'OFFR',         key: 'offr',        isTotal: false, isFirstSection: true },
-            { name: 'JCO',          key: 'jco',         isTotal: false, isFirstSection: true },
-            { name: 'JCO(ERE)',     key: 'jcoEre',      isTotal: false, isFirstSection: true },
-            { name: 'OR',           key: 'or',          isTotal: false, isFirstSection: true },
-            { name: 'OR (ERE)',     key: 'orEre',       isTotal: false, isFirstSection: true },
-            { name: 'TOTAL',        key: 'firstTotal',  isTotal: true,  isFirstTotal: true },
-            { name: 'O&A OR',       key: 'oaOr',        isTotal: false, isSecondSection: true },
-            { name: 'ATT SUMMIARY', key: 'attSummary',  isTotal: false, isSecondSection: true },
-            { name: 'ATT OFFR',     key: 'attOffr',     isTotal: false, isSecondSection: true },
-            { name: 'ATT JCO',      key: 'attJco',      isTotal: false, isSecondSection: true },
-            { name: 'ATT OR',       key: 'attOr',       isTotal: false, isSecondSection: true },
-            { name: 'TOTAL',        key: 'secondTotal', isTotal: true,  isSecondTotal: true },
-            { name: 'G/TOTAL',      key: 'grandTotal',  isTotal: true,  isGrandTotal: true }
+            { name: 'OFFR', key: 'offr', isTotal: false, isFirstSection: true },
+            { name: 'JCO', key: 'jco', isTotal: false, isFirstSection: true },
+            { name: 'JCO(ERE)', key: 'jcoEre', isTotal: false, isFirstSection: true },
+            { name: 'OR', key: 'or', isTotal: false, isFirstSection: true },
+            { name: 'OR (ERE)', key: 'orEre', isTotal: false, isFirstSection: true },
+            { name: 'TOTAL', key: 'firstTotal', isTotal: true, isFirstTotal: true },
+            { name: 'O&A OR', key: 'oaOr', isTotal: false, isSecondSection: true },
+            { name: 'ATT SUMMIARY', key: 'attSummary', isTotal: false, isSecondSection: true },
+            { name: 'ATT OFFR', key: 'attOffr', isTotal: false, isSecondSection: true },
+            { name: 'ATT JCO', key: 'attJco', isTotal: false, isSecondSection: true },
+            { name: 'ATT OR', key: 'attOr', isTotal: false, isSecondSection: true },
+            { name: 'TOTAL', key: 'secondTotal', isTotal: true, isSecondTotal: true },
+            { name: 'G/TOTAL', key: 'grandTotal', isTotal: true, isGrandTotal: true }
         ];
 
         const columnCount = 17;
@@ -995,10 +1375,10 @@
 
         function calculateTOut(rowData) {
             return (rowData[COL_INDICES.LVE] || 0) + (rowData[COL_INDICES.COURSE] || 0) +
-                   (rowData[COL_INDICES.DET] || 0) + (rowData[COL_INDICES.MH] || 0) +
-                   (rowData[COL_INDICES.SICK_LVE] || 0) + (rowData[COL_INDICES.EX] || 0) +
-                   (rowData[COL_INDICES.TD] || 0) + (rowData[COL_INDICES.ATT] || 0) +
-                   (rowData[COL_INDICES.AWL_OSL_JC] || 0);
+                (rowData[COL_INDICES.DET] || 0) + (rowData[COL_INDICES.MH] || 0) +
+                (rowData[COL_INDICES.SICK_LVE] || 0) + (rowData[COL_INDICES.EX] || 0) +
+                (rowData[COL_INDICES.TD] || 0) + (rowData[COL_INDICES.ATT] || 0) +
+                (rowData[COL_INDICES.AWL_OSL_JC] || 0);
         }
 
         function calculatePresentUnit(rowData) {
@@ -1019,7 +1399,7 @@
             let total = 0;
             categories.filter(c => c.isFirstSection && !c.isTotal).forEach(cat => {
                 if (!data[cat.key] || data[cat.key].length <= columnIndex) return;
-                if (columnIndex === COL_INDICES.T_OUT)          total += calculateTOut(data[cat.key]);
+                if (columnIndex === COL_INDICES.T_OUT) total += calculateTOut(data[cat.key]);
                 else if (columnIndex === COL_INDICES.PRESENT_DET) total += getPresentDet(data[cat.key]);
                 else if (columnIndex === COL_INDICES.PRESENT_UNIT) total += calculatePresentUnit(data[cat.key]);
                 else total += data[cat.key][columnIndex] || 0;
@@ -1031,7 +1411,7 @@
             let total = 0;
             categories.filter(c => c.isSecondSection && !c.isTotal).forEach(cat => {
                 if (!data[cat.key] || data[cat.key].length <= columnIndex) return;
-                if (columnIndex === COL_INDICES.T_OUT)          total += calculateTOut(data[cat.key]);
+                if (columnIndex === COL_INDICES.T_OUT) total += calculateTOut(data[cat.key]);
                 else if (columnIndex === COL_INDICES.PRESENT_DET) total += getPresentDet(data[cat.key]);
                 else if (columnIndex === COL_INDICES.PRESENT_UNIT) total += calculatePresentUnit(data[cat.key]);
                 else total += data[cat.key][columnIndex] || 0;
@@ -1076,8 +1456,8 @@
             input.dataset.column = columnIndex;
 
             const isCalc = columnIndex === COL_INDICES.T_OUT ||
-                           columnIndex === COL_INDICES.PRESENT_DET ||
-                           columnIndex === COL_INDICES.PRESENT_UNIT;
+                columnIndex === COL_INDICES.PRESENT_DET ||
+                columnIndex === COL_INDICES.PRESENT_UNIT;
 
             if (isCalc || categoryKey.includes('Total')) {
                 input.disabled = true;
@@ -1093,8 +1473,8 @@
                     const column = parseInt(e.target.dataset.column);
                     data[category][column] = isNaN(value) ? 0 : value;
                     if ([COL_INDICES.POSTED_STR, COL_INDICES.LVE, COL_INDICES.COURSE, COL_INDICES.DET,
-                         COL_INDICES.MH, COL_INDICES.SICK_LVE, COL_INDICES.EX, COL_INDICES.TD,
-                         COL_INDICES.ATT, COL_INDICES.AWL_OSL_JC].includes(column)) {
+                    COL_INDICES.MH, COL_INDICES.SICK_LVE, COL_INDICES.EX, COL_INDICES.TD,
+                    COL_INDICES.ATT, COL_INDICES.AWL_OSL_JC].includes(column)) {
                         updateFullPageCalculatedValuesForRow(category);
                     }
                     updateFullPageAllTotals();
@@ -1140,9 +1520,9 @@
 
         function updateFullPageAllTotals() {
             for (let i = 0; i < columnCount; i++) {
-                data.firstTotal[i]  = calculateFirstTotal(i);
+                data.firstTotal[i] = calculateFirstTotal(i);
                 data.secondTotal[i] = calculateSecondTotal(i);
-                data.grandTotal[i]  = calculateGrandTotal(i);
+                data.grandTotal[i] = calculateGrandTotal(i);
 
                 ['firstTotal', 'secondTotal', 'grandTotal'].forEach(key => {
                     const row = document.querySelector(`tr[data-category="${key}"]`);
@@ -1175,9 +1555,9 @@
                     if (cat.isTotal) {
                         const span = document.createElement('span');
                         span.className = 'calculated-value';
-                        if (cat.isFirstTotal)  span.textContent = calculateFirstTotal(col);
+                        if (cat.isFirstTotal) span.textContent = calculateFirstTotal(col);
                         else if (cat.isSecondTotal) span.textContent = calculateSecondTotal(col);
-                        else if (cat.isGrandTotal)  span.textContent = calculateGrandTotal(col);
+                        else if (cat.isGrandTotal) span.textContent = calculateGrandTotal(col);
                         td.appendChild(span);
                     } else if (col === COL_INDICES.T_OUT || col === COL_INDICES.PRESENT_DET || col === COL_INDICES.PRESENT_UNIT) {
                         td.appendChild(createFullPageCalculatedCell(cat.key, col));
@@ -1313,8 +1693,8 @@
                         ctx.fillStyle = '#1e293b';
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'bottom';
-                        const label = dataset.label && dataset.label.includes('%') 
-                            ? value + '%' 
+                        const label = dataset.label && dataset.label.includes('%')
+                            ? value + '%'
                             : value;
                         ctx.fillText(label, bar.x, bar.y - 2);
                         ctx.restore();
@@ -1343,7 +1723,7 @@
                 const coData = result.data;
                 const companyColors = [
                     'rgba(59,130,246,0.8)', 'rgba(16,185,129,0.8)', 'rgba(245,158,11,0.8)',
-                    'rgba(239,68,68,0.8)',  'rgba(139,92,246,0.8)', 'rgba(236,72,153,0.8)',
+                    'rgba(239,68,68,0.8)', 'rgba(139,92,246,0.8)', 'rgba(236,72,153,0.8)',
                     'rgba(14,165,233,0.8)', 'rgba(20,184,166,0.8)'
                 ];
 
@@ -1557,10 +1937,10 @@
                 data: {
                     labels,
                     datasets: [
-                        { label: 'Total',    data: totals,   backgroundColor: 'rgba(139,92,246,0.82)', borderRadius: 4, borderSkipped: false },
-                        { label: 'Officers', data: officers, backgroundColor: 'rgba(239,68,68,0.82)',  borderRadius: 4, borderSkipped: false },
-                        { label: 'JCOs',     data: jcos,     backgroundColor: 'rgba(245,158,11,0.82)', borderRadius: 4, borderSkipped: false },
-                        { label: 'OR',       data: ors,      backgroundColor: 'rgba(16,185,129,0.82)', borderRadius: 4, borderSkipped: false }
+                        { label: 'Total', data: totals, backgroundColor: 'rgba(139,92,246,0.82)', borderRadius: 4, borderSkipped: false },
+                        { label: 'Officers', data: officers, backgroundColor: 'rgba(239,68,68,0.82)', borderRadius: 4, borderSkipped: false },
+                        { label: 'JCOs', data: jcos, backgroundColor: 'rgba(245,158,11,0.82)', borderRadius: 4, borderSkipped: false },
+                        { label: 'OR', data: ors, backgroundColor: 'rgba(16,185,129,0.82)', borderRadius: 4, borderSkipped: false }
                     ]
                 },
                 options: {
@@ -1692,9 +2072,9 @@
         }
 
         function updateStats() {
-            document.getElementById('totalAuth').textContent   = calculateGrandTotal(COL_INDICES.POSTED_STR);
+            document.getElementById('totalAuth').textContent = calculateGrandTotal(COL_INDICES.POSTED_STR);
             document.getElementById('presentUnit').textContent = calculateGrandTotal(COL_INDICES.PRESENT_UNIT);
-            document.getElementById('totalOut').textContent    = calculateGrandTotal(COL_INDICES.T_OUT);
+            document.getElementById('totalOut').textContent = calculateGrandTotal(COL_INDICES.T_OUT);
         }
 
         async function searchByDate() {
@@ -1705,6 +2085,33 @@
             document.getElementById('searchDate').classList.remove('future-date');
             loadDataForDate(searchDate);
         }
+
+        function printParadeState() {
+            // Apply parade state print styles to body dynamically
+            document.body.classList.add('printing-parade-state');
+            
+            var rawDate = document.getElementById('fullPageDate').value;
+            var formattedDate = "";
+            if (rawDate) {
+                var dateObj = new Date(rawDate);
+                formattedDate = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
+            } else {
+                formattedDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
+            }
+            
+            var printDateEl = document.getElementById('printDatePlaceholder');
+            if (printDateEl) {
+                printDateEl.textContent = formattedDate;
+            }
+            
+            // Trigger browser print
+            window.print();
+        }
+
+        // Remove print class if the user closes print preview
+        window.addEventListener('afterprint', function() {
+            document.body.classList.remove('printing-parade-state');
+        });
 
         // ── Init ──────────────────────────────────────────────────────────────────
         window.addEventListener('DOMContentLoaded', async () => {

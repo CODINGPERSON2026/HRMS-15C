@@ -31,8 +31,7 @@
     
     document.addEventListener('DOMContentLoaded', showAssignedAttachmentAlarms);
     
-    document.getElementById("attachmentAlarmAlert")
-        .addEventListener("click", function () {
+    document.getElementById("attachmentAlarmAlert")?.addEventListener("click", function () {
             const attachModal = new bootstrap.Modal(
                 document.getElementById('attachmentModal')
             );

@@ -2,10 +2,10 @@
      FONT AWESOME
 ========================================================= -->
 
-<link
+<!-- <link
   rel="stylesheet"
   href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}"
->
+> -->
 
 <!-- =========================================================
      HONOURS BOARD BUTTON
@@ -458,7 +458,7 @@
     document.body.style.overflow = "";
   }
 
-  document.getElementById("closePopup").addEventListener("click", closePopup);
+  document.getElementById("closePopup")?.addEventListener("click", closePopup);
   popup.addEventListener("click",(e)=>{ if(e.target===popup) closePopup(); });
 
   nextBtn.addEventListener("click",()=>{

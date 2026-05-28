@@ -78,8 +78,7 @@ function openPersonnelModal() {
 
 
 /* SEARCH INPUT LISTENER */
-document.getElementById("personnelSearch")
-.addEventListener("keyup", function(){
+document.getElementById("personnelSearch")?.addEventListener("keyup", function(){
 
     clearTimeout(debounceTimer);
 

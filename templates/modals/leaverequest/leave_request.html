@@ -523,7 +523,7 @@
   }
 
   // Close popup when clicking backdrop
-  document.getElementById("leaveHistoryPopup").addEventListener("click", function(e) {
+  document.getElementById("leaveHistoryPopup")?.addEventListener("click", function(e) {
     if (e.target === this) closeLeaveHistoryPopup();
   });
 
@@ -598,7 +598,7 @@
 
   // ─── RECOMMEND WITH REMARK MODAL ────────────────────────────────────────────
 
-  document.getElementById("recommend-button").addEventListener("click", () => {
+  document.getElementById("recommend-button")?.addEventListener("click", () => {
     if (!currentLeaveId) return alert("Leave ID missing");
     if (!confirm("Are you sure you want to recommend this leave?")) return;
 
@@ -629,25 +629,25 @@
     }
   }
 
-  document.getElementById("skipRemarkBtn").addEventListener("click", () => {
+  document.getElementById("skipRemarkBtn")?.addEventListener("click", () => {
     submitRecommend("");
   });
 
-  document.getElementById("submitRemarkBtn").addEventListener("click", () => {
+  document.getElementById("submitRemarkBtn")?.addEventListener("click", () => {
     const remark = document.getElementById("remarkInput").value.trim();
     submitRecommend(remark);
   });
 
   // ─── REJECT ─────────────────────────────────────────────────────────────────
 
-  document.getElementById("reject-button").addEventListener("click", () => {
+  document.getElementById("reject-button")?.addEventListener("click", () => {
     if (!currentLeaveId) return alert("Leave ID missing");
     rejectLeaveId = currentLeaveId;
     document.getElementById("rejectReason").value = "";
     new bootstrap.Modal(document.getElementById("rejectReasonModal")).show();
   });
 
-  document.getElementById("submitRejectBtn").addEventListener("click", async () => {
+  document.getElementById("submitRejectBtn")?.addEventListener("click", async () => {
     const reason = document.getElementById("rejectReason").value.trim();
     if (!reason) return alert("Please enter rejection reason");
 
@@ -1006,7 +1006,7 @@
 
   // ─── OPEN MODAL & LOAD ACTIVE TAB ───────────────────────────────────────────
 
-  document.getElementById("leaveRequestsBtn").addEventListener("click", () => {
+  document.getElementById("leaveRequestsBtn")?.addEventListener("click", () => {
     const modal = new bootstrap.Modal(document.getElementById("leaveRequestsModal"));
     modal.show();
 
@@ -1043,7 +1043,7 @@
 
   // ─── TAB SWITCH LOADERS ──────────────────────────────────────────────────────
 
-  document.getElementById("pending-tab").addEventListener("shown.bs.tab", loadLeaveRequests);
-  document.getElementById("recommended-tab").addEventListener("shown.bs.tab", loadRecommendedLeaves);
-  document.getElementById("rejected-tab").addEventListener("shown.bs.tab", loadRejectedLeaves);
+  document.getElementById("pending-tab")?.addEventListener("shown.bs.tab", loadLeaveRequests);
+  document.getElementById("recommended-tab")?.addEventListener("shown.bs.tab", loadRecommendedLeaves);
+  document.getElementById("rejected-tab")?.addEventListener("shown.bs.tab", loadRejectedLeaves);
 </script>

@@ -538,7 +538,7 @@
     document.getElementById('duesInCount').textContent = n + ' record' + (n === 1 ? '' : 's');
   }
 
-  document.getElementById('duesInListModal').addEventListener('show.bs.modal', async () => {
+  document.getElementById('duesInListModal')?.addEventListener('show.bs.modal', async () => {
     document.getElementById('duesInLoader').style.display = 'block';
     document.getElementById('duesInTableWrap').classList.add('d-none');
     try {
@@ -608,15 +608,15 @@
     document.getElementById('confirmOverlay').classList.add('show');
   }
 
-  document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+  document.getElementById('cancelDeleteBtn')?.addEventListener('click', () => {
     document.getElementById('confirmOverlay').classList.remove('show');
     deleteTargetId = null;
   });
-  document.getElementById('confirmOverlay').addEventListener('click', function (e) {
+  document.getElementById('confirmOverlay')?.addEventListener('click', function (e) {
     if (e.target === this) { this.classList.remove('show'); deleteTargetId = null; }
   });
 
-  document.getElementById('confirmDeleteBtn').addEventListener('click', async function () {
+  document.getElementById('confirmDeleteBtn')?.addEventListener('click', async function () {
     if (!deleteTargetId) return;
     this.disabled = true;
     document.getElementById('deleteBtnLabel').style.display = 'none';
@@ -643,7 +643,7 @@
     }
   });
 
-  document.getElementById('duesInSearch').addEventListener('keyup', function () {
+  document.getElementById('duesInSearch')?.addEventListener('keyup', function () {
     const v = this.value.toLowerCase();
     renderDuesInTable(v ? duesInData.filter(r =>
       (r.army_number || '').toLowerCase().includes(v) || (r.name || '').toLowerCase().includes(v)

@@ -478,20 +478,21 @@
     // =========================
 
     var btn = document.getElementById('openCalendar');
-    var popup = document.getElementById('calendarPopup');
+    var calPopup = document.getElementById('calendarPopup');
 
-    if (btn && popup) {
+    if (btn && calPopup) {
         btn.addEventListener('click', function (e) {
+            alert("Calendar button clicked");
             e.stopPropagation();
             
-            if (popup.style.display === 'flex') {
-                popup.style.display = 'none';
+            if (calPopup.style.display === 'flex') {
+                calPopup.style.display = 'none';
             } else {
-                // Dynamically position popup directly below the button
+                // Dynamically position calPopup directly below the button
                 var rect = btn.getBoundingClientRect();
-                popup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-                popup.style.left = (rect.left + window.scrollX) + 'px';
-                popup.style.display = 'flex';
+                calPopup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+                calPopup.style.left = (rect.left + window.scrollX) + 'px';
+                calPopup.style.display = 'flex';
                 
                 if (calendar) {
                     calendar.updateSize();
@@ -523,9 +524,9 @@
             detailModal.style.display = 'none';
         }
         
-        if (popup && popup.style.display === 'flex') {
-            if (!popup.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-                popup.style.display = 'none';
+        if (calPopup && calPopup.style.display === 'flex') {
+            if (!calPopup.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+                calPopup.style.display = 'none';
             }
         }
     });
@@ -535,8 +536,8 @@
     // =========================
 
     window.addEventListener('resize', function() {
-        if (popup && popup.style.display === 'flex') {
-            popup.style.display = 'none';
+        if (calPopup && calPopup.style.display === 'flex') {
+            calPopup.style.display = 'none';
         }
     });
 

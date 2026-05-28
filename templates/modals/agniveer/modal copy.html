@@ -117,7 +117,7 @@
     </div>
   </div>
   <script>
-    document.getElementById('batchFilter').addEventListener('change', function () {
+    document.getElementById('batchFilter')?.addEventListener('change', function () {
       const batch = this.value;
     
       fetch(`/get_all_agniveers?batch=${batch}`)
@@ -151,7 +151,7 @@
           });
         });
     });
-    document.getElementById('batchFilter').addEventListener('change', function () {
+    document.getElementById('batchFilter')?.addEventListener('change', function () {
         const batch = this.value;
     
         fetch(`/get_all_agniveers?batch=${batch}`)

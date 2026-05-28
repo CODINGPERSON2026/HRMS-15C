@@ -118,8 +118,7 @@
   let loanChart;
 
   /* Load chart when modal opens */
-  document.getElementById('loanModal')
-    .addEventListener('shown.bs.modal', loadLoanChart);
+  document.getElementById('loanModal')?.addEventListener('shown.bs.modal', loadLoanChart);
 
   function loadLoanChart() {
     fetch('/loan_details/summary')

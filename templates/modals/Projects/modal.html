@@ -482,7 +482,7 @@ onclick="openStatisticsModal()">
   let filteredProjectsData = [];
   let selectedProjectData = null;
 
-  document.getElementById('projDash_modal').addEventListener('show.bs.modal', function() {
+  document.getElementById('projDash_modal')?.addEventListener('show.bs.modal', function() {
     loadAllProjectsData();
     loadProjectHeadsData();
   });
@@ -650,7 +650,7 @@ onclick="openStatisticsModal()">
   }
 
   // Close popup on outside click
-  document.getElementById('projdashPopupOverlay').addEventListener('click', e => {
+  document.getElementById('projdashPopupOverlay')?.addEventListener('click', e => {
     if (e.target === e.currentTarget) closeProjectPopup();
   });
 </script>

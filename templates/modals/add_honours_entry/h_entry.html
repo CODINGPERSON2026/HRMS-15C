@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}"> -->
 <link rel="stylesheet" href="/static/cropper.min.css">
 
 <div class="modal fade" id="addHonoursModal" tabindex="-1" aria-hidden="true">
@@ -525,7 +525,7 @@
     }
   });
 
-  document.getElementById("honoursForm").addEventListener("submit",(e)=>{
+  document.getElementById("honoursForm")?.addEventListener("submit",(e)=>{
     if(!armyHidden.value){
       e.preventDefault();
       psInput.focus();
@@ -560,7 +560,7 @@
     reader.readAsDataURL(file);
   });
 
-  document.getElementById("honoursForm").addEventListener("submit", async function(e){
+  document.getElementById("honoursForm")?.addEventListener("submit", async function(e){
     e.preventDefault();
 
     const formData = new FormData(this);

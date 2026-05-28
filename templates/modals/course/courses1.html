@@ -39,7 +39,7 @@
     </div>
   </div>
   <script>
-    document.getElementById("openCourses").addEventListener("click", () => {
+    document.getElementById("openCourses")?.addEventListener("click", () => {
       const modal = new bootstrap.Modal(document.getElementById("coursesModal"));
       modal.show();
       loadCourses();

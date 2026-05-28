@@ -32,7 +32,7 @@
         return dates[0];
     }
     
-    document.getElementById("agniveersModal").addEventListener("shown.bs.modal", function () {
+    document.getElementById("agniveersModal")?.addEventListener("shown.bs.modal", function () {
     
         fetch("/api/agniveer-alarms")
             .then(res => res.json())

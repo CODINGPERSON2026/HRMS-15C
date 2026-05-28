@@ -2619,7 +2619,7 @@ def get_co_all_dashboard_data(date_str):
             return jsonify({
                 'success': False,
                 'message': 'No data found for this date'
-            }), 404
+            }), 200
         
         # Update totals to use leave (lve) instead of total out (trout_det)
         total_on_leave = sum(row['on_leave'] or 0 for row in leave_data)  #acctually its only calculating how many are OR ON LEAVE NOT TOTAL

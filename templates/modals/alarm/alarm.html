@@ -70,7 +70,7 @@
 
     document.addEventListener('DOMContentLoaded', showAssignedAlarms);
 
-    document.getElementById("alarmAlert").addEventListener("click", function () {
+    document.getElementById("alarmAlert")?.addEventListener("click", function () {
         const detModal = new bootstrap.Modal(document.getElementById('detModal'));
         detModal.show();
         load_det_personnel("", 90);

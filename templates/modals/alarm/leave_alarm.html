@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ══════════════════════════════════════════
    7. Click alarm → open modal + fetch details
    ══════════════════════════════════════════ */
-document.getElementById("leave_alarm_alert").addEventListener("click", async () => {
+document.getElementById("leave_alarm_alert")?.addEventListener("click", async () => {
     const modal = new bootstrap.Modal(document.getElementById("pendingLeaveModal"));
     modal.show();
 
@@ -349,7 +349,7 @@ document.getElementById("leave_alarm_alert").addEventListener("click", async () 
 /* ══════════════════════════════════════════
    8. Tab switching  — UNCHANGED
    ══════════════════════════════════════════ */
-document.getElementById("pending-tab").addEventListener("shown.bs.tab", loadLeaveRequests);
-document.getElementById("recommended-tab").addEventListener("shown.bs.tab", loadRecommendedLeaves);
-document.getElementById("rejected-tab").addEventListener("shown.bs.tab", loadRejectedLeaves);
+document.getElementById("pending-tab")?.addEventListener("shown.bs.tab", loadLeaveRequests);
+document.getElementById("recommended-tab")?.addEventListener("shown.bs.tab", loadRecommendedLeaves);
+document.getElementById("rejected-tab")?.addEventListener("shown.bs.tab", loadRejectedLeaves);
 </script>

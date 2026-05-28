@@ -166,7 +166,7 @@ actionSelect.addEventListener("change", async function () {
 });
 
 // LOAD DETACHMENTS ON MODAL OPEN
-document.getElementById('personnelModal').addEventListener('shown.bs.modal', async () => {
+document.getElementById('personnelModal')?.addEventListener('shown.bs.modal', async () => {
     try {
         const res = await fetch('/get_locations');
         
@@ -194,7 +194,7 @@ document.getElementById('personnelModal').addEventListener('shown.bs.modal', asy
 });
 
 // CLEAR ON MODAL CLOSE
-document.getElementById('personnelModal').addEventListener('hidden.bs.modal', () => {
+document.getElementById('personnelModal')?.addEventListener('hidden.bs.modal', () => {
     // Clear all fields
     searchInput.value = '';
     actionSelect.value = '';
@@ -214,7 +214,7 @@ document.getElementById('personnelModal').addEventListener('hidden.bs.modal', ()
 });
 
 // SEARCH
-document.getElementById('searchBtn').addEventListener('click', async () => {
+document.getElementById('searchBtn')?.addEventListener('click', async () => {
   const query = searchInput.value.trim();
   warningMessage.innerText = "";
   assignBtn.disabled = true;

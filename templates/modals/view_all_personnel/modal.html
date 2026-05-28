@@ -199,13 +199,11 @@ function debounceFetch() {
 
 
 /* SEARCH INPUT */
-document.getElementById("personnelSearch")
-.addEventListener("keyup", debounceFetch);
+document.getElementById("personnelSearch")?.addEventListener("keyup", debounceFetch);
 
 
 /* FILTER DROPDOWN */
-document.getElementById("companyFilter")
-.addEventListener("change", debounceFetch);
+document.getElementById("companyFilter")?.addEventListener("change", debounceFetch);
 
 
 /* COMPANY COLOR HELPER */

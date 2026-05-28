@@ -434,7 +434,7 @@ function hideConfirm() {
   _confirmCallback = null;
 }
 
-document.getElementById('cf-confirm-btn').addEventListener('click', function () {
+document.getElementById('cf-confirm-btn')?.addEventListener('click', function () {
   if (typeof _confirmCallback === 'function') {
     _confirmCallback(this);
   }
@@ -493,8 +493,8 @@ function fetchInterviewPending() {
 }
 
 /* ================= FILTER LOGIC ================= */
-document.getElementById("companyFilter").addEventListener("change", applyFilters);
-document.getElementById("noJcoOnly").addEventListener("change", applyFilters);
+document.getElementById("companyFilter")?.addEventListener("change", applyFilters);
+document.getElementById("noJcoOnly")?.addEventListener("change", applyFilters);
 
 function applyFilters() {
   let filtered = [...fullData];

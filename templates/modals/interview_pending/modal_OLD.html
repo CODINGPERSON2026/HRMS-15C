@@ -567,12 +567,12 @@ companyFilter.addEventListener("change", () => {
     debouncedFetch(query);
 });
     // Auto-focus search when modal opens
-    document.getElementById("interviewModal").addEventListener("shown.bs.modal", () => {
+    document.getElementById("interviewModal")?.addEventListener("shown.bs.modal", () => {
         searchInput.focus();
         debouncedFetch("");
     });
 
-    document.getElementById("interview-card").addEventListener("click", () => {
+    document.getElementById("interview-card")?.addEventListener("click", () => {
         new bootstrap.Modal(document.getElementById("interviewModal")).show();
     });
 });

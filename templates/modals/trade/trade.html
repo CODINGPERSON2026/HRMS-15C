@@ -870,7 +870,7 @@ function exportCSV() {
 }
 
 // ─── EVENT LISTENERS ─────────────────────────────────────────────────────────
-document.getElementById('report-date').addEventListener('change', function() {
+document.getElementById('report-date')?.addEventListener('change', function() {
     document.getElementById('header-date').textContent = fmtDate(this.value);
     if(this.value !== currentReportDate) loadData();
 });

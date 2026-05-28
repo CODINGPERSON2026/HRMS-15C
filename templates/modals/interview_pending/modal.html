@@ -702,7 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("input",    e  => debouncedFetch(e.target.value.trim()));
   companyFilter.addEventListener("change", () => debouncedFetch(searchInput.value.trim()));
 
-  document.getElementById("interviewModal").addEventListener("shown.bs.modal", () => {
+  document.getElementById("interviewModal")?.addEventListener("shown.bs.modal", () => {
     searchInput.focus();
     fetchInterviews("");
   });

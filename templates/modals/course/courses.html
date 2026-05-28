@@ -381,7 +381,7 @@
     document.body.style.overflow = '';
   }
 
-  document.getElementById('cmCloseBtn').addEventListener('click', closeModal);
+  document.getElementById('cmCloseBtn')?.addEventListener('click', closeModal);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && overlay.classList.contains('cm-active')) closeModal();
@@ -515,7 +515,7 @@
     document.querySelector('.cm-table-wrap').scrollTop = 0;
   };
 
-  document.getElementById('cmExportBtn').addEventListener('click', function () {
+  document.getElementById('cmExportBtn')?.addEventListener('click', function () {
     var cols = ['army_number','rank','name','company','course_name','from_date','to_date','institute_name'];
     var headers = ['Army No','Rank','Name','Company','Course Name','From','To','Institute'];
     var rows = [headers].concat(filteredData.map(function (r) {

@@ -185,7 +185,7 @@
     }
     
     /* ✅ NEW: Submit remarks */
-    document.getElementById("submitRemarksBtn").addEventListener("click", async () => {
+    document.getElementById("submitRemarksBtn")?.addEventListener("click", async () => {
         const remarks = document.getElementById("remarksInput").value;
     
         try {
@@ -219,7 +219,7 @@ alert(data.message || "Interview marked successfully!");
     });
     
     /* Open main modal */
-    document.getElementById("alarmAlert").addEventListener("click", function () {
+    document.getElementById("alarmAlert")?.addEventListener("click", function () {
         const modal = new bootstrap.Modal(document.getElementById('update_assigned_interview'));
         modal.show();
         load_pending_interview();

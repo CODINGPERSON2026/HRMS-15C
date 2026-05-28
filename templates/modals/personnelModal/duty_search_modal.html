@@ -151,7 +151,7 @@
 
 
         // Clear on close
-        document.getElementById('dutySearchModal').addEventListener('hidden.bs.modal', () => {
+        document.getElementById('dutySearchModal')?.addEventListener('hidden.bs.modal', () => {
             searchDropdown.value = '';
             tableBody.innerHTML = '';
             warningMsg.innerText = '';

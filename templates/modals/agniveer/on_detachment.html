@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let agniDetFetchedDataUniqueScope = [];
 
   /* ================= OPEN MODAL ================= */
-  document.getElementById("agniveer_on_detachment").addEventListener("click", async function () {
+  document.getElementById("agniveer_on_detachment")?.addEventListener("click", async function () {
     const agniDetModalBootstrapUniqueScope = new bootstrap.Modal(agniDetModalElementUniqueScope);
     agniDetModalBootstrapUniqueScope.show();
     await loadAgniDetPersonnelUniqueScope();

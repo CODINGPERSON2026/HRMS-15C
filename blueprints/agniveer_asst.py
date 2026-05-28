@@ -303,13 +303,15 @@ WHERE batch = %s
         print("Error updating assistant:", e)
         return jsonify({"success": False, "error": "Server error"}), 500
 
+from datetime import date, datetime, timedelta
+from flask import jsonify
+
 @agniveer_bp.route('/api/upcomming_test_alarms', methods=['GET'])
 def upcoming_test_alarms():
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True, buffered=True)
-        
-        # Get all assistant test records
+
         query = """
         SELECT 
             batch, 
@@ -318,48 +320,79 @@ def upcoming_test_alarms():
             emergency_test1, emergency_test2, emergency_test3, emergency_test4
         FROM assistant_test
         """
+
         cursor.execute(query)
         rows = cursor.fetchall()
-        
+
         upcoming_tests = []
+
         today = date.today()
-        # Look ahead 30 days for alarms
         alarm_window = today + timedelta(days=30)
-        
+
         for row in rows:
-            # Check each of the 4 tests
+
             for i in range(1, 5):
+
                 status_key = f"test{i}_status"
-                # If test is already completed (status 1), skip it
+
+                # Skip completed tests
                 if row.get(status_key) == 1:
                     continue
-                
-                # Use emergency date if available, otherwise original scheduled date
-                sched_date = row.get(f"emergency_test{i}") or row.get(f"asst_test{i}")
-                
-                if sched_date:
-                    # If sched_date is a string, convert to date object
-                    if isinstance(sched_date, str):
-                        try:
-                            sched_date = datetime.strptime(sched_date, '%Y-%m-%d').date()
-                        except ValueError:
-                            continue
-                    
-                    # If it's within our window (today to 30 days from now)
-                    if today <= sched_date <= alarm_window:
-                        upcoming_tests.append({
-                            "batch": row['batch'],
-                            "test_no": i,
-                            "test_name": f"Assistant Test {i}",
-                            "test_date": sched_date.strftime('%Y-%m-%d'),
-                            "days_left": (sched_date - today).days
-                        })
-        
+
+                # Use emergency date first if available
+                sched_date = (
+                    row.get(f"emergency_test{i}")
+                    or row.get(f"asst_test{i}")
+                )
+
+                if not sched_date:
+                    continue
+
+                # Convert string to date
+                if isinstance(sched_date, str):
+                    try:
+                        sched_date = datetime.strptime(
+                            sched_date,
+                            '%Y-%m-%d'
+                        ).date()
+                    except ValueError:
+                        continue
+
+                # Convert datetime to date
+                elif isinstance(sched_date, datetime):
+                    sched_date = sched_date.date()
+
+                # Ensure final object is date
+                if not isinstance(sched_date, date):
+                    continue
+
+                # Check if within next 30 days
+                if today <= sched_date <= alarm_window:
+
+                    upcoming_tests.append({
+                        "batch": row['batch'],
+                        "test_no": i,
+                        "test_name": f"Assistant Test {i}",
+                        "test_date": sched_date.strftime('%Y-%m-%d'),
+                        "days_left": (sched_date - today).days
+                    })
+
         cursor.close()
         conn.close()
-        
-        return jsonify({"rows": upcoming_tests})
-        
+
+        # Sort nearest test first
+        upcoming_tests.sort(key=lambda x: x['days_left'])
+
+        return jsonify({
+            "success": True,
+            "count": len(upcoming_tests),
+            "rows": upcoming_tests
+        })
+
     except Exception as e:
         print("Error fetching upcoming alarms:", e)
-        return jsonify({"success": False, "error": str(e)}), 500
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500

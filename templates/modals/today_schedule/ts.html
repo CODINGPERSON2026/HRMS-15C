@@ -229,34 +229,37 @@
         // TITLE
         // =============================================
     
-        document.getElementById(
-            "nextEventTitle"
-        ).innerText =
-            next
-            ? next.title
-            : "All Tasks Completed";
+        const nextEventTitle = document.getElementById("nextEventTitle");
+
+if (nextEventTitle) {
+    nextEventTitle.innerText = next
+        ? next.title
+        : "All Tasks Completed";
+}
     
         // =============================================
         // TIME
         // =============================================
     
-        document.getElementById(
-            "nextEventTime"
-        ).innerText =
-            next
-            ? formatTime24to12(next.start_time)
-            : "--";
+        const nextEventTime = document.getElementById("nextEventTime");
+
+if (nextEventTime) {
+    nextEventTime.innerText = next
+        ? formatTime24to12(next.start_time)
+        : "--";
+}
     
         // =============================================
         // LOCATION
         // =============================================
     
-        document.getElementById(
-            "nextEventDesc"
-        ).innerText =
-            next
-            ? next.location
-            : "No more schedules today";
+        const nextEventDesc = document.getElementById("nextEventDesc");
+
+if (nextEventDesc) {
+    nextEventDesc.innerText = next
+        ? next.location
+        : "No more schedules today";
+}
     }
     
     

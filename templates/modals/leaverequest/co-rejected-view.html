@@ -254,7 +254,7 @@
   }
   
   // Sanction Leave
-  document.getElementById("coSanctionLeaveBtn").addEventListener("click", async () => {
+  document.getElementById("coSanctionLeaveBtn")?.addEventListener("click", async () => {
     if (!selectedLeaveId) {
       alert("No leave selected.");
       return;

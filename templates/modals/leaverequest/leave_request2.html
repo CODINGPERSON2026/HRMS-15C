@@ -230,14 +230,14 @@
   }
 
   // Reject functions
-  document.getElementById("reject-button").addEventListener("click", () => {
+  document.getElementById("reject-button")?.addEventListener("click", () => {
     if (!currentLeaveId) return alert("Leave ID missing");
     rejectLeaveId = currentLeaveId;
     document.getElementById("rejectReason").value = "";
     new bootstrap.Modal(document.getElementById("rejectReasonModal")).show();
   });
 
-  document.getElementById("submitRejectBtn").addEventListener("click", async () => {
+  document.getElementById("submitRejectBtn")?.addEventListener("click", async () => {
     const reason = document.getElementById("rejectReason").value.trim();
     if (!reason) return alert("Please enter rejection reason");
 
@@ -414,7 +414,7 @@
   }
 
   // Recommend button
-  document.getElementById("recommend-button").addEventListener("click", async () => {
+  document.getElementById("recommend-button")?.addEventListener("click", async () => {
     if (!currentLeaveId) return alert("Leave ID missing");
     if (!confirm("Are you sure you want to recommend this leave?")) return;
 
@@ -554,7 +554,7 @@
   }
 
   // Open modal and load active tab
-  document.getElementById("leaveRequestsBtn").addEventListener("click", () => {
+  document.getElementById("leaveRequestsBtn")?.addEventListener("click", () => {
     const modal = new bootstrap.Modal(document.getElementById("leaveRequestsModal"));
     modal.show();
 
@@ -594,7 +594,7 @@
 
 
   // Load data when switching tabs
-  document.getElementById("pending-tab").addEventListener("shown.bs.tab", loadLeaveRequests);
-  document.getElementById("recommended-tab").addEventListener("shown.bs.tab", loadRecommendedLeaves);
-  document.getElementById("rejected-tab").addEventListener("shown.bs.tab", loadRejectedLeaves);
+  document.getElementById("pending-tab")?.addEventListener("shown.bs.tab", loadLeaveRequests);
+  document.getElementById("recommended-tab")?.addEventListener("shown.bs.tab", loadRecommendedLeaves);
+  document.getElementById("rejected-tab")?.addEventListener("shown.bs.tab", loadRejectedLeaves);
 </script>

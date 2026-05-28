@@ -121,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
   let isArmyNumberValid = false;
 
   // Tab handling
-  document.getElementById('manage-tab-btn').addEventListener('click', () => setTimeout(loadReservedCourses, 150));
-  document.getElementById('upcoming-tab-btn').addEventListener('click', () => setTimeout(loadUpcomingCourses, 150));
+  document.getElementById('manage-tab-btn')?.addEventListener('click', () => setTimeout(loadReservedCourses, 150));
+  document.getElementById('upcoming-tab-btn')?.addEventListener('click', () => setTimeout(loadUpcomingCourses, 150));
 
   // ===================== ARMY NUMBER VALIDATION =====================
   const armyInput = document.getElementById('army_number');
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
   verifyBtn.addEventListener('click', validateArmyNumber);
 
   // ===================== SAVE NEW COURSE =====================
-  document.getElementById('save_course_btn').addEventListener('click', function () {
+  document.getElementById('save_course_btn')?.addEventListener('click', function () {
     if (document.getElementById('add-course').classList.contains('show')) {
       saveNewCourse();
     }

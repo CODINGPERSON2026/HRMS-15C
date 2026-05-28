@@ -102,7 +102,7 @@
     let selectedHomeState  = null;
 
     /* ── Wire up char counter ── */
-    document.getElementById('remarksInput').addEventListener('input', function () {
+    document.getElementById('remarksInput')?.addEventListener('input', function () {
         document.getElementById('kundaCharCount').textContent = this.value.length;
     });
 
@@ -194,7 +194,7 @@
     }
 
     /* ── Submit remarks ── */
-    document.getElementById("submitRemarksBtn").addEventListener("click", async () => {
+    document.getElementById("submitRemarksBtn")?.addEventListener("click", async () => {
         const remarks = document.getElementById("remarksInput").value;
 
         try {
@@ -227,7 +227,7 @@
     });
 
     /* ── Open main modal on badge click ── */
-    document.getElementById("alarmAlert").addEventListener("click", function () {
+    document.getElementById("alarmAlert")?.addEventListener("click", function () {
         new bootstrap.Modal(document.getElementById('update_assigned_interview')).show();
         load_pending_interview();
     });

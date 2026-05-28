@@ -57,7 +57,7 @@
     const modalEl = document.getElementById('on_courses_modal');
     const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
 
-    document.getElementById('save_course_btn').addEventListener('click', () => {
+    document.getElementById('save_course_btn')?.addEventListener('click', () => {
       // Get values
       const army_number = document.getElementById('army_number').value.trim();
       

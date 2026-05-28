@@ -76,7 +76,7 @@ async function openEditModal(taskId) {
     document.getElementById('editDueDate').value = task.due_date; // format: yyyy-mm-dd
     modal.show();
   }
-    document.getElementById("editTaskForm").addEventListener("submit", async function (e) {
+    document.getElementById("editTaskForm")?.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const taskId = document.getElementById("editTaskId").value;

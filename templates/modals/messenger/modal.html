@@ -2030,7 +2030,7 @@
     }
 
     // Listen for avatar/header click
-    document.querySelector('.conversation-panel').addEventListener('click', function (e) {
+    document.querySelector('.conversation-panel')?.addEventListener('click', function (e) {
       if (e.target.closest('#conversationAvatarContainer') || e.target.closest('#conversationTitleText')) {
         if (ACTIVE_CHAT_USER_ID) {
           showProfileInfo(ACTIVE_CHAT_USER_ID);
@@ -2237,7 +2237,7 @@
         const modal = new bootstrap.Modal(document.getElementById('chatForwardModal'));
         modal.show();
 
-        document.getElementById('confirmForwardBtn').addEventListener('click', () => {
+        document.getElementById('confirmForwardBtn')?.addEventListener('click', () => {
           const selectedIds = Array.from(document.querySelectorAll('.forward-contact-cb:checked')).map(cb => cb.value);
           if (selectedIds.length === 0) {
             alert("Please select at least one contact to forward the message to.");
