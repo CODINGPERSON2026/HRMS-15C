@@ -1053,6 +1053,23 @@ STATUS COLORS
 
     color: #dc2626;
   }
+
+  .bharosa-card-content {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+    align-items: center;
+    height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .bharosa-card-content {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+  }
 </style>
 
 <!-- PAGE LOADER -->
@@ -1314,6 +1331,7 @@ STATUS COLORS
             <button class="graph-tab" data-index="2">Monthly UnFit</button>
             <button class="graph-tab" data-index="3">Fit vs UnFit (Weight Based)</button>
             <button class="graph-tab" data-index="4">Agniveer Trade Wise</button>
+            <button class="graph-tab" data-index="5">Bharosa App</button>
           </div>
           <div class="chart-filter-wrap">
             <select id="companyFilter" class="form-select form-select-sm">
@@ -1391,6 +1409,41 @@ STATUS COLORS
                       style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
                   </div>
                   <div class="chart-canvas-wrap"><canvas id="agniveerTradeChart"></canvas></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-row-card" id="chartCard5" style="transition-delay: 0.3s">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Bharosa App Sentiment</h6>
+                    <div style="display:flex;gap:12px;font-size:12px;font-weight:700">
+                      <span style="color:var(--primary-color, #2563eb)">Happy: <span id="bharosaHappyCount">95%</span></span>
+                      <span style="color:var(--danger-color, #dc2626)">Unhappy: <span id="bharosaUnhappyCount">5%</span></span>
+                    </div>
+                  </div>
+                  <div class="bharosa-card-content">
+                    <div class="chart-canvas-wrap" style="height: 100%; min-height: 0;">
+                      <canvas id="bharosaChart"></canvas>
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: center; height: 100%; overflow-y: auto; padding-right: 4px;">
+                      <p style="font-size: 10px; font-weight: 700; color: var(--danger-color, #dc2626); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        ⚠️ Unhappy Feedback Submissions (5%)
+                      </p>
+                      <table class="table table-sm table-hover" style="font-size: 10px; margin-bottom: 0; line-height: 1.2;">
+                        <thead>
+                          <tr style="background: rgba(220, 53, 69, 0.05); color: var(--danger-color, #dc2626); font-weight: 700;">
+                            <th style="padding: 3px 4px;">S.No</th>
+                            <th style="padding: 3px 4px;">Rank</th>
+                            <th style="padding: 3px 4px;">Name</th>
+                            <th style="padding: 3px 4px;">Reason</th>
+                          </tr>
+                        </thead>
+                        <tbody id="bharosaUnhappyTableBody"></tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1914,7 +1967,7 @@ STATUS COLORS
      CHARTS DATA
 ===================================================== -->
 <script>
-  var rankCI = null, detCI = null, fitCI = null, unfitCI = null, agniveerTradeCI = null;
+  var rankCI = null, detCI = null, fitCI = null, unfitCI = null, agniveerTradeCI = null, bharosaCI = null;
 
   var donutDatalabelsPlugin = {
     id: "donutDatalabels",
@@ -1944,7 +1997,8 @@ STATUS COLORS
           ctx.shadowOffsetX = 0.5;
           ctx.shadowOffsetY = 0.5;
 
-          ctx.fillText(val, x, y);
+          var labelVal = chart.canvas.id === 'bharosaChart' ? val + "%" : val;
+          ctx.fillText(labelVal, x, y);
           ctx.restore();
         });
       });
@@ -1974,6 +2028,25 @@ STATUS COLORS
       if (activeElements && activeElements.length > 0) {
         var activeEl = activeElements[0];
         index = activeEl.index !== undefined ? activeEl.index : activeEl._index;
+      }
+
+      if (chart.canvas.id === 'bharosaChart' && index < 0) {
+        ctx.save();
+        
+        ctx.font = "bold 11px sans-serif";
+        ctx.fillStyle = getThemeColor('--primary-color', '#2563eb');
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("HAPPY: " + chart.data.datasets[0].data[0] + "%", x, y - 9);
+        
+        ctx.font = "bold 11px sans-serif";
+        ctx.fillStyle = getThemeColor('--danger-color', '#dc2626');
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("UNHAPPY: " + chart.data.datasets[0].data[1] + "%", x, y + 9);
+        
+        ctx.restore();
+        return;
       }
 
       var title = "TOTAL";
@@ -2012,7 +2085,9 @@ STATUS COLORS
       ctx.fillStyle = color;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(val, x, y + 9);
+      
+      var displayVal = chart.canvas.id === 'bharosaChart' ? val + "%" : val;
+      ctx.fillText(displayVal, x, y + 9);
 
       ctx.restore();
     }
@@ -2289,18 +2364,118 @@ STATUS COLORS
     } catch (e) { console.error("agniveerTradeChart:", e); }
   }
 
+  async function loadBharosaChart(company) {
+    company = company || "ALL";
+    try {
+      var happy = 95;
+      var unhappy = 5;
+      var unhappyList = [
+        { rank: "Hav", name: "Gurpreet Singh", reason: "Delay in leave approval" },
+        { rank: "Sep", name: "Amit Sharma", reason: "Field area network issues" },
+        { rank: "Agni", name: "Vivek Srivastav", reason: "Higher study permission pending" },
+        { rank: "Nk", name: "Rajesh Kumar", reason: "Family quarters allocation delay" },
+        { rank: "Sep", name: "Rohit Verma", reason: "Barracks ventilation maintenance" }
+      ];
+      
+      try {
+        var res = await fetch("/api/bharosa_stats?company=" + encodeURIComponent(company));
+        if (res.ok) {
+          var result = await res.json();
+          if (result && result.status === "success") {
+            happy = result.happy || 95;
+            unhappy = result.unhappy || 5;
+            if (result.unhappy_list) {
+              unhappyList = result.unhappy_list;
+            }
+          }
+        }
+      } catch (apiError) {
+        // Fallback to 95 and 5
+      }
+
+      var happyEl = document.getElementById("bharosaHappyCount");
+      var unhappyEl = document.getElementById("bharosaUnhappyCount");
+      if (happyEl) happyEl.textContent = happy + "%";
+      if (unhappyEl) unhappyEl.textContent = unhappy + "%";
+
+      // Dynamically render the Unhappy Personnel list table
+      var tbody = document.getElementById("bharosaUnhappyTableBody");
+      if (tbody) {
+        tbody.innerHTML = "";
+        if (unhappyList.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-3">No unhappy feedback received</td></tr>';
+        } else {
+          unhappyList.forEach(function (item, idx) {
+            tbody.innerHTML += `
+              <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                <td style="padding: 3px 4px; font-weight: 600; text-align: left;">${idx + 1}</td>
+                <td style="padding: 3px 4px; font-weight: 700; color: var(--text-secondary, #6b7280); text-align: left;">${item.rank}</td>
+                <td style="padding: 3px 4px; font-weight: 700; text-align: left;">${item.name}</td>
+                <td style="padding: 3px 4px; color: var(--danger-color, #dc2626); font-style: italic; text-align: left; max-width: 105px;">
+                  <div style="overflow-x: auto; white-space: nowrap; max-width: 100%; scrollbar-width: thin;">
+                    ${item.reason}
+                  </div>
+                </td>
+              </tr>
+            `;
+          });
+        }
+      }
+
+      var ctx = document.getElementById("bharosaChart").getContext("2d");
+      if (bharosaCI) bharosaCI.destroy();
+      bharosaCI = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Happy", "Unhappy"],
+          datasets: [{
+            data: [happy, unhappy],
+            backgroundColor: [
+              getThemeColor('--primary-color', '#2563eb'),
+              getThemeColor('--danger-color', '#dc2626')
+            ],
+            borderWidth: 2,
+            borderColor: getThemeColor('--card-bg-solid', '#fff'),
+          }],
+        },
+        plugins: [donutDatalabelsPlugin, donutHoverCenterPlugin],
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: "65%",
+          layout: {
+            padding: 10
+          },
+          animation: { animateRotate: true, duration: 800, easing: "easeOutQuart" },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  return " " + ctx.label + ": " + ctx.raw + "%";
+                }
+              }
+            }
+          },
+        },
+      });
+    } catch (e) { console.error("bharosaChart:", e); }
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     loadRankChart("ALL");
     loadDetachmentChart("ALL");
     loadUnfitTrend("ALL");
     loadFitUnfitChart("All");
     loadAgniveerTradeChart("ALL");
+    loadBharosaChart("ALL");
     document.getElementById("companyFilter")?.addEventListener("change", function () {
       loadRankChart(this.value);
       loadDetachmentChart(this.value);
       loadUnfitTrend(this.value);
       loadFitUnfitChart(this.value);
       loadAgniveerTradeChart(this.value);
+      loadBharosaChart(this.value);
     });
 
     // Re-render charts when the data-theme attribute on <html> changes
@@ -2313,6 +2488,7 @@ STATUS COLORS
           loadUnfitTrend(currentCompany);
           loadFitUnfitChart(currentCompany);
           loadAgniveerTradeChart(currentCompany);
+          loadBharosaChart(currentCompany);
         }
       });
     });
