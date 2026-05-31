@@ -6137,5 +6137,96 @@ def get_today_schedules():
 
         cursor.close()
         conn.close()
+from flask import request, jsonify
+
+@app.route("/api/schedules", methods=["POST"])
+def create_schedule():
+    conn = None
+    cursor = None
+
+    try:
+        data = request.get_json()
+
+        title = data.get("title")
+        description = data.get("description", "")
+        location = data.get("location", "")
+        schedule_date = data.get("schedule_date")
+        start_time = data.get("start_time")
+        end_time = data.get("end_time")
+        priority = data.get("priority", 3)
+
+        # Basic validation
+        if not title:
+            return jsonify({
+                "success": False,
+                "message": "Title is required"
+            }), 400
+
+        if not schedule_date:
+            return jsonify({
+                "success": False,
+                "message": "Schedule date is required"
+            }), 400
+
+        if not start_time:
+            return jsonify({
+                "success": False,
+                "message": "Start time is required"
+            }), 400
+
+        if not end_time:
+            return jsonify({
+                "success": False,
+                "message": "End time is required"
+            }), 400
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO schedules (
+                title,
+                description,
+                location,
+                schedule_date,
+                start_time,
+                end_time,
+                status,
+                priority
+            )
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+        """, (
+            title,
+            description,
+            location,
+            schedule_date,
+            start_time,
+            end_time,
+            "pending",
+            priority
+        ))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Schedule created successfully",
+            "schedule_id": cursor.lastrowid
+        })
+
+    except Exception as e:
+        print("Create Schedule Error:", str(e))
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
 if __name__ == '__main__':
     app.run(port=4000,debug=True)

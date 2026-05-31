@@ -386,7 +386,12 @@
     <!-- ===== ACTION BAR ===== -->
     <div class="action-bar" id="actionBar">
 
-      
+       {%if role in ['PA']%}
+      <button class="ab-btn ab-primary" data-bs-toggle="modal" data-bs-target="#scheduleModal">
+         ADD  SHEDULE
+      </button>
+     
+      {%endif%}
 
       {%if role in ['O2']%}
       <button class="ab-btn ab-primary" data-bs-toggle="modal" data-bs-target="#add_dues_in">
@@ -651,6 +656,11 @@
       </div>
       {% endif %}
 
+
+
+
+      
+
     </div>
     <!-- /statsGrid -->
 
@@ -681,6 +691,7 @@
 
     <!-- ===== ALL OTHER MODALS (unchanged) ===== -->
     {% include 'modals/detachmentModal/detachment.html' %}
+    {% include 'modals/PA/schedule.html' %}
     {% include 'modals/personnelModal/duty_search_modal.html' %}
     {% include 'modals/personnelModal/personal_modal.html' %}
     {% include 'modals/salesmodal/salesModal.html' %}
