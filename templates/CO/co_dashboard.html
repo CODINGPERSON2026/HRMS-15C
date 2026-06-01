@@ -222,9 +222,9 @@
     gap: 5px;
     border: 1px solid transparent;
     border-radius: 8px;
-    padding: 7px 13px;
+    padding: 5px 10px;
     background: transparent;
-    font-size: 11.5px;
+    font-size: 10.5px;
     font-weight: 700;
     white-space: nowrap;
     letter-spacing: 0.4px;
@@ -291,12 +291,12 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 7px 16px;
+    padding: 5px 12px;
     border-radius: 999px;
     border: 1.5px solid #0084ff;
     background: rgba(0, 132, 255, 0.08);
     color: #0084ff;
-    font-size: 11.5px;
+    font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.4px;
     white-space: nowrap;
@@ -336,97 +336,65 @@
  ========================================================= */
   .db-main-layout {
     display: grid;
-    grid-template-columns: clamp(180px, 24vw, 340px) minmax(0, 1fr);
-    gap: 12px;
+    grid-template-columns: clamp(280px, 24vw, 360px) minmax(0, 1fr);
+    gap: 16px;
     align-items: start;
     min-height: calc(100vh - 180px);
   }
 
   /* =========================================================
-   LEFT COLUMN
+   LEFT COLUMN & STATS GROUPS
  ========================================================= */
   .cards-column {
     min-width: 0;
     position: relative;
-  }
-
-  .cards-top-bar {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  .card-tab-strip {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex: 1;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-  }
-
-  .card-tab-strip::-webkit-scrollbar {
-    display: none;
-  }
-
-  .card-tab {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 0;
-    border: none;
-    background: transparent;
-    color: var(--text-secondary);
-    font-size: 12px;
+  .stats-section-header {
+    margin: 8px 0 4px 0;
+    font-size: 11px;
     font-weight: 700;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: color 0.25s ease;
-    flex-shrink: 0;
-    letter-spacing: 0.3px;
-  }
-
-  .card-tab:hover {
-    color: var(--primary-color);
-  }
-
-  .card-tab.active {
-    color: var(--primary-color);
-  }
-
-  .card-tab.active::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: 4px;
-    border-radius: 999px;
-    background: var(--primary-color);
-    animation: underlineSlide 0.25s ease;
-  }
-
-  .cards-slider-viewport {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .cards-slider-track {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
     display: flex;
-    width: 100%;
-    transition: transform 0.8s ease-in-out;
-    will-change: transform;
+    align-items: center;
+    gap: 6px;
   }
 
-  .card-group-slide {
-    flex: 0 0 100%;
-    width: 100%;
-    display: grid;
+  .stats-section-list {
+    display: flex;
+    flex-direction: column;
     gap: 8px;
+  }
+
+  .stats-section {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .stats-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stats-container-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 1200px) {
+    .stats-container-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
   }
 
   /* =========================================================
@@ -532,15 +500,13 @@
   }
 
   /* =========================================================
-   RIGHT CHART AREA
+   RIGHT CHART AREA (SLIDER)
  ========================================================= */
   .charts-column {
     position: relative;
     width: 100%;
     min-width: 0;
-    height: calc(100vh - 240px);
-    min-height: 360px;
-    max-height: 520px;
+    height: 300px; /* Aligned with Honours Board card */
     overflow: hidden;
   }
 
@@ -696,9 +662,7 @@
       gap: 16px;
     }
 
-    .charts-column {
-      max-height: 620px;
-    }
+    /* height handled by flex */
 
     .sc {
       padding: 14px 18px;
@@ -709,14 +673,14 @@
     }
   }
 
-  @media (max-width: 1366px) {
-    .charts-column {
-      height: calc(100vh - 250px);
-      max-height: 460px;
-    }
-  }
+  /* height handled by flex */
 
   @media (max-width: 992px) {
+    .db-main-layout {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
     .charts-column {
       height: 380px;
       max-height: unset;
@@ -764,29 +728,12 @@
       font-size: 13px;
     }
 
-    .charts-column {
-      height: 320px;
-      min-height: 320px;
-    }
-
     .chart-header {
       margin-bottom: 8px;
     }
 
-    .graph-strip {
-      gap: 10px;
-    }
-
-    .graph-tab {
-      font-size: 10px;
-    }
-
-    .chart-row-card .card-body {
+    .chart-grid-card .card-body {
       padding: 10px;
-    }
-
-    .card-tab {
-      font-size: 10px;
     }
 
     .stime {
@@ -808,11 +755,6 @@
   }
 
   @media (max-width: 480px) {
-    .charts-column {
-      height: 280px;
-      min-height: 280px;
-    }
-
     .sc {
       border-radius: 8px;
       padding: 6px 8px;
@@ -824,11 +766,6 @@
 
     .sc-val {
       font-size: 12px;
-    }
-
-    .graph-tab,
-    .card-tab {
-      font-size: 9px;
     }
 
     .loader-label {
@@ -1070,6 +1007,190 @@ STATUS COLORS
       overflow-y: auto;
     }
   }
+
+  /* =========================================================
+   STATS CARDS SLIDER WIDGET (HORIZONTAL WITH SIDEBAR TABS)
+ ========================================================= */
+  .stats-slider-container {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+    background: var(--card-bg-solid);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow);
+    height: 112px; /* Matches Today's Schedule height */
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    animation: cardPulse 3s ease-in-out infinite;
+  }
+
+  .stats-slider-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  .stats-slider-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.07) 50%, transparent 100%);
+    animation: sweep 4s ease-in-out infinite;
+  }
+
+  .stats-slider-container:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 15px -3px var(--shadow), 0 4px 6px -2px var(--shadow);
+    animation: none;
+  }
+
+  .card-tab-strip.vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    height: 100%;
+    border-right: 1px solid var(--border-color);
+    padding-right: 10px;
+  }
+
+  .card-tab-strip.vertical .card-tab {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    width: 100%;
+  }
+
+  .card-tab-strip.vertical .card-tab:hover {
+    color: var(--primary-color);
+    background: var(--nav-link-hover-bg);
+  }
+
+  .card-tab-strip.vertical .card-tab.active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  }
+
+  .card-tab-strip.vertical .card-tab.active::after {
+    display: none;
+  }
+
+  .cards-slider-viewport {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .cards-slider-track {
+    display: flex;
+    width: 100%;
+    transition: transform 0.8s ease-in-out;
+  }
+
+  .card-group-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 2px 6px;
+    box-sizing: border-box;
+  }
+
+  /* Compact Card Override inside slider viewport */
+  .cards-slider-viewport .sc {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-left: none;
+    height: 38px;
+    box-shadow: none;
+    background: var(--nav-link-hover-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+  }
+
+  .cards-slider-viewport .sc:hover {
+    background: var(--border-color);
+    transform: translateY(-1px);
+  }
+
+  .cards-slider-viewport .sc-label {
+    font-size: 10.5px;
+    letter-spacing: 0.3px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .cards-slider-viewport .sc-val {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--primary-color);
+  }
+
+  @media (max-width: 768px) {
+    .stats-slider-container {
+      grid-template-columns: 1fr;
+      height: auto;
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .card-tab-strip.vertical {
+      flex-direction: row;
+      border-right: none;
+      border-bottom: 1px solid var(--border-color);
+      padding-right: 0;
+      padding-bottom: 8px;
+      width: 100%;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .card-tab-strip.vertical .card-tab {
+      justify-content: center;
+      width: auto;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .card-group-slide {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
+    }
+  }
 </style>
 
 <!-- PAGE LOADER -->
@@ -1188,15 +1309,24 @@ STATUS COLORS
           </div>
         </div>
 
-        <div class="cards-top-bar">
-          <div class="card-tab-strip" id="cardTabStrip">
+        <!-- Embedded Honours Card -->
+        {% include 'modals/honours_board/hb.html' %}
+
+      </div>
+      <!-- /cards-column -->
+
+      <!-- RIGHT: CHARTS & STATS COLUMN -->
+      <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+        
+        <!-- Stats Cards Slider Parent Widget -->
+        <div class="stats-slider-container">
+          <div class="card-tab-strip vertical" id="cardTabStrip">
             <button class="card-tab active" data-card-index="0">STRENGTH</button>
             <button class="card-tab" data-card-index="1">AGNIVEER</button>
             <button class="card-tab" data-card-index="2">OTHERS</button>
           </div>
-        </div>
 
-        <div class="cards-slider-viewport" id="cardsSliderViewport">
+          <div class="cards-slider-viewport" id="cardsSliderViewport">
           <div class="cards-slider-track stagger-children" id="cardsSliderTrack">
 
             <!-- GROUP 1: STRENGTH -->
@@ -1204,36 +1334,31 @@ STATUS COLORS
               <div class="sc" data-bs-toggle="modal" data-bs-target="#paradeStateModal">
                 <span class="sc-label">Man Power</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="mainPower"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="mainPower"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="openCourses">
                 <span class="sc-label">On Course</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="totalCoursesDone"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="totalCoursesDone"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#rollCallPoints">
                 <span class="sc-label">Central Roll Call</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="center-roll-points"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="center-roll-points"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#attachmentModalUniqueScope">
                 <span class="sc-label">TD / Attachment</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="attachment-count"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="attachment-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="viewDetailsBtn">
                 <span class="sc-label">Detachment</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="locationCount"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="locationCount"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
             </div>
@@ -1241,30 +1366,26 @@ STATUS COLORS
 
             <!-- GROUP 2: AGNIVEER -->
             <div class="card-group-slide">
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal" id="card-agniveer"
-                style="cursor: pointer">
-                <span class="sc-label">AGNIVEER STRENGTH</span>
+              <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal" id="card-agniveer" style="cursor: pointer">
+                <span class="sc-label">Agniveer Strength</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="agniveer_count"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="agniveer_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="agniveer_on_leave" style="cursor: pointer">
-                <span class="sc-label">AGNIVEER ON LEAVE</span>
+                <span class="sc-label">Agniveer On Leave</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="onleave_leave"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="onleave_leave"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" id="agniveer_on_detachment" style="cursor: pointer">
-                <span class="sc-label">AGNIVEER ON DETACHMENT</span>
+                <span class="sc-label">Agniveer On Detachment</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="ondetachment_det"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="ondetachment_det"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" style="cursor: not-allowed">
-                <span class="sc-label">TRADE WISE</span>
+                <span class="sc-label">Trade Wise</span>
                 <div class="sc-right">
                   <span class="sc-val">50</span>
                 </div>
@@ -1277,61 +1398,49 @@ STATUS COLORS
               <div class="sc" data-bs-toggle="modal" data-bs-target="#loanModal">
                 <span class="sc-label">Active Loans</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="active-loan-count"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="active-loan-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#projDash_modal">
                 <span class="sc-label">Total Projects</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="get_projects_count"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="get_projects_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#duesInListModal">
                 <span class="sc-label">Dues In</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="dues_in_count"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="dues_in_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" data-bs-toggle="modal" data-bs-target="#duesOutListModal">
                 <span class="sc-label">Dues Out</span>
                 <div class="sc-right">
-                  <span class="sc-val" id="dues_out_count"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                  <span class="sc-val" id="dues_out_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
               </div>
               <div class="sc" style="cursor: pointer" id="openSensitive">
-               
-
-                <small class="sc-label">SENSITIVE INDL</small>
-
-               <span class="sc-val" id="sensitive-count"><span
-                      class="val-dots"><span></span><span></span><span></span></span></span>
+                <span class="sc-label">Sensitive Indl</span>
+                <div class="sc-right">
+                  <span class="sc-val" id="sensitive-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
                 </div>
-              
+              </div>
             </div>
             <!-- /GROUP 3 -->
 
           </div>
-          <!-- /cards-slider-track -->
         </div>
-        <!-- /cards-slider-viewport -->
+        </div> <!-- /stats-slider-container -->
 
-      </div>
-      <!-- /cards-column -->
-
-      <!-- RIGHT: CHARTS COLUMN -->
-      <div>
+        <!-- Filter bar above graphs -->
         <div class="top-chart-bar">
           <div class="graph-strip" id="graphStrip">
             <button class="graph-tab active" data-index="0">Posted Strength</button>
-            <button class="graph-tab" data-index="1">Detachment Stats</button>
-            <button class="graph-tab" data-index="2">Monthly UnFit</button>
-            <button class="graph-tab" data-index="3">Fit vs UnFit (Weight Based)</button>
-            <button class="graph-tab" data-index="4">Agniveer Trade Wise</button>
-            <button class="graph-tab" data-index="5">Bharosa App</button>
+            <button class="graph-tab" data-index="1">Agniveer Trade Wise</button>
+            <button class="graph-tab" data-index="2">Bharosa App</button>
+            <button class="graph-tab" data-index="3">Detachment Stats</button>
+            <button class="graph-tab" data-index="4">Monthly UnFit</button>
+            <button class="graph-tab" data-index="5">Fit vs UnFit (Weight Based)</button>
           </div>
           <div class="chart-filter-wrap">
             <select id="companyFilter" class="form-select form-select-sm">
@@ -1344,76 +1453,35 @@ STATUS COLORS
           </div>
         </div>
 
+        <!-- All graphs in a horizontal slider -->
         <div class="charts-column" id="chartsColumn">
           <div class="charts-scroll-inner" id="chartsScrollInner">
 
-            <div class="chart-row-card" id="chartCard0" style="transition-delay: 0.05s">
+            <div class="chart-row-card" id="chartCard0">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="chart-header">
                     <h6>Posted Strength</h6>
-                    <span id="rankTotalCount" style="font-weight:600;color:var(--primary-color);font-size:12px">Total:
-                      --</span>
+                    <span id="rankTotalCount" style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
                   </div>
                   <div class="chart-canvas-wrap"><canvas id="rankChart"></canvas></div>
                 </div>
               </div>
             </div>
 
-            <div class="chart-row-card" id="chartCard1" style="transition-delay: 0.1s">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="chart-header">
-                    <h6>Detachment Stats</h6>
-                    <span id="detachmentTotal" style="font-weight:600;color:var(--primary-color);font-size:12px">Total:
-                      --</span>
-                  </div>
-                  <div class="chart-canvas-wrap"><canvas id="detachmentChart"></canvas></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chart-row-card" id="chartCard2" style="transition-delay: 0.15s">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="chart-header">
-                    <h6>Monthly UnFit Comparison</h6>
-                    <span style="font-weight:600;color:#dc2626;font-size:12px">Trend Analysis</span>
-                  </div>
-                  <div class="chart-canvas-wrap"><canvas id="unfitTrendChart"></canvas></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chart-row-card" id="chartCard3" style="transition-delay: 0.2s">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="chart-header">
-                    <h6>Fit vs UnFit</h6>
-                    <div style="display:flex;gap:12px;font-size:12px;font-weight:700">
-                      <span style="color:#2563eb">Fit: <span id="fitCount">--</span></span>
-                      <span style="color:#dc2626">UnFit: <span id="unfitCount">--</span></span>
-                    </div>
-                  </div>
-                  <div class="chart-canvas-wrap"><canvas id="fitUnfitChart"></canvas></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chart-row-card" id="chartCard4" style="transition-delay: 0.25s">
+            <div class="chart-row-card" id="chartCard1">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="chart-header">
                     <h6>Agniveer Trade Wise</h6>
-                    <span id="agniveerTradeTotal"
-                      style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
+                    <span id="agniveerTradeTotal" style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
                   </div>
                   <div class="chart-canvas-wrap"><canvas id="agniveerTradeChart"></canvas></div>
                 </div>
               </div>
             </div>
 
-            <div class="chart-row-card" id="chartCard5" style="transition-delay: 0.3s">
+            <div class="chart-row-card" id="chartCard2">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="chart-header">
@@ -1448,11 +1516,47 @@ STATUS COLORS
               </div>
             </div>
 
+            <div class="chart-row-card" id="chartCard3">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Detachment Stats</h6>
+                    <span id="detachmentTotal" style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
+                  </div>
+                  <div class="chart-canvas-wrap"><canvas id="detachmentChart"></canvas></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-row-card" id="chartCard4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Monthly UnFit Comparison</h6>
+                    <span style="font-weight:600;color:#dc2626;font-size:12px">Trend Analysis</span>
+                  </div>
+                  <div class="chart-canvas-wrap"><canvas id="unfitTrendChart"></canvas></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-row-card" id="chartCard5">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="chart-header">
+                    <h6>Fit vs UnFit</h6>
+                    <div style="display:flex;gap:12px;font-size:12px;font-weight:700">
+                      <span style="color:#2563eb">Fit: <span id="fitCount">--</span></span>
+                      <span style="color:#dc2626">UnFit: <span id="unfitCount">--</span></span>
+                    </div>
+                  </div>
+                  <div class="chart-canvas-wrap"><canvas id="fitUnfitChart"></canvas></div>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <!-- /charts-scroll-inner -->
         </div>
-        <!-- /charts-column -->
-      </div>
       <!-- /right -->
     </div>
     <!-- /db-main-layout -->
@@ -1488,7 +1592,6 @@ STATUS COLORS
     {% include 'modals/ADD-DUES-IN/list_of_dues_in.html' %}
     {% include 'modals/ADD-DUES-OUT/modal.html' %}
     {% include 'modals/ADD-DUES-OUT/list_of_dues_out.html' %}
-    {% include 'modals/honours_board/hb.html' %}
     {% include 'modals/today_schedule/ts.html' %}
 
     <div class="modal fade modal-fullscreen" id="paradeStateModal" tabindex="-1">
@@ -1504,7 +1607,7 @@ STATUS COLORS
         </div>
       </div>
     </div>
-
+{% include 'images_section/section.html' %}
   </div>
 </div>
 <!-- /db-wrap -->
@@ -2510,7 +2613,7 @@ STATUS COLORS
 ===================================================== -->
 <script>
   (function () {
-    var TICK = 6000;   /* 10 s — same interval as before */
+    var TICK = 6000;   /* 6 s — same interval as before */
 
     /* ── pause ref-count ──────────────────────────────── */
     var pauseCount = 0;
@@ -2530,12 +2633,12 @@ STATUS COLORS
     var chartTotal = chartCards.length;
     var chartIdx = 0;
 
-    /* schedIdx / schedTotal are read live from the DOM
-       because the schedule slides are injected by fetch */
+    /* schedIdx is read live from the DOM because the schedule slides are injected by fetch */
     var schedIdx = 0;
 
     /* ── goTo helpers ─────────────────────────────────── */
     function goCard(i) {
+      if (!cardTrack || !cardTotal) return;
       cardIdx = ((i % cardTotal) + cardTotal) % cardTotal;
       cardTrack.style.transform = "translateX(-" + cardIdx * 100 + "%)";
       cardTabs.forEach(function (t) { t.classList.remove("active"); });
@@ -2544,6 +2647,7 @@ STATUS COLORS
     }
 
     function goChart(i) {
+      if (!chartInner || !chartTotal) return;
       chartIdx = ((i % chartTotal) + chartTotal) % chartTotal;
       chartInner.style.transform = "translateX(-" + chartIdx * 100 + "%)";
       chartTabs.forEach(function (t) { t.classList.remove("active"); });
@@ -2563,7 +2667,7 @@ STATUS COLORS
         prev.classList.add("exit");
         setTimeout(function () { prev.classList.remove("exit"); }, 600);
       }
-      all[schedIdx].classList.add("active");
+      if (all[schedIdx]) all[schedIdx].classList.add("active");
     }
 
     /* ── master tick ──────────────────────────────────── */
@@ -2598,9 +2702,11 @@ STATUS COLORS
       el.addEventListener("mouseleave", onResume);
     }
 
-    addPause(cardVP);
-    addPause(document.getElementById("chartsColumn"));
-    addPause(document.querySelector(".scard"));
+    if (cardVP) addPause(cardVP);
+    var cc = document.getElementById("chartsColumn");
+    if (cc) addPause(cc);
+    var sc = document.querySelector(".scard");
+    if (sc) addPause(sc);
 
     /* ── tab click handlers ───────────────────────────── */
     cardTabs.forEach(function (tab) {

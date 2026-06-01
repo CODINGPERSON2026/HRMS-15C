@@ -1,483 +1,470 @@
 <!-- =========================================================
-     FONT AWESOME
+     HONOURS BOARD CARD - INLINE Redesign
 ========================================================= -->
 
-<!-- <link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}"
-> -->
+<div class="hb-card" id="honoursCard">
 
-<!-- =========================================================
-     HONOURS BOARD BUTTON
-========================================================= -->
+  <!-- HEADER -->
+  <div class="hb-header">
+    <span class="slabel">Appreciation Wall</span>
+  </div>
+  <div class="scard-divider"></div>
 
-
-
-<!-- =========================================================
-     HONOURS POPUP
-========================================================= -->
-
-<div id="honoursPopup">
-
-  <div class="hb-card">
-
-    <!-- HEADER -->
-
-    <div class="hb-header">
-
-      <div class="hb-title">
-        Appreciation Wall
-      </div>
-
-      <button
-        class="hb-close"
-        id="closePopup"
-        type="button"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <!-- CONTENT -->
-
-    <div
-      class="hb-content"
-      id="cardContent"
-    >
-
+  <!-- CONTENT VIEWPORT -->
+  <div class="hb-viewport" id="hbViewport">
+    <div class="hb-track" id="hbTrack">
       <div class="hb-loading">
         Loading appreciation entries...
       </div>
-
     </div>
+  </div>
+  <div class="scard-divider"></div>
 
-    <!-- NAVIGATION -->
-
-    <div class="hb-nav">
-
-      <button
-        class="hb-btn"
-        id="prevBtn"
-        type="button"
-      >
-        Prev
-      </button>
-
-      <div
-        class="hb-dots"
-        id="dots"
-      ></div>
-
-      <button
-        class="hb-btn"
-        id="nextBtn"
-        type="button"
-      >
-        Next
-      </button>
-
-    </div>
-
+  <!-- NAVIGATION -->
+  <div class="hb-nav">
+    <button class="hb-btn" id="prevBtn" type="button">Prev</button>
+    <div class="hb-dots" id="dots"></div>
+    <button class="hb-btn" id="nextBtn" type="button">Next</button>
   </div>
 
 </div>
 
 <!-- =========================================================
-     CSS
+     CSS FOR INLINE CARD
 ========================================================= -->
-
 <style>
-
-  /* OPEN BUTTON */
-  .hb-open-btn{
-    border:none;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:10px 18px;
-    border-radius:12px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:800;
-    letter-spacing:.5px;
-    color:#fff;
-    background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
-    box-shadow:0 8px 22px rgba(0,0,0,.16);
-    transition:transform .25s ease,box-shadow .25s ease;
-  }
-  .hb-open-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 14px 30px rgba(0,0,0,.22);
-  }
-  .hb-open-btn i{ font-size:15px; }
-
-  /* POPUP OVERLAY */
-  #honoursPopup{
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.72);
-    opacity:0;
-    visibility:hidden;
-    transition:opacity .35s ease,visibility .35s ease;
-    z-index:9999;
-  }
-  #honoursPopup.active{
-    opacity:1;
-    visibility:visible;
+  /* CARD CONTAINER */
+  .hb-card {
+    width: 100%;
+    background: var(--card-bg-solid);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    height: 340px; /* Fixed height to match Graphs Slider bottom level */
   }
 
-  /* CARD */
-  .hb-card{
-    width:100%;
-    max-width:560px;
-    background:var(--card-bg-solid);
-    border-radius:22px;
-    border:1px solid var(--border-color);
-    overflow:hidden;
-    box-shadow:0 20px 60px rgba(0,0,0,.3);
-    transform:translateY(24px) scale(.93);
-    opacity:0;
-    transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease;
+  .hb-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
   }
-  #honoursPopup.active .hb-card{
-    transform:translateY(0) scale(1);
-    opacity:1;
+
+  .hb-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 15px -3px var(--shadow), 0 4px 6px -2px var(--shadow);
+  }
+
+  @keyframes highlightPulse {
+    0% { box-shadow: 0 4px 6px -1px var(--shadow); }
+    50% { box-shadow: 0 0 18px 4px var(--primary-color); }
+    100% { box-shadow: 0 4px 6px -1px var(--shadow); }
+  }
+  
+  .highlight-card {
+    animation: highlightPulse 2s ease-in-out;
   }
 
   /* HEADER */
-  .hb-header{
-    padding:18px 22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid var(--border-color);
-  }
-  .hb-title{
-    font-size:20px;
-    font-weight:800;
-    letter-spacing:.3px;
-    color:var(--text-primary);
-  }
-  .hb-close{
-    width:36px;
-    height:36px;
-    border:none;
-    border-radius:50%;
-    cursor:pointer;
-    background:var(--nav-link-hover-bg);
-    color:var(--text-primary);
-    font-size:18px;
-    font-weight:700;
-    transition:all .25s ease;
-  }
-  .hb-close:hover{
-    transform:rotate(90deg);
-    background:var(--primary-color);
-    color:#fff;
+  .hb-header {
+    padding: 10px 14px 6px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* CONTENT */
-  .hb-content{ padding:22px; }
+  /* VIEWPORT & TRACK FOR HORIZONTAL SLIDING */
+  .hb-viewport {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 232px; /* Set height to fit within 340px parent card */
+  }
 
-  .hb-top{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    margin-bottom:18px;
+  .hb-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    height: 100%;
+  }
+
+  .hb-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .hb-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
   }
 
   /* AVATAR */
-  .hb-avatar{
-    width:72px;
-    height:72px;
-    border-radius:50%;
-    overflow:hidden;
-    flex-shrink:0;
-    background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 8px 20px rgba(0,0,0,.18);
+  .hb-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
   }
-  .hb-avatar-img{ width:100%; height:100%; object-fit:cover; }
-  .hb-avatar-fallback{ color:#fff; font-size:22px; font-weight:800; }
+  .hb-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hb-avatar-fallback {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+  }
 
   /* INFO */
-  .hb-info{ flex:1; min-width:0; }
-  .hb-name{
-    font-size:22px;
-    font-weight:800;
-    line-height:1.2;
-    color:var(--text-primary);
-    margin-bottom:4px;
+  .hb-info {
+    flex: 1;
+    min-width: 0;
   }
-  .hb-unit{
-    font-size:13px;
-    font-weight:600;
-    color:var(--text-secondary);
-    margin-bottom:10px;
+  .hb-name {
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .hb-role{
-    display:inline-flex;
-    align-items:center;
-    padding:6px 12px;
-    border-radius:999px;
-    background:var(--nav-link-hover-bg);
-    border:1px solid var(--border-color);
-    color:var(--text-primary);
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:.3px;
+  .hb-unit {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+  .hb-role {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--nav-link-hover-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .3px;
   }
 
   /* MEDAL */
-  .hb-medal{
-    flex-shrink:0;
-    width:68px;
-    height:68px;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,255,255,.04));
-    border:1px solid rgba(255,255,255,.08);
-    box-shadow:0 8px 20px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.08);
+  .hb-medal {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,215,0,.12), rgba(255,255,255,.04));
+    border: 1px solid rgba(255,255,255,.08);
   }
-  .hb-medal i{
-    font-size:32px;
-    color:#FFD700;
-    text-shadow:0 6px 14px rgba(255,215,0,.3);
+  .hb-medal i {
+    font-size: 20px;
+    color: #FFD700;
   }
-  .hb-medal .fa-trophy{ color:#facc15; }
-  .hb-medal .fa-medal{ color:#fb923c; }
-  .hb-medal .fa-award{ color:#60a5fa; }
-  .hb-medal .fa-star{ color:#fde047; }
-  .hb-medal .fa-crown{ color:#f59e0b; }
-  .hb-medal .fa-fire{ color:#ef4444; }
-  .hb-medal .fa-gem{ color:#38bdf8; }
-  .hb-medal .fa-shield-halved{ color:#a78bfa; }
-  .hb-medal .fa-bolt{ color:#facc15; }
-  .hb-medal .fa-chess-king{ color:#f472b6; }
-  .hb-medal .fa-user-shield{ color:#22c55e; }
+  .hb-medal .fa-trophy { color: #facc15; }
+  .hb-medal .fa-medal { color: #fb923c; }
+  .hb-medal .fa-award { color: #60a5fa; }
+  .hb-medal .fa-star { color: #fde047; }
+  .hb-medal .fa-crown { color: #f59e0b; }
+  .hb-medal .fa-fire { color: #ef4444; }
+  .hb-medal .fa-gem { color: #38bdf8; }
+  .hb-medal .fa-shield-halved { color: #a78bfa; }
+  .hb-medal .fa-bolt { color: #facc15; }
+  .hb-medal .fa-chess-king { color: #f472b6; }
+  .hb-medal .fa-user-shield { color: #22c55e; }
 
-  /* COMMENDATION */
-  .hb-text{
-    background:var(--nav-link-hover-bg);
-    border-left:4px solid var(--primary-color);
-    border-radius:12px;
-    padding:16px 18px;
-    line-height:1.75;
-    font-size:13.5px;
-    font-weight:500;
-    color:var(--text-primary);
-    margin-bottom:18px;
+  /* COMMENDATION TEXT */
+  .hb-text {
+    background: var(--nav-link-hover-bg);
+    border-left: 3px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    line-height: 1.5;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    max-height: 130px; /* Increased to fit full text without inner scrollbar */
+    overflow-y: auto;
   }
 
   /* FOOTER */
-  .hb-footer{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+  .hb-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  .hb-date{
-    font-size:12px;
-    font-weight:700;
-    color:var(--text-secondary);
+  .hb-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
   }
-  .hb-share{
-    width:38px;
-    height:38px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    background:var(--nav-link-hover-bg);
-    color:var(--text-primary);
-    transition:all .25s ease;
+  .hb-share {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--nav-link-hover-bg);
+    color: var(--text-primary);
+    font-size: 11px;
+    transition: all .25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .hb-share:hover{
-    transform:translateY(-2px);
-    background:var(--primary-color);
-    color:#fff;
+  .hb-share:hover {
+    transform: translateY(-1px);
+    background: var(--primary-color);
+    color: #fff;
   }
 
   /* NAVIGATION */
-  .hb-nav{
-    padding:16px 22px;
-    border-top:1px solid var(--border-color);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+  .hb-nav {
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  .hb-btn{
-    min-width:90px;
-    border:none;
-    padding:10px 16px;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:700;
-    color:#fff;
-    background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
-    transition:transform .2s ease,opacity .2s ease;
+  .hb-btn {
+    border: none;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    transition: transform .2s ease, opacity .2s ease;
   }
-  .hb-btn:hover{ transform:translateY(-2px); }
-  .hb-btn:disabled{ opacity:.4; cursor:not-allowed; transform:none; }
+  .hb-btn:hover { transform: translateY(-1px); }
+  .hb-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
 
   /* DOTS */
-  .hb-dots{ display:flex; align-items:center; gap:7px; }
-  .hb-dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:var(--border-color);
-    cursor:pointer;
-    transition:all .2s ease;
+  .hb-dots { display: flex; align-items: center; gap: 5px; }
+  .hb-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border-color);
+    cursor: pointer;
+    transition: all .2s ease;
   }
-  .hb-dot.active{
-    background:var(--primary-color);
-    transform:scale(1.25);
+  .hb-dot.active {
+    background: var(--primary-color);
+    transform: scale(1.2);
   }
 
   /* LOADING */
-  .hb-loading{
-    text-align:center;
-    padding:40px 20px;
-    color:var(--text-secondary);
-    font-size:14px;
-    font-weight:600;
+  .hb-loading {
+    text-align: center;
+    padding: 20px 10px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
   }
-
-  /* MOBILE */
-  @media(max-width:580px){
-    .hb-card{ max-width:100%; border-radius:18px; }
-    .hb-header{ padding:14px 16px; }
-    .hb-content{ padding:16px; }
-    .hb-nav{ padding:14px 16px; }
-    .hb-top{ align-items:flex-start; gap:12px; }
-    .hb-avatar{ width:58px; height:58px; }
-    .hb-avatar-fallback{ font-size:18px; }
-    .hb-name{ font-size:18px; }
-    .hb-unit{ font-size:12px; }
-    .hb-medal{ width:54px; height:54px; border-radius:14px; }
-    .hb-medal i{ font-size:26px; }
-    .hb-text{ font-size:13px; line-height:1.7; }
-    .hb-btn{ min-width:76px; padding:9px 12px; }
-  }
-
 </style>
 
 <!-- =========================================================
-     SCRIPT  — logic unchanged
+     SCRIPT - LOAD & SLIDE INLINE
 ========================================================= -->
-
 <script>
+  (function () {
+    let entries = [];
+    let current = 0;
+    let honoursTimer = null;
+    const HONOURS_TICK = 6000; // 6 seconds auto-scroll, matches other sliders
 
-  let entries = [];
-  let current = 0;
+    const track = document.getElementById("hbTrack");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const dotsWrap= document.getElementById("dots");
 
-  const popup   = document.getElementById("honoursPopup");
-  const content = document.getElementById("cardContent");
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-  const dotsWrap= document.getElementById("dots");
-
-  async function loadHonoursBoard(){
-    try{
-      const response = await fetch("/api/honours-board");
-      const result   = await response.json();
-      entries = result.success ? (result.data || []) : [];
-    }catch(error){
-      console.error("Honours Board Error:", error);
-      entries = [];
-    }
-  }
-
-  function renderCard(index){
-    if(entries.length === 0){
-      content.innerHTML = `<div class="hb-loading">No appreciation entries available.</div>`;
-      prevBtn.disabled = true;
-      nextBtn.disabled = true;
-      dotsWrap.innerHTML = "";
-      return;
+    async function loadHonoursBoard() {
+      try {
+        const response = await fetch("/api/honours-board");
+        const result   = await response.json();
+        entries = result.success ? (result.data || []) : [];
+      } catch (error) {
+        console.error("Honours Board Error:", error);
+        entries = [];
+      }
     }
 
-    const item = entries[index];
-    const initials = item.name
-      ? item.name.split(" ").map(w=>w[0]).join("").substring(0,2)
-      : "NA";
+    function renderAllSlides() {
+      if (!track) return;
+      if (entries.length === 0) {
+        track.innerHTML = `<div class="hb-loading">No appreciation entries available.</div>`;
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = true;
+        if (dotsWrap) dotsWrap.innerHTML = "";
+        return;
+      }
 
-    const imageHTML = item.image
-      ? `<img src="${item.image}" class="hb-avatar-img" alt="Profile">`
-      : `<div class="hb-avatar-fallback">${initials}</div>`;
+      let trackHTML = "";
+      entries.forEach((item, index) => {
+        const initials = item.name
+          ? item.name.split(" ").map(w=>w[0]).join("").substring(0,2)
+          : "NA";
 
-    content.innerHTML = `
-      <div class="hb-top">
-        <div class="hb-avatar">${imageHTML}</div>
-        <div class="hb-info">
-          <div class="hb-name">${item.rank||""} ${item.name||""}</div>
-          <div class="hb-unit">${item.company||""}</div>
-          <div class="hb-role">${item.appreciation_type||""}</div>
-        </div>
-        <div class="hb-medal">
-          <i class="${item.medal_icon||'fa-solid fa-award'}"></i>
-        </div>
-      </div>
-      <div class="hb-text">${item.commendation||""}</div>
-      <div class="hb-footer">
-        <div class="hb-date">${item.appreciation_date||""}</div>
-        <button class="hb-share" type="button">
-          <i class="fa-solid fa-share-nodes"></i>
-        </button>
-      </div>
-    `;
+        const imageHTML = item.image
+          ? `<img src="${item.image}" class="hb-avatar-img" alt="Profile">`
+          : `<div class="hb-avatar-fallback">${initials}</div>`;
 
-    prevBtn.disabled = index === 0;
-    nextBtn.disabled = index === entries.length - 1;
+        trackHTML += `
+          <div class="hb-slide" data-slide-index="${index}">
+            <div class="hb-top">
+              <div class="hb-avatar">${imageHTML}</div>
+              <div class="hb-info">
+                <div class="hb-name">${item.rank||""} ${item.name||""}</div>
+                <div class="hb-unit">${item.company||""}</div>
+                <div class="hb-role">${item.appreciation_type||""}</div>
+              </div>
+              <div class="hb-medal">
+                <i class="${item.medal_icon||'fa-solid fa-award'}"></i>
+              </div>
+            </div>
+            <div class="hb-text">${item.commendation||""}</div>
+            <div class="hb-footer">
+              <div class="hb-date">${item.appreciation_date||""}</div>
+              <button class="hb-share" type="button" onclick="navigator.clipboard.writeText('${item.commendation || ''}').then(() => alert('Commendation copied to clipboard!'))">
+                <i class="fa-solid fa-share-nodes"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
 
-    dotsWrap.innerHTML = entries.map((_,i)=>`
-      <div class="hb-dot ${i===index?'active':''}" data-index="${i}"></div>
-    `).join("");
-  }
+      track.innerHTML = trackHTML;
 
-  async function openHonoursBoard(){
-    popup.classList.add("active");
-    document.body.style.overflow = "hidden";
-    content.innerHTML = `<div class="hb-loading">Loading appreciation entries...</div>`;
-    await loadHonoursBoard();
-    current = 0;
-    renderCard(current);
-  }
+      if (dotsWrap) {
+        dotsWrap.innerHTML = entries.map((_, i) => `
+          <div class="hb-dot ${i===0?'active':''}" data-index="${i}"></div>
+        `).join("");
+      }
 
-  function closePopup(){
-    popup.classList.remove("active");
-    document.body.style.overflow = "";
-  }
+      goHonours(0);
+    }
 
-  document.getElementById("closePopup")?.addEventListener("click", closePopup);
-  popup.addEventListener("click",(e)=>{ if(e.target===popup) closePopup(); });
+    function goHonours(index) {
+      if (entries.length === 0) return;
+      current = ((index % entries.length) + entries.length) % entries.length;
 
-  nextBtn.addEventListener("click",()=>{
-    if(current < entries.length-1){ current++; renderCard(current); }
-  });
-  prevBtn.addEventListener("click",()=>{
-    if(current > 0){ current--; renderCard(current); }
-  });
-  dotsWrap.addEventListener("click",(e)=>{
-    const dot = e.target.closest(".hb-dot");
-    if(!dot) return;
-    current = Number(dot.dataset.index);
-    renderCard(current);
-  });
-  document.addEventListener("keydown",(e)=>{
-    if(!popup.classList.contains("active")) return;
-    if(e.key==="Escape") closePopup();
-    if(e.key==="ArrowRight" && current<entries.length-1){ current++; renderCard(current); }
-    if(e.key==="ArrowLeft"  && current>0)               { current--; renderCard(current); }
-  });
+      if (track) {
+        track.style.transform = "translateX(-" + (current * 100) + "%)";
+      }
 
+      if (prevBtn) prevBtn.disabled = current === 0;
+      if (nextBtn) nextBtn.disabled = current === entries.length - 1;
+
+      const dots = document.querySelectorAll(".hb-dot");
+      dots.forEach((dot, idx) => {
+        if (idx === current) dot.classList.add("active");
+        else dot.classList.remove("active");
+      });
+    }
+
+    function startHonoursTimer() {
+      stopHonoursTimer();
+      if (entries.length <= 1) return;
+      honoursTimer = setInterval(() => {
+        goHonours(current + 1);
+      }, HONOURS_TICK);
+    }
+
+    function stopHonoursTimer() {
+      if (honoursTimer) {
+        clearInterval(honoursTimer);
+        honoursTimer = null;
+      }
+    }
+
+    window.openHonoursBoard = function() {
+      const card = document.getElementById("honoursCard");
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.classList.add("highlight-card");
+        setTimeout(() => card.classList.remove("highlight-card"), 2000);
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", async function() {
+      await loadHonoursBoard();
+      renderAllSlides();
+      startHonoursTimer();
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          goHonours(current + 1);
+          startHonoursTimer();
+        });
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+          goHonours(current - 1);
+          startHonoursTimer();
+        });
+      }
+
+      if (dotsWrap) {
+        dotsWrap.addEventListener("click", (e) => {
+          const dot = e.target.closest(".hb-dot");
+          if (!dot) return;
+          goHonours(Number(dot.dataset.index));
+          startHonoursTimer();
+        });
+      }
+
+      const honoursCard = document.getElementById("honoursCard");
+      if (honoursCard) {
+        honoursCard.addEventListener("mouseenter", stopHonoursTimer);
+        honoursCard.addEventListener("mouseleave", startHonoursTimer);
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      const card = document.getElementById("honoursCard");
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      if (rect.top > window.innerHeight || rect.bottom < 0) return;
+      if (e.key === "ArrowRight") {
+        goHonours(current + 1);
+        startHonoursTimer();
+      }
+      if (e.key === "ArrowLeft") {
+        goHonours(current - 1);
+        startHonoursTimer();
+      }
+    });
+  })();
 </script>
