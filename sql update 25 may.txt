@@ -1,0 +1,174 @@
+create table 1 
+CREATE TABLE hrms.schedules (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+
+    location VARCHAR(255),
+
+    schedule_date DATE NOT NULL,
+
+    start_time TIME NOT NULL,
+    end_time TIME NULL,
+
+    status ENUM(
+        'upcoming',
+        'ongoing',
+        'completed',
+        'cancelled'
+    ) DEFAULT 'upcoming',
+
+    priority INT DEFAULT 0,
+
+    created_by VARCHAR(100),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO hrms.schedules
+(
+    title,
+    description,
+    location,
+    schedule_date,
+    start_time,
+    end_time,
+    status,
+    priority,
+    created_by
+)
+
+VALUES
+
+(
+    'Morning Parade',
+    'Daily morning parade and attendance',
+    'Parade Ground',
+    CURDATE(),
+    '06:30:00',
+    '07:15:00',
+    'upcoming',
+    1,
+    'ADMIN'
+),
+
+(
+    'Field Training',
+    'Combat training exercise',
+    'Training Area Alpha',
+    CURDATE(),
+    '15:00:00',
+    '17:00:00',
+    'upcoming',
+    5,
+    'OC'
+);
+
+
+table 2 
+
+
+
+
+CREATE TABLE hrms.honours_board (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    army_number VARCHAR(50) NOT NULL,
+
+    medal_icon VARCHAR(255) DEFAULT NULL,
+
+    comments TEXT DEFAULT NULL,
+
+    commendation TEXT DEFAULT NULL,
+
+    appreciation_type ENUM(
+        'Leadership',
+        'Bravery',
+        'Discipline',
+        'Innovation',
+        'Service',
+        'Teamwork',
+        'Excellence'
+    ) NOT NULL,
+
+    appreciation_date DATE NOT NULL,
+
+    image VARCHAR(45) DEFAULT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+
+);
+
+
+
+
+
+-- =====================================================
+-- ENABLE MYSQL EVENT SCHEDULER
+-- =====================================================
+
+SET GLOBAL event_scheduler = ON;
+
+
+-- =====================================================
+-- AUTO UPDATE SCHEDULE STATUS
+-- RUNS EVERY 1 MINUTE
+-- =====================================================
+
+CREATE EVENT IF NOT EXISTS ev_update_schedule_status
+
+ON SCHEDULE EVERY 1 MINUTE
+
+DO
+
+UPDATE hrms.schedules
+
+SET status = CASE
+
+    /* =========================================
+       UPCOMING
+    ========================================= */
+
+    WHEN schedule_date = CURDATE()
+    AND CURTIME() < start_time
+
+    THEN 'upcoming'
+
+
+    /* =========================================
+       ONGOING
+    ========================================= */
+
+    WHEN schedule_date = CURDATE()
+    AND CURTIME() BETWEEN start_time AND end_time
+
+    THEN 'ongoing'
+
+
+    /* =========================================
+       COMPLETED
+    ========================================= */
+
+    WHEN schedule_date < CURDATE()
+
+    OR (
+
+        schedule_date = CURDATE()
+        AND CURTIME() > end_time
+
+    )
+
+    THEN 'completed'
+
+
+    ELSE status
+
+END;

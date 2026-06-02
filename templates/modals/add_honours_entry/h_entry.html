@@ -1,10 +1,7 @@
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}"> -->
 <link rel="stylesheet" href="/static/cropper.min.css">
-
 <div class="modal fade" id="addHonoursModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content honours-modal">
-
       <div class="modal-header honours-header">
         <div>
           <h4 class="honours-title">Add Honour Entry</h4>
@@ -12,12 +9,10 @@
         </div>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-
       <form id="honoursForm" enctype="multipart/form-data">
         <div class="modal-body honours-body">
-          <div class="row g-4">
-
-            <div class="col-md-6">
+          <div class="row g-3">
+            <div class="col-12">
               <label class="honours-label">Search Personnel</label>
               <input type="hidden" name="army_number" id="armyNumberHidden">
               <div class="ps-wrapper">
@@ -88,7 +83,7 @@
               <input type="file" id="imageInput" accept="image/*" class="form-control honours-input">
             </div>
 
-            <div class="col-md-6" id="cropSection" style="display:none">
+            <div class="col-12" id="cropSection" style="display:none">
               <label class="honours-label">Crop Preview</label>
               <div class="crop-container">
                 <img id="cropPreview" class="crop-preview">
@@ -99,16 +94,14 @@
               <label class="honours-label">Commendation</label>
               <textarea
                 name="commendation"
-                rows="5"
+                rows="4"
                 class="form-control honours-input honours-textarea"
                 placeholder="Write commendation..."
                 required
               ></textarea>
             </div>
-
           </div>
         </div>
-
         <div class="modal-footer honours-footer">
           <button type="button" class="btn honours-cancel-btn" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn honours-submit-btn">
@@ -117,69 +110,62 @@
           </button>
         </div>
       </form>
-
     </div>
   </div>
 </div>
 
 <style>
-
   .honours-modal{
     border:none;
-    border-radius:28px;
+    border-radius:24px;
     overflow:hidden;
     background:var(--card-bg-solid);
   }
-
   .honours-header{
     border:none;
-    padding:26px 30px;
+    padding:20px 24px;
     background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
     color:#fff;
   }
-
   .honours-title{
     margin:0;
-    font-size:28px;
+    font-size:24px;
     font-weight:800;
   }
-
   .honours-subtitle{
-    margin-top:6px;
+    margin-top:4px;
     opacity:.85;
-    font-size:14px;
+    font-size:13.5px;
   }
-
-  .honours-body{ padding:32px; }
-
+  .honours-body{ 
+    padding:24px; 
+  }
   .honours-label{
     display:block;
-    margin-bottom:10px;
+    margin-bottom:8px;
     font-size:13px;
     font-weight:700;
     color:var(--text-primary);
   }
-
   .honours-input{
-    min-height:50px;
-    border-radius:14px;
+    min-height:48px;
+    border-radius:12px;
     border:1px solid var(--border-color);
     background:var(--card-bg-solid);
     color:var(--text-primary);
-    padding:12px 16px;
+    padding:10px 14px;
     font-size:14px;
     box-shadow:none !important;
   }
-
   .honours-input:focus{
     border-color:var(--primary-color);
-    box-shadow:0 0 0 4px rgba(59,130,246,.15) !important;
+    box-shadow:0 0 0 3px rgba(59,130,246,.15) !important;
   }
-
-  .honours-textarea{ resize:none; }
-
+  .honours-textarea{ 
+    resize:none; 
+    min-height:110px;
+  }
   .ps-wrapper{ position:relative; }
-
   .ps-icon{
     position:absolute;
     left:16px;
@@ -190,12 +176,10 @@
     pointer-events:none;
     z-index:2;
   }
-
   .ps-input{
     padding-left:40px !important;
     padding-right:40px !important;
   }
-
   .ps-clear{
     position:absolute;
     right:12px;
@@ -209,41 +193,34 @@
     padding:4px;
     z-index:2;
   }
-
   .ps-clear:hover{ color:var(--text-primary); }
-
   .ps-dropdown{
     position:absolute;
     width:100%;
     background:var(--card-bg-solid);
     border:1px solid var(--border-color);
-    border-radius:14px;
+    border-radius:12px;
     margin-top:6px;
     overflow:hidden;
     z-index:1050;
     box-shadow:0 12px 32px rgba(0,0,0,.18);
     display:none;
   }
-
   .ps-dropdown.open{ display:block; }
-
   .ps-item{
     display:flex;
     align-items:center;
-    gap:14px;
-    padding:12px 16px;
+    gap:12px;
+    padding:11px 14px;
     cursor:pointer;
     transition:background .15s;
     border-bottom:1px solid var(--border-color);
   }
-
   .ps-item:last-child{ border-bottom:none; }
-
   .ps-item:hover{ background:var(--nav-link-hover-bg); }
-
   .ps-avatar{
-    width:38px;
-    height:38px;
+    width:36px;
+    height:36px;
     border-radius:50%;
     background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
     color:#fff;
@@ -254,41 +231,36 @@
     font-weight:800;
     flex-shrink:0;
   }
-
   .ps-item-name{
     font-size:14px;
     font-weight:700;
     color:var(--text-primary);
     line-height:1.2;
   }
-
   .ps-item-meta{
     font-size:12px;
     color:var(--text-secondary);
-    margin-top:2px;
+    margin-top:1px;
   }
-
   .ps-badge{
     margin-left:auto;
     font-size:11px;
     font-weight:700;
-    padding:4px 10px;
+    padding:3px 9px;
     border-radius:999px;
     background:var(--nav-link-hover-bg);
     color:var(--text-secondary);
     border:1px solid var(--border-color);
     flex-shrink:0;
   }
-
   .ps-empty{
-    padding:18px 16px;
+    padding:16px 14px;
     font-size:13px;
     color:var(--text-secondary);
     text-align:center;
   }
-
   .ps-loading{
-    padding:18px 16px;
+    padding:16px 14px;
     font-size:13px;
     color:var(--text-secondary);
     text-align:center;
@@ -297,31 +269,26 @@
     justify-content:center;
     gap:8px;
   }
-
   .ps-chip{
-    margin-top:10px;
+    margin-top:8px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:12px 16px;
-    border-radius:14px;
+    padding:11px 14px;
+    border-radius:12px;
     border:1px solid var(--primary-color);
     background:var(--nav-link-hover-bg);
   }
-
   .ps-chip-info{ display:flex; flex-direction:column; gap:2px; }
-
   .ps-chip-name{
     font-size:14px;
     font-weight:700;
     color:var(--text-primary);
   }
-
   .ps-chip-meta{
     font-size:12px;
     color:var(--text-secondary);
   }
-
   .ps-chip-remove{
     border:none;
     background:transparent;
@@ -332,16 +299,14 @@
     border-radius:8px;
     transition:all .2s;
   }
-
   .ps-chip-remove:hover{
     background:var(--border-color);
     color:var(--text-primary);
   }
-
   .crop-container{
     width:100%;
-    height:260px;
-    border-radius:18px;
+    height:220px;
+    border-radius:14px;
     overflow:hidden;
     background:#111827;
     border:1px solid var(--border-color);
@@ -349,53 +314,45 @@
     align-items:center;
     justify-content:center;
   }
-
   .crop-preview{
     max-width:100%;
     display:none;
   }
-
   .honours-footer{
     border:none;
-    padding:22px 30px;
+    padding:18px 24px;
   }
-
   .honours-cancel-btn{
-    border-radius:12px;
-    padding:12px 18px;
+    border-radius:10px;
+    padding:10px 16px;
     font-weight:700;
   }
-
   .honours-submit-btn{
     border:none;
-    border-radius:12px;
-    padding:12px 24px;
+    border-radius:10px;
+    padding:10px 22px;
     font-weight:700;
     color:#fff;
     background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
   }
-
 </style>
 
 <script src="/static/cropper.min.js"></script>
-
 <script>
-
-  const psInput      = document.getElementById("personnelSearch");
-  const psDropdown   = document.getElementById("psDropdown");
-  const psChip       = document.getElementById("psChip");
-  const psChipName   = document.getElementById("psChipName");
-  const psChipMeta   = document.getElementById("psChipMeta");
+  const psInput = document.getElementById("personnelSearch");
+  const psDropdown = document.getElementById("psDropdown");
+  const psChip = document.getElementById("psChip");
+  const psChipName = document.getElementById("psChipName");
+  const psChipMeta = document.getElementById("psChipMeta");
   const psChipRemove = document.getElementById("psChipRemove");
-  const psClear      = document.getElementById("psClear");
-  const armyHidden   = document.getElementById("armyNumberHidden");
-  const cropSection  = document.getElementById("cropSection");
-  const cropPreview  = document.getElementById("cropPreview");
-  const imageInput   = document.getElementById("imageInput");
-
-  let psTimer     = null;
-  let psSelected  = false;
-  let cropper     = null;
+  const psClear = document.getElementById("psClear");
+  const armyHidden = document.getElementById("armyNumberHidden");
+  const cropSection = document.getElementById("cropSection");
+  const cropPreview = document.getElementById("cropPreview");
+  const imageInput = document.getElementById("imageInput");
+  let psTimer = null;
+  let psSelected = false;
+  let cropper = null;
   let croppedBlob = null;
 
   function getInitials(name){
@@ -418,33 +375,33 @@
   }
 
   function selectPerson(person){
-    armyHidden.value       = person.army_number;
+    armyHidden.value = person.army_number;
     psChipName.textContent = `${person.rank||""} ${person.name}`.trim();
-    psChipMeta.textContent = `${person.army_number}  ·  ${person.company||""}`;
-    psChip.style.display   = "flex";
-    psInput.style.display  = "none";
-    psClear.style.display  = "none";
-    psSelected             = true;
+    psChipMeta.textContent = `${person.army_number} · ${person.company||""}`;
+    psChip.style.display = "flex";
+    psInput.style.display = "none";
+    psClear.style.display = "none";
+    psSelected = true;
     closeDropdown();
   }
 
   function clearSelection(){
-    armyHidden.value      = "";
-    psChip.style.display  = "none";
+    armyHidden.value = "";
+    psChip.style.display = "none";
     psInput.style.display = "";
-    psInput.value         = "";
+    psInput.value = "";
     psClear.style.display = "none";
-    psSelected            = false;
+    psSelected = false;
     psInput.focus();
   }
 
   function resetCrop(){
     if(cropper){ cropper.destroy(); cropper = null; }
-    cropPreview.src           = "";
+    cropPreview.src = "";
     cropPreview.style.display = "none";
     cropSection.style.display = "none";
-    croppedBlob               = null;
-    imageInput.value          = "";
+    croppedBlob = null;
+    imageInput.value = "";
   }
 
   async function doSearch(q){
@@ -454,16 +411,13 @@
          Searching…
        </div>`
     );
-
     try{
-      const res  = await fetch(`/hb/search_person?q=${encodeURIComponent(q)}`);
+      const res = await fetch(`/hb/search_person?q=${encodeURIComponent(q)}`);
       const data = await res.json();
-
       if(!data.results || data.results.length === 0){
         openDropdown(`<div class="ps-empty">No personnel found for "${q}"</div>`);
         return;
       }
-
       const rows = data.results.map(p=>`
         <div
           class="ps-item"
@@ -483,20 +437,17 @@
           <div class="ps-badge">${p.army_number}</div>
         </div>
       `).join("");
-
       openDropdown(rows);
-
       psDropdown.querySelectorAll(".ps-item").forEach(el=>{
         el.addEventListener("click",()=>{
           selectPerson({
             army_number : el.dataset.army,
-            name        : el.dataset.name,
-            rank        : el.dataset.rank,
-            company     : el.dataset.company,
+            name : el.dataset.name,
+            rank : el.dataset.rank,
+            company : el.dataset.company,
           });
         });
       });
-
     }catch(err){
       openDropdown(`<div class="ps-empty">Search failed. Try again.</div>`);
     }
@@ -511,7 +462,7 @@
   });
 
   psClear.addEventListener("click",()=>{
-    psInput.value         = "";
+    psInput.value = "";
     psClear.style.display = "none";
     closeDropdown();
     psInput.focus();
@@ -537,34 +488,27 @@
   imageInput.addEventListener("change",(e)=>{
     const file = e.target.files[0];
     if(!file) return;
-
     const reader = new FileReader();
-
     reader.onload = function(event){
-      cropPreview.src           = event.target.result;
+      cropPreview.src = event.target.result;
       cropPreview.style.display = "block";
       cropSection.style.display = "";
-
       if(cropper) cropper.destroy();
-
       cropper = new Cropper(cropPreview,{
-        aspectRatio  : 1,
-        viewMode     : 1,
-        dragMode     : "move",
+        aspectRatio : 1,
+        viewMode : 1,
+        dragMode : "move",
         autoCropArea : 1,
-        responsive   : true,
-        background   : false,
+        responsive : true,
+        background : false,
       });
     };
-
     reader.readAsDataURL(file);
   });
 
   document.getElementById("honoursForm")?.addEventListener("submit", async function(e){
     e.preventDefault();
-
     const formData = new FormData(this);
-
     if(cropper){
       const canvas = cropper.getCroppedCanvas({ width:500, height:500 });
       await new Promise(resolve=>{
@@ -573,15 +517,12 @@
       formData.delete("image");
       formData.set("image", croppedBlob, `${armyHidden.value}.png`);
     }
-
     try{
       const response = await fetch("/api/add-honours-board",{
         method : "POST",
-        body   : formData,
+        body : formData,
       });
-
       const result = await response.json();
-
       if(result.success){
         alert("Honour entry added successfully.");
         this.reset();
@@ -591,11 +532,9 @@
       }else{
         alert(result.message || "Failed to add honour entry.");
       }
-
     }catch(error){
       console.error(error);
       alert("Server error occurred.");
     }
   });
-
 </script>
