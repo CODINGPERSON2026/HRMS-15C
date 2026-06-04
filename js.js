@@ -1,7 +1,17 @@
-const a = 20
-const b = 30
+async function getAll(){
 
-let c  =  a + b
-c = c + 20
+    try {
+
+        res  =  await fetch('https://jsonplaceholder.typicode.com/users')
+        resultData = await res.json()
+       userResult  = resultData.find((user)=>{
+        return  user.name ===  'Clementine Bauch'
+       })
+        console.log(userResult)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
+getAll()
