@@ -42,9 +42,36 @@ function renderChart(labels, liquor, grocery) {
 
     if (chart) chart.destroy();
 
+    const barDatalabelsPlugin = {
+        id: 'barDatalabels',
+        afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            chart.data.datasets.forEach((ds, i) => {
+                const meta = chart.getDatasetMeta(i);
+                if (meta.hidden) return;
+                meta.data.forEach((bar, idx) => {
+                    const val = ds.data[idx];
+                    if (val == null || val === 0) return;
+                    ctx.save();
+                    ctx.font = 'bold 11px sans-serif';
+                    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                    ctx.fillStyle = isDark ? '#cbd5e1' : '#4a5568';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(val, bar.x, bar.y - 5);
+                    ctx.restore();
+                });
+            });
+        }
+    };
+
     chart = new Chart(document.getElementById('salesChart'), {
         type: 'bar',
         data: data,
+        plugins: [barDatalabelsPlugin],
+        options: {
+            layout: { padding: { top: 15 } }
+        }
     });
 }
 

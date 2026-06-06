@@ -2282,6 +2282,29 @@ STATUS COLORS
       var values = result.data.map(function (d) { return d.unfit_count; });
       var ctx = document.getElementById("unfitTrendChart").getContext("2d");
       if (unfitCI) unfitCI.destroy();
+
+      var lineDatalabelsPlugin = {
+        id: 'lineDatalabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            if (meta.hidden) return;
+            meta.data.forEach((point, idx) => {
+              const val = ds.data[idx];
+              if (val == null) return;
+              ctx.save();
+              ctx.font = 'bold 11px sans-serif';
+              ctx.fillStyle = getThemeColor('--text-primary', '#1e293b');
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+              ctx.fillText(val, point.x, point.y - 6);
+              ctx.restore();
+            });
+          });
+        }
+      };
+
       unfitCI = new Chart(ctx, {
         type: "line",
         data: {
@@ -2295,8 +2318,10 @@ STATUS COLORS
             borderWidth: 3,
           }],
         },
+        plugins: [lineDatalabelsPlugin],
         options: {
           responsive: true, maintainAspectRatio: false,
+          layout: { padding: { top: 15 } },
           animation: { duration: 700, easing: "easeOutQuart" },
           plugins: { legend: { display: false } },
           scales: {

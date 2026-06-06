@@ -128,6 +128,29 @@
         const ctx = document.getElementById('loanDonutChart');
         if (loanChart) loanChart.destroy();
 
+        const barDatalabelsPlugin = {
+          id: 'barDatalabels',
+          afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            chart.data.datasets.forEach((ds, i) => {
+              const meta = chart.getDatasetMeta(i);
+              if (meta.hidden) return;
+              meta.data.forEach((bar, idx) => {
+                const val = ds.data[idx];
+                if (val == null || val === 0) return;
+                ctx.save();
+                ctx.font = 'bold 11px sans-serif';
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                ctx.fillStyle = isDark ? '#cbd5e1' : '#4a5568';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(val, bar.x, bar.y - 5);
+                ctx.restore();
+              });
+            });
+          }
+        };
+
         loanChart = new Chart(ctx, {
           type: 'bar',
           data: {
@@ -149,9 +172,11 @@
               ]
             }]
           },
+          plugins: [barDatalabelsPlugin],
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: { padding: { top: 15 } },
             onClick: (evt, elements) => {
               if (!elements.length) return;
 

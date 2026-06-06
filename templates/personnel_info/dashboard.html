@@ -559,12 +559,64 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
         fetch('/personnel_information/sports_distribution_chart').then(r => r.json())
       ]);
 
+      const barDatalabelsPlugin = {
+        id: 'barDatalabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            if (meta.hidden) return;
+            meta.data.forEach((bar, idx) => {
+              const val = ds.data[idx];
+              if (val == null || val === 0) return;
+              ctx.save();
+              ctx.font = 'bold 11px sans-serif';
+              ctx.fillStyle = textColor;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+              ctx.fillText(val, bar.x, bar.y - 5);
+              ctx.restore();
+            });
+          });
+        }
+      };
+
+      const donutDatalabelsPlugin = {
+        id: 'donutDatalabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((arc, j) => {
+              const val = ds.data[j];
+              if (val == null || val === 0) return;
+              const angle = arc.endAngle - arc.startAngle;
+              if (angle < 0.15) return;
+              ctx.save();
+              const midAngle = arc.startAngle + angle / 2;
+              const midRadius = arc.innerRadius + (arc.outerRadius - arc.innerRadius) / 2;
+              const x = arc.x + Math.cos(midAngle) * midRadius;
+              const y = arc.y + Math.sin(midAngle) * midRadius;
+              ctx.font = 'bold 11px sans-serif';
+              ctx.fillStyle = '#ffffff';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+              ctx.shadowBlur = 4;
+              ctx.fillText(val, x, y);
+              ctx.restore();
+            });
+          });
+        }
+      };
+
       ageChart = new Chart(document.getElementById('ageDonutChart'), {
         type: 'doughnut',
         data: {
           labels: ageData.age_distribution?.map(i => i.range) || [],
           datasets: [{ data: ageData.age_distribution?.map(i => i.count) || [], backgroundColor: chartColors, borderColor: borderColors, borderWidth: 2 }]
         },
+        plugins: [donutDatalabelsPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
@@ -584,9 +636,11 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
             borderRadius: 6
           }]
         },
+        plugins: [barDatalabelsPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: { padding: { top: 15 } },
           plugins: { legend: { display: false } },
           scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: gridColor } } }
         }
@@ -598,6 +652,7 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
           labels: religionData.data?.map(i => i.home_state) || [],
           datasets: [{ data: religionData.data?.map(i => i.home_state_count) || [], backgroundColor: chartColors, borderColor: borderColors, borderWidth: 2 }]
         },
+        plugins: [donutDatalabelsPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
@@ -631,9 +686,11 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
             borderRadius: 6
           }]
         },
+        plugins: [barDatalabelsPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: { padding: { top: 15 } },
           plugins: { legend: { display: false } },
           scales: { x: { ticks: { color: textColor } }, y: { ticks: { color: textColor } } }
         }
@@ -653,9 +710,11 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
               borderRadius: 6
             }]
           },
+          plugins: [barDatalabelsPlugin],
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: { padding: { top: 15 } },
             plugins: { legend: { display: false } },
             scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: gridColor } } }
           }
@@ -674,9 +733,11 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
             borderRadius: 6
           }]
         },
+        plugins: [barDatalabelsPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: { padding: { top: 15 } },
           plugins: { legend: { display: false } },
           scales: {
             x: { ticks: { color: textColor }, grid: { display: false } },

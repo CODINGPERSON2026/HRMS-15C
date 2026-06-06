@@ -1490,10 +1490,63 @@ function destroyUnfitDeviationChart() {
     }
 }
 
+const barDatalabelsPlugin = {
+    id: 'barDatalabels',
+    afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            if (meta.hidden) return;
+            meta.data.forEach((bar, idx) => {
+                const val = ds.data[idx];
+                if (val == null || val === 0) return;
+                ctx.save();
+                ctx.font = 'bold 11px sans-serif';
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                ctx.fillStyle = isDark ? '#cbd5e1' : '#4a5568';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(val, bar.x, bar.y - 5);
+                ctx.restore();
+            });
+        });
+    }
+};
+
+const donutDatalabelsPlugin = {
+    id: 'donutDatalabels',
+    afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((arc, j) => {
+                const val = ds.data[j];
+                if (val == null || val === 0) return;
+                const angle = arc.endAngle - arc.startAngle;
+                if (angle < 0.15) return;
+                ctx.save();
+                const midAngle = arc.startAngle + angle / 2;
+                const midRadius = arc.innerRadius + (arc.outerRadius - arc.innerRadius) / 2;
+                const x = arc.x + Math.cos(midAngle) * midRadius;
+                const y = arc.y + Math.sin(midAngle) * midRadius;
+                ctx.font = 'bold 11px sans-serif';
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+                ctx.shadowBlur = 4;
+                ctx.fillText(val, x, y);
+                ctx.restore();
+            });
+        });
+    }
+};
+
 function makeBarOptions() {
     return {
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: { top: 15 } },
         plugins: {
             legend: { display: false },
             tooltip: {
@@ -1550,6 +1603,7 @@ function drawBarGraphs(data) {
                     barPercentage: 0.7
                 }]
             },
+            plugins: [barDatalabelsPlugin],
             options: makeBarOptions()
         });
     }
@@ -1570,6 +1624,7 @@ function drawBarGraphs(data) {
                     barPercentage: 0.7
                 }]
             },
+            plugins: [barDatalabelsPlugin],
             options: makeBarOptions()
         });
     }
@@ -1588,6 +1643,7 @@ function drawBarGraphs(data) {
                     borderWidth: 1
                 }]
             },
+            plugins: [donutDatalabelsPlugin],
             options: makeDonutOptions("bottom")
         });
     }
@@ -1606,6 +1662,7 @@ function drawBarGraphs(data) {
                     borderWidth: 1
                 }]
             },
+            plugins: [donutDatalabelsPlugin],
             options: makeDonutOptions("top")
         });
     }
@@ -1642,6 +1699,7 @@ function updateDoughnutCharts() {
                             borderWidth: 1
                         }]
                     },
+                    plugins: [donutDatalabelsPlugin],
                     options: makeDonutOptions("bottom")
                 });
             }
@@ -1659,6 +1717,7 @@ function updateDoughnutCharts() {
                             borderWidth: 1
                         }]
                     },
+                    plugins: [donutDatalabelsPlugin],
                     options: makeDonutOptions("top")
                 });
             }
@@ -1809,9 +1868,11 @@ function renderUnfitDeviationChart(rows) {
                 categoryPercentage: 0.7
             }]
         },
+        plugins: [barDatalabelsPlugin],
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: { padding: { top: 15 } },
             plugins: {
                 legend: { display: false },
                 tooltip: {

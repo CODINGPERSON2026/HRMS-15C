@@ -1216,6 +1216,35 @@
       const el = document.getElementById("detachmentTotal");
       if (el) el.textContent = "Total: " + result.total;
 
+      const donutDatalabelsPlugin = {
+        id: 'donutDatalabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((arc, j) => {
+              const val = ds.data[j];
+              if (val == null || val === 0) return;
+              const angle = arc.endAngle - arc.startAngle;
+              if (angle < 0.15) return;
+              ctx.save();
+              const midAngle = arc.startAngle + angle / 2;
+              const midRadius = arc.innerRadius + (arc.outerRadius - arc.innerRadius) / 2;
+              const x = arc.x + Math.cos(midAngle) * midRadius;
+              const y = arc.y + Math.sin(midAngle) * midRadius;
+              ctx.font = 'bold 11px sans-serif';
+              ctx.fillStyle = '#ffffff';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+              ctx.shadowBlur = 4;
+              ctx.fillText(val, x, y);
+              ctx.restore();
+            });
+          });
+        }
+      };
+
       const canvas = document.getElementById("detachmentChart");
       if (!canvas) return;
       if (detachmentChartInstance) detachmentChartInstance.destroy();
@@ -1229,6 +1258,7 @@
             borderWidth: 2, borderColor: "#fff",
           }],
         },
+        plugins: [donutDatalabelsPlugin],
         options: {
           responsive: true, maintainAspectRatio: false, cutout: "65%",
           animation: { animateRotate: true, duration: 800, easing: "easeOutQuart" },
@@ -1248,14 +1278,39 @@
       const labels = result.data.map(d => `${monthNames[d.month - 1]} ${d.year}`);
       const values = result.data.map(d => d.unfit_count);
 
+      const lineDatalabelsPlugin = {
+        id: 'lineDatalabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            if (meta.hidden) return;
+            meta.data.forEach((point, idx) => {
+              const val = ds.data[idx];
+              if (val == null) return;
+              ctx.save();
+              ctx.font = 'bold 11px sans-serif';
+              const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+              ctx.fillStyle = isDark ? '#cbd5e1' : '#4a5568';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+              ctx.fillText(val, point.x, point.y - 6);
+              ctx.restore();
+            });
+          });
+        }
+      };
+
       const canvas = document.getElementById("unfitTrendChart");
       if (!canvas) return;
       if (unfitTrendChartInstance) unfitTrendChartInstance.destroy();
       unfitTrendChartInstance = new Chart(canvas.getContext("2d"), {
         type: "line",
         data: { labels, datasets: [{ label: "UnFit Personnel", data: values, borderColor: "#dc2626", backgroundColor: "rgba(220,38,38,0.12)", fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6, pointBackgroundColor: "#dc2626", borderWidth: 3 }] },
+        plugins: [lineDatalabelsPlugin],
         options: {
           responsive: true, maintainAspectRatio: false,
+          layout: { padding: { top: 15 } },
           animation: { duration: 700, easing: "easeOutQuart" },
           plugins: { legend: { display: false } },
           scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },

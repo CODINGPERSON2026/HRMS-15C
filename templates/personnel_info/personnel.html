@@ -727,6 +727,35 @@ CHQ','SEC JCO','JCO LINE','S/JCO','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO TM',
       ];
 
       // Create new Chart.js instance
+      const donutDatalabelsPlugin = {
+        id: 'donutDatalabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          chart.data.datasets.forEach((ds, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((arc, j) => {
+              const val = ds.data[j];
+              if (val == null || val === 0) return;
+              const angle = arc.endAngle - arc.startAngle;
+              if (angle < 0.15) return;
+              ctx.save();
+              const midAngle = arc.startAngle + angle / 2;
+              const midRadius = arc.innerRadius + (arc.outerRadius - arc.innerRadius) / 2;
+              const x = arc.x + Math.cos(midAngle) * midRadius;
+              const y = arc.y + Math.sin(midAngle) * midRadius;
+              ctx.font = 'bold 11px sans-serif';
+              ctx.fillStyle = '#ffffff';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+              ctx.shadowBlur = 4;
+              ctx.fillText(val, x, y);
+              ctx.restore();
+            });
+          });
+        }
+      };
+
       companyChart = new Chart(ctx, {
         type: "doughnut",
         data: {
@@ -740,6 +769,7 @@ CHQ','SEC JCO','JCO LINE','S/JCO','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO TM',
             }
           ]
         },
+        plugins: [donutDatalabelsPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
