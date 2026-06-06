@@ -2188,15 +2188,7 @@ WHERE company = %s
         agniveer_leave_result = cursor.fetchone()
         count_of_agniveer_leave = agniveer_leave_result['agniveer_leave_count'] if agniveer_leave_result else 0
 
-        # AGNIVEER ON DETACHMENT
-        agniveer_det_query = "SELECT COUNT(id) as agniveer_det_count from personnel where `rank` = 'Agniveer' AND detachment_status = 1"
-        agniveer_det_params = []
-        if company != "Admin" and role not in privileged_roles:
-            agniveer_det_query += " AND company = %s"
-            agniveer_det_params.append(company)
-        cursor.execute(agniveer_det_query, agniveer_det_params)
-        agniveer_det_result = cursor.fetchone()
-        count_of_agniveer_det = agniveer_det_result['agniveer_det_count'] if agniveer_det_result else 0
+
 
         print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
         print(manpower,'this is result of man power')
@@ -2226,7 +2218,6 @@ WHERE company = %s
             "roll_call_pending_points": roll_call_pending_count,
             "agniveer_count": count_of_agniveer,
             "agniveer_on_leave": count_of_agniveer_leave,
-            "agniveer_on_detachment": count_of_agniveer_det,
             "duty_count": duty_count,
             "dues_in":dues_in,
             "dues_out":dues_out
@@ -2302,74 +2293,7 @@ def get_agniveer_on_leave_details():
         conn.close()
 
 
-@app.route('/api/agniveer_on_detachment', methods=['GET'])
-def get_agniveer_on_detachment():
-    user = require_login()
-    if not user:
-        return jsonify({"status": "error", "message": "Unauthorized"}), 401
-        
-    company = user['company']
-    role = user['role']
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    
-    try:
-        query = "SELECT COUNT(id) as count FROM personnel WHERE `rank` = 'Agniveer' AND detachment_status = 1"
-        params = []
-        privileged_roles = ['Admin', 'CO', '2IC', 'ADJUTANT', 'TRGJCO', 'OC']
-        if company != "Admin" and role not in privileged_roles:
-            query += " AND company = %s"
-            params.append(company)
-        cursor.execute(query, params)
-        result = cursor.fetchone()
-        count = result['count'] if result else 0
-        return jsonify({"status": "success", "count": count})
-    except Exception as e:
-        print("Error fetching agniveer on detachment count:", str(e))
-        return jsonify({"status": "error", "message": str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()
 
-
-@app.route('/api/agniveer_on_detachment_details', methods=['GET'])
-def get_agniveer_on_detachment_details():
-    user = require_login()
-    if not user:
-        return jsonify({"status": "error", "message": "Unauthorized"}), 401
-        
-    company = user['company']
-    role = user['role']
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    
-    try:
-        query = """
-            SELECT 
-                p.army_number,
-                p.name,
-                p.company,
-                p.trade,
-                d.det_name
-            FROM personnel p
-            LEFT JOIN assigned_det a ON p.army_number = a.army_number AND a.det_status = 1
-            LEFT JOIN dets d ON a.det_id = d.det_id
-            WHERE p.rank = 'Agniveer' AND p.detachment_status = 1
-        """
-        params = []
-        privileged_roles = ['Admin', 'CO', '2IC', 'ADJUTANT', 'TRGJCO', 'OC']
-        if company != "Admin" and role not in privileged_roles:
-            query += " AND p.company = %s"
-            params.append(company)
-        cursor.execute(query, params)
-        data = cursor.fetchall()
-        return jsonify({"status": "success", "data": data})
-    except Exception as e:
-        print("Error fetching agniveer on detachment details:", str(e))
-        return jsonify({"status": "error", "message": str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()
 
 
 
@@ -5751,47 +5675,7 @@ def get_detachment_stats_for_graph():
     })
 
 
-@app.route("/get_agniveer_trade_stats")
-def get_agniveer_trade_stats():
-    company = request.args.get("company", "ALL")
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    try:
-        query = """
-            SELECT 
-                UPPER(TRIM(trade)) AS trade,
-                COUNT(*) AS count
-            FROM personnel
-            WHERE `rank` = 'Agniveer'
-              AND trade IS NOT NULL 
-              AND TRIM(trade) != ''
-        """
-        params = []
-        if company != "ALL":
-            query += " AND company = %s"
-            params.append(company)
-            
-        query += """
-            GROUP BY UPPER(TRIM(trade))
-            ORDER BY count DESC
-        """
-        cursor.execute(query, params)
-        rows = cursor.fetchall()
-        total = sum(r["count"] for r in rows)
-        return jsonify({
-            "status": "success",
-            "data": rows,
-            "total": total
-        })
-    except Exception as e:
-        print("Error getting agniveer trade stats:", str(e))
-        return jsonify({
-            "status": "error",
-            "message": str(e)
-        }), 500
-    finally:
-        cursor.close()
-        conn.close()
+
 
 
 @app.route("/api/unfit_trend")

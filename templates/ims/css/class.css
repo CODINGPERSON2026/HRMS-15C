@@ -1,5 +1,0 @@
-.h1{ position: fixed;
-}
-.hh{animation: signal 5s infinite;
-}
-@keyframes signal{25%{color: blue;}}

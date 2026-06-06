@@ -394,11 +394,7 @@
     }
 
     function startHonoursTimer() {
-      stopHonoursTimer();
-      if (entries.length <= 1) return;
-      honoursTimer = setInterval(() => {
-        goHonours(current + 1);
-      }, HONOURS_TICK);
+      // Auto-scroll disabled by user request
     }
 
     function stopHonoursTimer() {

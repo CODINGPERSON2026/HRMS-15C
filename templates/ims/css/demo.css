@@ -1,8 +1,0 @@
-body{ background-color:#0E3A36}
- .card-body h6{font-size: 12px}
- .card-body{font-size:11px; text-align: justify;}
- .a ul li:hover{
-     color: rgb(184, 12, 12);
-     transform: scale(1.1);
-     
- }

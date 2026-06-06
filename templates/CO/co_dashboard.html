@@ -334,12 +334,21 @@
   /* =========================================================
    MAIN GRID LAYOUT
  ========================================================= */
-  .db-main-layout {
+  .metrics-grid {
     display: grid;
-    grid-template-columns: clamp(280px, 24vw, 360px) minmax(0, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 24px;
+    max-width: 100%;
+  }
+
+  .bottom-layout-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 16px;
-    align-items: start;
-    min-height: calc(100vh - 180px);
+    margin-top: 24px;
+    align-items: stretch;
   }
 
   /* =========================================================
@@ -409,7 +418,6 @@
     border-radius: 12px;
     background: var(--card-bg-solid);
     border: 1px solid var(--border-color);
-    border-left: 4px solid var(--primary-color);
     cursor: pointer;
     box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow);
     transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
@@ -797,6 +805,9 @@
     width: 100%;
     box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow);
     animation: cardPulse 3s ease-in-out infinite;
+    height: 340px;
+    display: flex;
+    flex-direction: column;
   }
 
   @keyframes cardPulse {
@@ -941,30 +952,28 @@
   .schedule-slider {
     position: relative;
     width: 100%;
-    overflow: hidden;
-    min-height: 58px;
+    height: 250px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 4px;
   }
 
   .schedule-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: transform 0.6s ease, opacity 0.6s ease;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    background: var(--nav-link-hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    transition: all 0.2s ease;
   }
 
   .schedule-slide.active {
-    opacity: 1;
-    transform: translateX(0);
-    position: relative;
-  }
-
-  .schedule-slide.exit {
-    opacity: 0;
-    transform: translateX(-100%);
+    border-left: 4px solid var(--primary-color);
+    background: rgba(37, 99, 235, 0.05);
   }
 
   /* =========================================================
@@ -993,7 +1002,7 @@ STATUS COLORS
 
   .bharosa-card-content {
     display: grid;
-    grid-template-columns: 1.3fr 0.9fr;
+    grid-template-columns: 1fr;
     gap: 20px;
     flex: 1;
     min-height: 0;
@@ -1186,9 +1195,125 @@ STATUS COLORS
   }
 
   @media (max-width: 576px) {
-    .card-group-slide {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: auto;
+  }
+
+  /* =========================================================
+     ACTION BAR SCHEDULE STRIP & GRAPHS/HONOURS LAYOUT
+  ========================================================= */
+  .schedule-actionbar-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--nav-link-hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 4px 10px;
+    height: 36px;
+    max-width: 50%;
+    min-width: 250px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .schedule-actionbar-label {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .schedule-actionbar-strip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+  }
+  .schedule-actionbar-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .schedule-actionbar-slide {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .schedule-actionbar-slide.active {
+    background: rgba(37, 99, 235, 0.08);
+    border-left: 2px solid var(--primary-color);
+  }
+  .schedule-actionbar-slide .s-badge {
+    font-size: 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: var(--border-color);
+  }
+  .schedule-actionbar-slide .s-badge.status-ongoing {
+    background: rgba(22, 163, 74, 0.1);
+    color: #16a34a;
+  }
+  .schedule-actionbar-slide .s-badge.status-upcoming {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+  }
+  .schedule-actionbar-slide .s-time {
+    color: var(--text-primary);
+    opacity: 0.8;
+  }
+  .schedule-actionbar-slide .s-title {
+    color: var(--text-primary);
+  }
+  .schedule-actionbar-slide .s-loc {
+    color: var(--text-secondary);
+    font-size: 9.5px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .graphs-honours-row {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: stretch;
+  }
+  .graphs-column-wrap {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .honours-column-wrap {
+    min-width: 0;
+    height: 100%;
+  }
+  .honours-column-wrap .hb-card {
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 992px) {
+    .graphs-honours-row {
+      grid-template-columns: 1fr;
+    }
+    .schedule-actionbar-container {
+      max-width: 100%;
+      width: 100%;
     }
   }
 </style>
@@ -1288,159 +1413,102 @@ STATUS COLORS
 
       <div class="ab-spacer"></div>
 
-      <button class="ab-ai" onclick="hcOpen()">
-        <span class="ai-dot"></span> CHAT WITH AI
-      </button>
+      <div class="schedule-actionbar-container">
+        <span class="schedule-actionbar-label"><i class="fa fa-calendar-check"></i> Schedule:</span>
+        <div id="scheduleSlider" class="schedule-actionbar-strip"></div>
+      </div>
     </div>
 
     <!-- MAIN TWO-COLUMN LAYOUT -->
-    <div class="db-main-layout">
-
-      <!-- LEFT: CARDS COLUMN -->
-      <div class="cards-column">
-        <!-- SCHEDULE CARD -->
-        <div class="scard mb-3" data-bs-toggle="modal" data-bs-target="#scheduleModal">
-          <div class="scard-inner">
-            <div class="scard-header">
-              <span class="slabel">Today's Schedule</span>
-            </div>
-            <div class="scard-divider"></div>
-            <div class="schedule-slider" id="scheduleSlider"></div>
-          </div>
+    <!-- SECTION 1: METRICS GRID -->
+    <div class="metrics-grid stagger-children" id="metricsGrid">
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#paradeStateModal">
+        <span class="sc-label">Man Power</span>
+        <div class="sc-right">
+          <span class="sc-val" id="mainPower"><span class="val-dots"><span></span><span></span><span></span></span></span>
         </div>
-
-        <!-- Embedded Honours Card -->
-        {% include 'modals/honours_board/hb.html' %}
-
       </div>
-      <!-- /cards-column -->
-
-      <!-- RIGHT: CHARTS & STATS COLUMN -->
-      <div style="display: flex; flex-direction: column; gap: 7px; min-width: 0;">
-        
-        <!-- Stats Cards Slider Parent Widget -->
-        <div class="stats-slider-container">
-          <div class="card-tab-strip vertical" id="cardTabStrip">
-            <button class="card-tab active" data-card-index="0">STRENGTH</button>
-            <button class="card-tab" data-card-index="1">AGNIVEER</button>
-            <button class="card-tab" data-card-index="2">OTHERS</button>
-          </div>
-
-          <div class="cards-slider-viewport" id="cardsSliderViewport">
-          <div class="cards-slider-track stagger-children" id="cardsSliderTrack">
-
-            <!-- GROUP 1: STRENGTH -->
-            <div class="card-group-slide">
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#paradeStateModal">
-                <span class="sc-label">Man Power</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="mainPower"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" id="openCourses">
-                <span class="sc-label">On Course</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="totalCoursesDone"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#rollCallPoints">
-                <span class="sc-label">Central Roll Call</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="center-roll-points"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#attachmentModalUniqueScope">
-                <span class="sc-label">TD / Attachment</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="attachment-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" id="viewDetailsBtn">
-                <span class="sc-label">Detachment</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="locationCount"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-            </div>
-            <!-- /GROUP 1 -->
-
-            <!-- GROUP 2: AGNIVEER -->
-            <div class="card-group-slide">
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal" id="card-agniveer" style="cursor: pointer">
-                <span class="sc-label">Agniveer Strength</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="agniveer_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" id="agniveer_on_leave" style="cursor: pointer">
-                <span class="sc-label">Agniveer On Leave</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="onleave_leave"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" id="agniveer_on_detachment" style="cursor: pointer">
-                <span class="sc-label">Agniveer On Detachment</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="ondetachment_det"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" style="cursor: not-allowed">
-                <span class="sc-label">Trade Wise</span>
-                <div class="sc-right">
-                  <span class="sc-val">50</span>
-                </div>
-              </div>
-            </div>
-            <!-- /GROUP 2 -->
-
-            <!-- GROUP 3: OTHERS -->
-            <div class="card-group-slide">
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#loanModal">
-                <span class="sc-label">Active Loans</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="active-loan-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#projDash_modal">
-                <span class="sc-label">Total Projects</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="get_projects_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#duesInListModal">
-                <span class="sc-label">Dues In</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="dues_in_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" data-bs-toggle="modal" data-bs-target="#duesOutListModal">
-                <span class="sc-label">Dues Out</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="dues_out_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-              <div class="sc" style="cursor: pointer" id="openSensitive">
-                <span class="sc-label">Sensitive Indl</span>
-                <div class="sc-right">
-                  <span class="sc-val" id="sensitive-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
-                </div>
-              </div>
-            </div>
-            <!-- /GROUP 3 -->
-
-          </div>
+      <div class="sc" id="openCourses">
+        <span class="sc-label">On Course</span>
+        <div class="sc-right">
+          <span class="sc-val" id="totalCoursesDone"><span class="val-dots"><span></span><span></span><span></span></span></span>
         </div>
-        </div> <!-- /stats-slider-container -->
+      </div>
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#rollCallPoints">
+        <span class="sc-label">Central Roll Call</span>
+        <div class="sc-right">
+          <span class="sc-val" id="center-roll-points"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#attachmentModalUniqueScope">
+        <span class="sc-label">TD / Attachment</span>
+        <div class="sc-right">
+          <span class="sc-val" id="attachment-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" id="viewDetailsBtn">
+        <span class="sc-label">Detachment</span>
+        <div class="sc-right">
+          <span class="sc-val" id="locationCount"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#agni_Modal" id="card-agniveer" style="cursor: pointer">
+        <span class="sc-label">Agniveer Strength</span>
+        <div class="sc-right">
+          <span class="sc-val" id="agniveer_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" id="agniveer_on_leave" style="cursor: pointer">
+        <span class="sc-label">Agniveer On Leave</span>
+        <div class="sc-right">
+          <span class="sc-val" id="onleave_leave"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
 
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#loanModal">
+        <span class="sc-label">Active Loans</span>
+        <div class="sc-right">
+          <span class="sc-val" id="active-loan-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#projDash_modal">
+        <span class="sc-label">Total Projects</span>
+        <div class="sc-right">
+          <span class="sc-val" id="get_projects_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#duesInListModal">
+        <span class="sc-label">Dues In</span>
+        <div class="sc-right">
+          <span class="sc-val" id="dues_in_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" data-bs-toggle="modal" data-bs-target="#duesOutListModal">
+        <span class="sc-label">Dues Out</span>
+        <div class="sc-right">
+          <span class="sc-val" id="dues_out_count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+      <div class="sc" style="cursor: pointer" id="openSensitive">
+        <span class="sc-label">Sensitive Indl</span>
+        <div class="sc-right">
+          <span class="sc-val" id="sensitive-count"><span class="val-dots"><span></span><span></span><span></span></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: GRAPHS & APPRECIATION WALL -->
+    <div class="graphs-honours-row">
+      <!-- COLUMN 1: GRAPHS -->
+      <div class="graphs-column-wrap">
         <!-- Filter bar above graphs -->
         <div class="top-chart-bar">
           <div class="graph-strip" id="graphStrip">
             <button class="graph-tab active" data-index="0">Posted Strength</button>
-            <button class="graph-tab" data-index="1">Agniveer Trade Wise</button>
-            <button class="graph-tab" data-index="2">Bharosa App</button>
-            <button class="graph-tab" data-index="3">Detachment Stats</button>
-            <button class="graph-tab" data-index="4">Monthly UnFit</button>
-            <button class="graph-tab" data-index="5">Fit vs UnFit (Weight Based)</button>
+            <button class="graph-tab" data-index="1">Bharosa App</button>
+            <button class="graph-tab" data-index="2">Detachment Stats</button>
+            <button class="graph-tab" data-index="3">Monthly UnFit</button>
+            <button class="graph-tab" data-index="4">Fit vs UnFit (Weight Based)</button>
           </div>
           <div class="chart-filter-wrap">
             <select id="companyFilter" class="form-select form-select-sm">
@@ -1473,18 +1541,6 @@ STATUS COLORS
               <div class="card h-100">
                 <div class="card-body">
                   <div class="chart-header">
-                    <h6>Agniveer Trade Wise</h6>
-                    <span id="agniveerTradeTotal" style="font-weight:600;color:var(--primary-color);font-size:12px">Total: --</span>
-                  </div>
-                  <div class="chart-canvas-wrap"><canvas id="agniveerTradeChart"></canvas></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chart-row-card" id="chartCard2">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="chart-header">
                     <h6>Bharosa App Sentiment</h6>
                     <div style="display:flex;gap:12px;font-size:12px;font-weight:700">
                       <span style="color:var(--primary-color, #2563eb)">Happy: <span id="bharosaHappyCount">95%</span></span>
@@ -1495,28 +1551,12 @@ STATUS COLORS
                     <div class="chart-canvas-wrap" style="height: 100%; min-height: 0;">
                       <canvas id="bharosaChart"></canvas>
                     </div>
-                    <div style="display: flex; flex-direction: column; justify-content: center; height: 100%; overflow-y: auto; padding-right: 4px;">
-                      <p style="font-size: 10px; font-weight: 700; color: var(--danger-color, #dc2626); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
-                        ⚠️ Unhappy Feedback Submissions (5%)
-                      </p>
-                      <table class="table table-sm table-hover" style="font-size: 10px; margin-bottom: 0; line-height: 1.2;">
-                        <thead>
-                          <tr style="background: rgba(220, 53, 69, 0.05); color: var(--danger-color, #dc2626); font-weight: 700;">
-                            <th style="padding: 3px 4px;">S.No</th>
-                            <th style="padding: 3px 4px;">Rank</th>
-                            <th style="padding: 3px 4px;">Name</th>
-                            <th style="padding: 3px 4px;">Reason</th>
-                          </tr>
-                        </thead>
-                        <tbody id="bharosaUnhappyTableBody"></tbody>
-                      </table>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="chart-row-card" id="chartCard3">
+            <div class="chart-row-card" id="chartCard2">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="chart-header">
@@ -1528,7 +1568,7 @@ STATUS COLORS
               </div>
             </div>
 
-            <div class="chart-row-card" id="chartCard4">
+            <div class="chart-row-card" id="chartCard3">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="chart-header">
@@ -1540,7 +1580,7 @@ STATUS COLORS
               </div>
             </div>
 
-            <div class="chart-row-card" id="chartCard5">
+            <div class="chart-row-card" id="chartCard4">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="chart-header">
@@ -1557,9 +1597,13 @@ STATUS COLORS
 
           </div>
         </div>
-      <!-- /right -->
+      </div>
+
+      <!-- COLUMN 2: APPRECIATION WALL -->
+      <div class="honours-column-wrap">
+        {% include 'modals/honours_board/hb.html' %}
+      </div>
     </div>
-    <!-- /db-main-layout -->
 
     <!-- ALL OTHER MODALS (unchanged) -->
     {% include 'modals/Projects/modal.html' %}
@@ -1585,7 +1629,6 @@ STATUS COLORS
     {% include 'modals/alarm/agniveer_test_alarms.html' %}
     {% include 'modals/agniveer/modal.html' %}
     {% include 'modals/agniveer/on_leave.html' %}
-    {% include 'modals/agniveer/on_detachment.html' %}
     {% include 'modals/messenger/modal.html' %}
     {% include 'modals/ollama/ollama.html' %}
     {% include 'modals/ADD-DUES-IN/modal.html' %}
@@ -1634,7 +1677,7 @@ STATUS COLORS
     if (b) b.classList.add("show");
   }
   function showStatsGrid() {
-    var t = document.getElementById("cardsSliderTrack");
+    var t = document.getElementById("metricsGrid");
     if (t) t.classList.add("visible");
   }
   function showChartCards() {
@@ -1745,7 +1788,6 @@ STATUS COLORS
       safeSet("center-roll-points", data.roll_call_pending_points);
       safeSet("agniveer_count", data.agniveer_count);
       safeSet("onleave_leave", data.agniveer_on_leave);
-      safeSet("ondetachment_det", data.agniveer_on_detachment);
       safeSet("dues_in_count", data.dues_in);
       safeSet("dues_out_count", data.dues_out);
       await Promise.all([loadRejected(), loadLeaveRequests_CO(), loadEvents()]);
@@ -1850,45 +1892,12 @@ STATUS COLORS
         ========================================= */
 
         if (!data.length) {
-
           slider.innerHTML = `
-
-                    <div class="schedule-slide active">
-
-                        <div class="scard-row">
-
-                            <span class="snext">
-                                No Schedule
-                            </span>
-
-                            <span class="stime">
-                                --
-                            </span>
-
-                        </div>
-
-                        <div class="scard-divider"></div>
-
-                        <div class="scard-row">
-
-                            <p class="stitle">
-                                No events today
-                            </p>
-
-                            <span class="sdesc">
-
-                                <i class="fa fa-calendar"></i>
-
-                                Free Day
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                `;
-
+            <div class="schedule-actionbar-slide active">
+              <span class="s-badge status-upcoming">Free</span>
+              <span class="s-title">No events today</span>
+            </div>
+          `;
           return;
         }
 
@@ -1936,78 +1945,30 @@ STATUS COLORS
         ========================================= */
 
         slider.innerHTML = data.map((item, index) => {
-
           let badge = "Upcoming";
-
           if (item.status === "ongoing") {
-
             badge = "Ongoing";
-
           } else if (item.status === "completed") {
-
             badge = "Done";
-
           } else if (index === activeIndex) {
-
             badge = "Next";
           }
-
           return `
-
-                    <div class="schedule-slide ${index === activeIndex ? 'active' : ''}">
-
-                        <div class="scard-row">
-
-                            <span class="snext status-${item.status}">
-
-                                ${badge}
-
-                            </span>
-
-                            <span class="stime">
-
-                                ${formatScheduleTime(item.start_time)}
-
-                            </span>
-
-                        </div>
-
-                        <div class="scard-divider"></div>
-
-                        <div class="scard-row">
-
-                            <div>
-
-                                <p class="stitle">
-
-                                    ${item.title}
-
-                                </p>
-
-                                <span class="sdesc">
-
-                                    <i class="fa fa-map-marker-alt"
-                                       style="font-size:10px"></i>
-
-                                    ${item.location || 'N/A'}
-
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `;
-
+            <div class="schedule-actionbar-slide ${index === activeIndex ? 'active' : ''}">
+              <span class="s-badge status-${item.status}">${badge}</span>
+              <span class="s-time">${formatScheduleTime(item.start_time)}</span>
+              <span class="s-title">${item.title}</span>
+              <span class="s-loc"><i class="fa fa-map-marker-alt"></i> ${item.location || 'N/A'}</span>
+            </div>
+          `;
         }).join("");
 
 
         /* =========================================
-           AUTO SLIDE
+           AUTO SLIDE (DISABLED BY USER REQUEST)
         ========================================= */
 
+        /*
         let currentSlide = activeIndex;
 
         const slides =
@@ -2027,6 +1988,7 @@ STATUS COLORS
             .classList.add("active");
 
         }, 5000);
+        */
 
       })
 
@@ -2070,7 +2032,7 @@ STATUS COLORS
      CHARTS DATA
 ===================================================== -->
 <script>
-  var rankCI = null, detCI = null, fitCI = null, unfitCI = null, agniveerTradeCI = null, bharosaCI = null;
+  var rankCI = null, detCI = null, fitCI = null, unfitCI = null, bharosaCI = null;
 
   var donutDatalabelsPlugin = {
     id: "donutDatalabels",
@@ -2418,54 +2380,7 @@ STATUS COLORS
     } catch (e) { console.error("fitUnfit:", e); }
   }
 
-  async function loadAgniveerTradeChart(company) {
-    company = company || "ALL";
-    try {
-      var res = await fetch("/get_agniveer_trade_stats?company=" + encodeURIComponent(company));
-      var result = await res.json();
-      if (result.status !== "success") return;
-      var labels = result.data.map(function (r) { return r.trade; });
-      var values = result.data.map(function (r) { return r.count; });
-      document.getElementById("agniveerTradeTotal").textContent = "Total: " + result.total;
-      var ctx = document.getElementById("agniveerTradeChart").getContext("2d");
-      if (agniveerTradeCI) agniveerTradeCI.destroy();
-      agniveerTradeCI = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: labels,
-          datasets: [{
-            data: values,
-            backgroundColor: [
-              getThemeColor('--primary-color', '#2563eb'),
-              getThemeColor('--danger-color', '#dc2626'),
-              "#16a34a",
-              "#f59e0b",
-              getThemeColor('--secondary-color', '#7c3aed'),
-              "#db2777", "#0891b2", "#65a30d", "#ea580c", "#4f46e5",
-              "#0f766e", "#be123c", "#4338ca", "#15803d", "#b45309",
-              "#6d28d9", "#1d4ed8", "#c2410c", "#0f172a", "#a21caf",
-            ],
-            borderWidth: 2,
-            borderColor: getThemeColor('--card-bg-solid', '#fff'),
-          }],
-        },
-        plugins: [donutDatalabelsPlugin, donutHoverCenterPlugin],
-        options: {
-          responsive: true, maintainAspectRatio: false, cutout: "65%",
-          animation: { animateRotate: true, duration: 800, easing: "easeOutQuart" },
-          plugins: {
-            legend: {
-              position: "left",
-              labels: {
-                boxWidth: 8, padding: 8, font: { size: 10 },
-                color: getThemeColor('--text-secondary', '#6b7280')
-              }
-            },
-          },
-        },
-      });
-    } catch (e) { console.error("agniveerTradeChart:", e); }
-  }
+
 
   async function loadBharosaChart(company) {
     company = company || "ALL";
@@ -2570,14 +2485,12 @@ STATUS COLORS
     loadDetachmentChart("ALL");
     loadUnfitTrend("ALL");
     loadFitUnfitChart("All");
-    loadAgniveerTradeChart("ALL");
     loadBharosaChart("ALL");
     document.getElementById("companyFilter")?.addEventListener("change", function () {
       loadRankChart(this.value);
       loadDetachmentChart(this.value);
       loadUnfitTrend(this.value);
       loadFitUnfitChart(this.value);
-      loadAgniveerTradeChart(this.value);
       loadBharosaChart(this.value);
     });
 
@@ -2590,7 +2503,6 @@ STATUS COLORS
           loadDetachmentChart(currentCompany);
           loadUnfitTrend(currentCompany);
           loadFitUnfitChart(currentCompany);
-          loadAgniveerTradeChart(currentCompany);
           loadBharosaChart(currentCompany);
         }
       });
@@ -2678,10 +2590,9 @@ STATUS COLORS
       goSched(schedIdx + 1);
     }
 
-    /* ── timer control ────────────────────────────────── */
+    /* ── timer control (DISABLED BY USER REQUEST) ─────── */
     function startTimer() {
-      clearInterval(masterTimer);
-      masterTimer = setInterval(tick, TICK);
+      // Auto-scroll disabled
     }
 
     /* ── hover pause / resume ─────────────────────────── */
@@ -2705,7 +2616,7 @@ STATUS COLORS
     if (cardVP) addPause(cardVP);
     var cc = document.getElementById("chartsColumn");
     if (cc) addPause(cc);
-    var sc = document.querySelector(".scard");
+    var sc = document.querySelector(".schedule-actionbar-container");
     if (sc) addPause(sc);
 
     /* ── tab click handlers ───────────────────────────── */

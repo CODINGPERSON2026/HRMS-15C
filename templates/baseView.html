@@ -740,14 +740,14 @@
       </a>
       {% endif %}
 
-      {% if role in ['CO', '2IC', 'ADJUTANT', 'JCO'] %}
+      <!-- {% if role in ['CO', '2IC', 'ADJUTANT', 'JCO'] %}
       <a class="nav-link {% if '/task_manager' in request.path %}active{% endif %}" href="/task_manager/"
          data-tiptext="Tasks">
         <span class="nav-icon"><i class="fas fa-tasks"></i></span>
         <span class="nav-label-text">Task Management</span>
         <span class="nav-tooltip">Tasks</span>
       </a>
-      {% endif %}
+      {% endif %} -->
 
       <!-- Finance Section -->
       {% if role in ['CO', '2IC', 'ADJUTANT', 'JCO', 'ACCOUNT OFFICER', 'ACCOUNT JCO'] or role in ['2IC', 'ADJUTANT', 'PROJECT OFFICER', 'PROJECT JCO'] %}

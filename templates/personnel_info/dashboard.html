@@ -429,11 +429,11 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
   <div class="stat-label">Total Personnel</div>
   <div class="stat-value" id="totalPersonnelCount">Loading...</div>
 </div>
-    <div class="stat-card">
+    <!-- <div class="stat-card">
       <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
       <div class="stat-label">Det Duty</div>
       <div class="stat-value" id="detDutyCount">0</div>
-    </div>
+    </div> -->
     <!-- <div class="stat-card">
       <div class="stat-icon"><i class="fas fa-medkit"></i></div>
       <div class="stat-label">LOW MEDICAL</div>
@@ -485,13 +485,13 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
       </div>
       <div class="chart-container"><canvas id="serviceChart"></canvas></div>
     </div>
-    <div class="chart-card">
+    <!-- <div class="chart-card">
       <div class="chart-header">
         <h3 class="chart-title">Loan Amounts</h3>
         <span class="chart-badge">Live</span>
       </div>
       <div class="chart-container"><canvas id="loanChart"></canvas></div>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -521,16 +521,16 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
     }
   }
 
-  async function loadDetDutyCount() {
-    const el = document.getElementById('detDutyCount');
-    try {
-      const res = await fetch('/get_dets');
-      const data = await res.json();
-      el.textContent = data.count || '0';
-    } catch (err) {
-      el.textContent = '0';
-    }
-  }
+  // async function loadDetDutyCount() {
+  //   const el = document.getElementById('detDutyCount');
+  //   try {
+  //     const res = await fetch('/get_dets');
+  //     const data = await res.json();
+  //     el.textContent = data.count || '0';
+  //   } catch (err) {
+  //     el.textContent = '0';
+  //   }
+  // }
 
   async function initializeCharts() {
     [ageChart, rankChart, religionChart, employmentChart, serviceChart, loanChart, sportsChart].forEach(c => c && c.destroy && c.destroy());
@@ -639,25 +639,28 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
         }
       });
 
-      loanChart = new Chart(document.getElementById('loanChart'), {
-        type: 'bar',
-        data: {
-          labels: loanData.loan_distribution?.map(i => i.range) || [],
-          datasets: [{
-            data: loanData.loan_distribution?.map(i => i.count) || [],
-            backgroundColor: chartColors[2],
-            borderColor: borderColors[2],
-            borderWidth: 1,
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: gridColor } } }
-        }
-      });
+      const loanCanvas = document.getElementById('loanChart');
+      if (loanCanvas) {
+        loanChart = new Chart(loanCanvas, {
+          type: 'bar',
+          data: {
+            labels: loanData.loan_distribution?.map(i => i.range) || [],
+            datasets: [{
+              data: loanData.loan_distribution?.map(i => i.count) || [],
+              backgroundColor: chartColors[2],
+              borderColor: borderColors[2],
+              borderWidth: 1,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: gridColor } } }
+          }
+        });
+      }
 
       sportsChart = new Chart(document.getElementById('sportsChart'), {
         type: 'bar',
@@ -700,7 +703,7 @@ CHQ','SEC JCO','JCO LINE','S/JCO','OC','NCO CHQ','JCO CHQ','ONCO','NCO RHQ','NCO
         initializeCharts(),
         loadMedicalCases(),
         loadTotalPersonal(),
-        loadDetDutyCount()
+        // loadDetDutyCount()
       ]);
     } catch (err) {
       console.error(err);
