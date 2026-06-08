@@ -63,8 +63,8 @@ def compute_authorization(company=None):
             weight_deviation_percent = None
             weight_deviation_kg = None
         else:
-            lower = round(ideal_weight * 0.9, 2)
-            upper = round(ideal_weight * 1.1, 2)
+            lower = round(ideal_weight * 0.80, 2)
+            upper = round(ideal_weight * 1.20, 2)
 
             if lower <= actual_weight <= upper:
                 status = "Fit"
@@ -463,8 +463,8 @@ def api_status_data():
                 weight_deviation_percent = None
                 weight_deviation_kg = None
             else:
-                lower = round(ideal_weight * 0.9, 2)
-                upper = round(ideal_weight * 1.1, 2)
+                lower = round(ideal_weight * 0.80, 2)
+                upper = round(ideal_weight * 1.20, 2)
 
                 if lower <= actual_weight <= upper:
                     status = "Fit"
@@ -893,8 +893,8 @@ def api_person_details(army_number):
             weight_deviation_percent = None
             weight_deviation_kg = None
         else:
-            lower = round(ideal_weight * 0.9, 2)
-            upper = round(ideal_weight * 1.1, 2)
+            lower = round(ideal_weight * 0.80, 2)
+            upper = round(ideal_weight * 1.20, 2)
             if lower <= actual_weight <= upper:
                 status = "Fit"
                 weight_deviation_kg = 0

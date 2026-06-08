@@ -50,6 +50,8 @@ from blueprints.dues_in_out import dues_bp
 from blueprints.agniveer_asst import agniveer_bp
 from blueprints.chat import chat_bp
 from blueprints.project import projects_bp
+from blueprints.nominal_roll import nominal_bp
+
 
 from blueprints.ollama import ollama_bot_bp
 from blueprints.onco_leave import onco_leave_bp

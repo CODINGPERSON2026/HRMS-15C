@@ -420,12 +420,7 @@
       </button>
       {% endif %}
 
-      {% if role == 'CO' %}
-      <button class="ab-btn ab-danger position-relative" data-bs-toggle="modal" data-bs-target="#coRejectedModal" id="coRejectedBtn">
-        REJECTED LEAVES
-        <span class="bdg" id="coRejectedCount" style="display:none">0</span>
-      </button>
-      {% endif %}
+     
 
       {% if role in ['O CENTRE NCO'] %}
       <a href="/gallery/manage" class="ab-btn ab-primary">
@@ -452,11 +447,7 @@
       </button>
       {% endif %}
 
-      {% if role in ['CO','2IC','ADJUTANT','OC'] %}
-      <button class="ab-btn ab-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">
-        ADD EVENT
-      </button>
-      {% endif %}
+      
 
       {% if role in ['O CENTRE NCO','ONCO','SEC NCO','CHM'] %}
       <button class="ab-btn ab-primary" data-bs-toggle="modal" data-bs-target="#paradeDataModal">

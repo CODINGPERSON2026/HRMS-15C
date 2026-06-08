@@ -1233,7 +1233,7 @@
                 <label for="deviation-filter">Filter by Deviation:</label>
                 <select id="deviation-filter" class="deviation-filter">
                     <option value="all">All Deviations</option>
-                    <option value="0-10">0% to 10%</option>
+                    <!-- <option value="0-10">0% to 10%</option> -->
                     <option value="10-20">10% to 20%</option>
                     <option value="more-than-20">More than 20%</option>
                 </select>
@@ -1848,9 +1848,9 @@ function renderUnfitDeviationChart(rows) {
     const counts = getUnfitDeviationCounts(rows);
     const bars = [
         { key: "all", label: "Total Unfit", value: counts.all, color: "#e11d48" },
-        { key: "0-10", label: "0% to 10%", value: counts["0-10"], color: "#0284c7" },
-        { key: "10-20", label: "10% to 20%", value: counts["10-20"], color: "#f59e0b" },
-        { key: "more-than-20", label: "More than 20%", value: counts["more-than-20"], color: "#7c3aed" }
+        //{ key: "0-10", label: "0% to 10%", value: counts["0-10"], color: "#0284c7" },
+        //{ key: "10-20", label: "10% to 20%", value: counts["10-20"], color: "#f59e0b" },
+        //{ key: "more-than-20", label: "More than 20%", value: counts["more-than-20"], color: "#7c3aed" }
     ];
 
     unfitDeviationChartInstance = new Chart(canvas.getContext("2d"), {

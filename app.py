@@ -13,6 +13,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000
 app.secret_key = os.urandom(24)
 
 app.register_blueprint(personnel_info)
+app.register_blueprint(nominal_bp)
 app.register_blueprint(weight_ms)
 app.register_blueprint(leave_bp)
 app.register_blueprint(dashboard_bp)
@@ -6086,7 +6087,7 @@ def create_schedule():
             schedule_date,
             start_time,
             end_time,
-            "pending",
+            "upcoming",
             priority
         ))
 
