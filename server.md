@@ -1,44 +1,38 @@
-## Since the Schedules table is empty we need to insert the below data into it
+SHOW EVENTS FROM hrms1;
+
+check the events first
 
 
-INSERT INTO hrms.honours_board (
-    id,
-    army_number,
-    medal_icon,
-    comments,
-    commendation,
-    appreciation_type,
-    appreciation_date,
-    image
-)
-VALUES
-(
-    1,
-    '15724706M',
-    'fa-solid fa-flag',
-    '',
-    'This officer conceptualized and implemented a digital attendance tracking system for the battalion that reduced administrative overhead by 40%. His initiative brought measurable efficiency to routine operations.',
-    'Excellence',
-    '2026-05-20',
-    '/static/honours/15724706M.png'
-),
-(
-    2,
-    '15744564F',
-    'fa-solid fa-gem',
-    '',
-    'amazing work done , new innovation and execution of ideas',
-    'Innovation',
-    '2026-05-15',
-    '/static/honours/15744564F.png'
-),
-(
-    3,
-    'A4204797K',
-    'fa-solid fa-crown',
-    '',
-    'This is to formally commend [Name] for their outstanding dedication, professionalism, and consistent contributions to the team. Their positive attitude, strong work ethic, and ability to deliver high-quality results have made a significant impact on the organization.',
-    'Innovation',
-    '2026-05-20',
-    '/static/honours/A4204797K.png'
-);
+
+use hrms;
+DELIMITER $$
+
+ALTER EVENT update_course_status
+ON SCHEDULE EVERY 1 DAY
+STARTS '2026-04-28 00:00:00'
+ON COMPLETION NOT PRESERVE
+ENABLE
+DO
+BEGIN
+
+    UPDATE candidate_on_courses
+    SET status =
+        CASE
+            WHEN course_end_date < CURDATE() THEN 'Completed'
+            WHEN CURDATE() BETWEEN course_starting_date AND course_end_date THEN 'Active'
+            ELSE status
+        END;
+
+    UPDATE personnel p
+    JOIN candidate_on_courses c
+        ON p.army_number = c.army_number
+    SET p.oncourse_status =
+        CASE
+            WHEN CURDATE() BETWEEN c.course_starting_date AND c.course_end_date
+            THEN 1
+            ELSE 0
+        END;
+
+END$$
+
+DELIMITER ;
